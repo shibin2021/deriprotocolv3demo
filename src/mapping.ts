@@ -12,7 +12,7 @@ export function handleNewAdmin(event: NewAdmin): void {
   // needs to be unique across all entities of the same type
   if (event.transaction.to) {
     const id = event.transaction.to.toHex()
-    let entity = Pool.load(id.toString())
+    let entity = Pool.load(id)
     if (!entity) {
       entity = new Pool(id)
       entity.markets = []
@@ -51,7 +51,7 @@ export function handleNewAdmin(event: NewAdmin): void {
 export function handleNewImplementation(event: NewImplementation): void {
   if (event.transaction.to) {
     const id = event.transaction.to.toHex()
-    let entity = Pool.load(id.toString())
+    let entity = Pool.load(id)
     if (!entity) {
       entity = new Pool(id)
       entity.markets = []

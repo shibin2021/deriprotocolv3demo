@@ -12,9 +12,9 @@ import {
 } from "@graphprotocol/graph-ts";
 
 export class Pool extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -22,24 +22,24 @@ export class Pool extends Entity {
     assert(id != null, "Cannot save Pool entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type Pool must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type Pool must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Pool", id.toBytes().toHexString(), this);
+      store.set("Pool", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): Pool | null {
-    return changetype<Pool | null>(store.get("Pool", id.toHexString()));
+  static load(id: string): Pool | null {
+    return changetype<Pool | null>(store.get("Pool", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get admin(): Bytes | null {
