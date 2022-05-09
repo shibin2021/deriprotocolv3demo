@@ -73,21 +73,3 @@ export function handleNewImplementation(event: NewImplementation): void {
   entity.save()
 }
 
-export function handleAddMarket(
-  event: AddMarket
-): void {
-  let entity = Pool.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new Pool(event.transaction.from.toHex())
-    entity.markets = []
-  }
-
-  // Entity fields can be set based on event parameters
-  entity.markets.push(event.params.market)
-  // Entities can be written to the store with `.save()`
-  entity.save()
-}
-
