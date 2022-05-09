@@ -9,7 +9,7 @@ type Liquidity @entity {
   id: ID!
   account: Bytes
   bTokenId: Bytes
-  lTokenId: Bytes
+  lTokenId: BigInt
   amount: BigInt
   newLiquidity: BigInt
 }

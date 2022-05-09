@@ -151,20 +151,20 @@ export class Liquidity extends Entity {
     }
   }
 
-  get lTokenId(): Bytes | null {
+  get lTokenId(): BigInt | null {
     let value = this.get("lTokenId");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toBytes();
+      return value.toBigInt();
     }
   }
 
-  set lTokenId(value: Bytes | null) {
+  set lTokenId(value: BigInt | null) {
     if (!value) {
       this.unset("lTokenId");
     } else {
-      this.set("lTokenId", Value.fromBytes(<Bytes>value));
+      this.set("lTokenId", Value.fromBigInt(<BigInt>value));
     }
   }
 
