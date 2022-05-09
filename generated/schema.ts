@@ -117,6 +117,23 @@ export class Liquidity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get account(): Bytes | null {
+    let value = this.get("account");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set account(value: Bytes | null) {
+    if (!value) {
+      this.unset("account");
+    } else {
+      this.set("account", Value.fromBytes(<Bytes>value));
+    }
+  }
+
   get bTokenId(): Bytes | null {
     let value = this.get("bTokenId");
     if (!value || value.kind == ValueKind.NULL) {
