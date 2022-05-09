@@ -84,7 +84,7 @@ export function handleAddLiquidity(event: AddLiquidity): void {
     entity.lTokenId=lTokenId
     entity.account = account
   }
-  if (entity.amount == null) {
+  if (!entity.amount) {
     entity.amount = event.params.amount
   } else {
     entity.amount = entity.amount.plus(event.params.amount)
@@ -106,7 +106,7 @@ export function handleRemoveLiquidity(event: RemoveLiquidity): void {
     entity.lTokenId=lTokenId
     entity.account = account
   }
-  if (entity.amount == null) {
+  if (!entity.amount) {
     entity.amount = event.params.amount
   } else {
     entity.amount = entity.amount.minus(event.params.amount)

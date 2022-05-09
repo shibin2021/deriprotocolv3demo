@@ -117,88 +117,48 @@ export class Liquidity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get account(): Bytes | null {
+  get account(): Bytes {
     let value = this.get("account");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set account(value: Bytes | null) {
-    if (!value) {
-      this.unset("account");
-    } else {
-      this.set("account", Value.fromBytes(<Bytes>value));
-    }
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
   }
 
-  get bTokenId(): Bytes | null {
+  get bTokenId(): Bytes {
     let value = this.get("bTokenId");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set bTokenId(value: Bytes | null) {
-    if (!value) {
-      this.unset("bTokenId");
-    } else {
-      this.set("bTokenId", Value.fromBytes(<Bytes>value));
-    }
+  set bTokenId(value: Bytes) {
+    this.set("bTokenId", Value.fromBytes(value));
   }
 
-  get lTokenId(): BigInt | null {
+  get lTokenId(): BigInt {
     let value = this.get("lTokenId");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
-  set lTokenId(value: BigInt | null) {
-    if (!value) {
-      this.unset("lTokenId");
-    } else {
-      this.set("lTokenId", Value.fromBigInt(<BigInt>value));
-    }
+  set lTokenId(value: BigInt) {
+    this.set("lTokenId", Value.fromBigInt(value));
   }
 
-  get amount(): BigInt | null {
+  get amount(): BigInt {
     let value = this.get("amount");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
-  set amount(value: BigInt | null) {
-    if (!value) {
-      this.unset("amount");
-    } else {
-      this.set("amount", Value.fromBigInt(<BigInt>value));
-    }
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 
-  get newLiquidity(): BigInt | null {
+  get newLiquidity(): BigInt {
     let value = this.get("newLiquidity");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
-  set newLiquidity(value: BigInt | null) {
-    if (!value) {
-      this.unset("newLiquidity");
-    } else {
-      this.set("newLiquidity", Value.fromBigInt(<BigInt>value));
-    }
+  set newLiquidity(value: BigInt) {
+    this.set("newLiquidity", Value.fromBigInt(value));
   }
 }
