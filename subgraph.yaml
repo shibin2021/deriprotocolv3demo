@@ -1,0 +1,29 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: PoolImplementation
+    network: arbitrum-one
+    source:
+      address: "0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8"
+      abi: PoolImplementation
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NewAdmin
+        - NewImplementation
+        - NewProtocolFeeCollector
+      abis:
+        - name: PoolImplementation
+          file: ./abis/PoolImplementation.json
+      eventHandlers:
+        - event: NewAdmin(indexed address)
+          handler: handleNewAdmin
+        - event: NewImplementation(address)
+          handler: handleNewImplementation
+        - event: NewProtocolFeeCollector(address)
+          handler: handleNewProtocolFeeCollector
+      file: ./src/mapping.ts
