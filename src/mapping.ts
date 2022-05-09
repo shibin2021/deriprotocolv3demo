@@ -10,12 +10,12 @@ import { Pool } from "../generated/schema"
 export function handleNewAdmin(event: NewAdmin): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = Pool.load(event.transaction.to.toHex())
+  let entity = Pool.load(event.transaction.from.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new Pool(event.transaction.to.toHex())
+    entity = new Pool(event.transaction.from.toHex())
   }
 
   // Entity fields can be set based on event parameters
@@ -70,12 +70,12 @@ export function handleNewImplementation(event: NewImplementation): void {
 export function handleAddMarket(
   event: AddMarket
 ): void {
-  let entity = Pool.load(ByteArray.fromHexString(event.transaction.to.toString()))
+  let entity = Pool.load(event.transaction.from.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new Pool(ByteArray.fromHexString(event.transaction.to.toString()))
+    entity = new Pool(event.transaction.from.toHex())
     entity.markets = []
   }
 
