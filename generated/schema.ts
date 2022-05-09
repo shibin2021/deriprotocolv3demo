@@ -117,8 +117,8 @@ export class Liquidity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get bTokeId(): Bytes | null {
-    let value = this.get("bTokeId");
+  get bTokenId(): Bytes | null {
+    let value = this.get("bTokenId");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -126,11 +126,11 @@ export class Liquidity extends Entity {
     }
   }
 
-  set bTokeId(value: Bytes | null) {
+  set bTokenId(value: Bytes | null) {
     if (!value) {
-      this.unset("bTokeId");
+      this.unset("bTokenId");
     } else {
-      this.set("bTokeId", Value.fromBytes(<Bytes>value));
+      this.set("bTokenId", Value.fromBytes(<Bytes>value));
     }
   }
 

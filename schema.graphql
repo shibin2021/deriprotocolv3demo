@@ -7,7 +7,7 @@ type Pool @entity {
 
 type Liquidity @entity {
   id: ID!
-  bTokeId: Bytes
+  bTokenId: Bytes
   lTokenId: Bytes
   amount: BigInt
   newLiquidity: BigInt

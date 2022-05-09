@@ -79,11 +79,11 @@ export function handleAddLiquidity(event: AddLiquidity): void {
   let entity = Liquidity.load(id)
   if(!entity) {
     entity = new Liquidity(id)
-    entity.amount = 0
+    entity.amount = BigInt.fromI32(0)
     entity.bTokenId=bTokenId
     entity.lTokenId=lTokenId
   }
-  entity.amount = entity.amount + event.params.amount
+  entity.amount = entity.amount.plus(BigInt.fromI32(event.params.amount))
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
 }
@@ -96,11 +96,11 @@ export function handleRemoveLiquidity(event: RemoveLiquidity): void {
   let entity = Liquidity.load(id)
   if(!entity) {
     entity = new Liquidity(id)
-    entity.amount = 0
+    entity.amount = BigInt.fromI32(0)
     entity.bTokenId=bTokenId
     entity.lTokenId=lTokenId
   }
-  entity.amount = entity.amount - event.params.amount
+  entity.amount = entity.amount.minus(BigInt.fromI32(event.params.amount))
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
 }
