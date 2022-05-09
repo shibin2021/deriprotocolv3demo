@@ -73,7 +73,7 @@ export function handleAddMarket(event: AddMarket): void {
 }
 
 export function handleAddLiquidity(event: AddLiquidity): void {
-  const lTokenId = event.transaction.from.toHex()
+  const lTokenId = event.transaction.from
   const bTokenId = event.params.underlying
   const id=`${lTokenId}_${bTokenId}`
   let entity = Liquidity.load(id)
@@ -83,14 +83,14 @@ export function handleAddLiquidity(event: AddLiquidity): void {
     entity.bTokenId=bTokenId
     entity.lTokenId=lTokenId
   }
-  entity.amount = entity.amount.plus(BigInt.fromI32(event.params.amount))
+  entity.amount = entity.amount.plus(event.params.amount)
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
 }
 
 
 export function handleRemoveLiquidity(event: RemoveLiquidity): void {
-  const lTokenId = event.transaction.from.toHex()
+  const lTokenId = event.transaction.from
   const bTokenId = event.params.underlying
   const id=`${lTokenId}_${bTokenId}`
   let entity = Liquidity.load(id)
@@ -100,7 +100,7 @@ export function handleRemoveLiquidity(event: RemoveLiquidity): void {
     entity.bTokenId=bTokenId
     entity.lTokenId=lTokenId
   }
-  entity.amount = entity.amount.minus(BigInt.fromI32(event.params.amount))
+  entity.amount = entity.amount.minus(event.params.amount)
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
 }
