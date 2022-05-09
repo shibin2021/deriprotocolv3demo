@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, ByteArray } from "@graphprotocol/graph-ts"
 import {
   PoolImplementation,
   NewAdmin,
@@ -10,12 +10,12 @@ import { Pool } from "../generated/schema"
 export function handleNewAdmin(event: NewAdmin): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = Pool.load(event.transaction.to ? event.transaction.to.toString() : '')
+  let entity = Pool.load(ByteArray.fromHexString(event.transaction.to.toString()))
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new Pool(event.transaction.to ? event.transaction.to.toString() : '')
+    entity = new Pool(ByteArray.fromHexString(event.transaction.to.toString()))
   }
 
   // Entity fields can be set based on event parameters
@@ -52,12 +52,12 @@ export function handleNewAdmin(event: NewAdmin): void {
 }
 
 export function handleNewImplementation(event: NewImplementation): void {
-  let entity = Pool.load(event.transaction.to ? event.transaction.to.toString(): '')
+  let entity = Pool.load(ByteArray.fromHexString(event.transaction.to.toString()))
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new Pool(event.transaction.to ? event.transaction.to.toString(): '')
+    entity = new Pool(ByteArray.fromHexString(event.transaction.to.toString()))
   }
 
   // Entity fields can be set based on event parameters
@@ -70,12 +70,12 @@ export function handleNewImplementation(event: NewImplementation): void {
 export function handleAddMarket(
   event: AddMarket
 ): void {
-  let entity = Pool.load(event.transaction.to ? event.transaction.to.toString() : '')
+  let entity = Pool.load(ByteArray.fromHexString(event.transaction.to.toString()))
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new Pool(event.transaction.to ? event.transaction.to.toString(): '')
+    entity = new Pool(ByteArray.fromHexString(event.transaction.to.toString()))
     entity.markets = []
   }
 
