@@ -87,7 +87,7 @@ export function handleAddLiquidity(event: AddLiquidity): void {
   if (!entity.amount) {
     entity.amount = event.params.amount
   } else {
-    entity.amount = BigInt(entity.amount).plus(event.params.amount)
+    entity.amount = entity.amount.plus(event.params.amount)
   }
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
