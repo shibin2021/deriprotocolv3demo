@@ -14,11 +14,11 @@ export function handleNewAdmin(event: NewAdmin): void {
   if (id) {
     let entity = entity = Pool.load(id)
     if (!entity) {
-      entity = new Pool(event.transaction.to.toHex())
+      entity = new Pool(id)
       entity.markets = []
-      entity.admin = event.params.newAdmin
-      entity.save()
     }
+    entity.admin = event.params.newAdmin
+    entity.save()
   }
 
   // Note: If a handler doesn't require existing field values, it is faster
@@ -53,12 +53,12 @@ export function handleNewImplementation(event: NewImplementation): void {
   if (id) {
     let entity = Pool.load(id)
     if (!entity) {
-      entity = new Pool(event.transaction.to.toHex())
+      entity = new Pool(id)
       entity.markets = []
     }
+    entity.implementation = event.params.newImplementation
+    entity.save()
   }
-  entity.implementation = event.params.newImplementation
-  entity.save()
 
 }
 
@@ -66,9 +66,9 @@ export function handleNewImplementation(event: NewImplementation): void {
 export function handleAddMarket(event: AddMarket): void {
   const id = event.transaction.to.toHex()
   if (id) {
-    let entity = Pool.load()
+    let entity = Pool.load(id)
     if(!entity) {
-      entity = new Pool(event.transaction.to.toHex())
+      entity = new Pool(id)
       entity.markets = []
     }
     entity.markets.push(event.params.market)
