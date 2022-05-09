@@ -3,6 +3,7 @@ import {
   PoolImplementation,
   NewAdmin,
   NewImplementation,
+  AddMarket,
 } from "../generated/PoolImplementation/PoolImplementation"
 import { Pool } from "../generated/schema"
 
