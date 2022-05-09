@@ -87,7 +87,7 @@ export function handleAddLiquidity(event: AddLiquidity): void {
   if (!entity.amount) {
     entity.amount = BigInt.fromI32(0)
   }
-  entity.amount = entity.amount.plus(event.params.amount)
+  entity.amount = BigInt(entity.amount).plus(event.params.amount)
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
 }
@@ -108,7 +108,7 @@ export function handleRemoveLiquidity(event: RemoveLiquidity): void {
   if (!entity.amount) {
     entity.amount = BigInt.fromI32(0)
   }
-  entity.amount = entity.amount.minus(event.params.amount)
+  entity.amount = BigInt(entity.amount).minus(event.params.amount)
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
 }
