@@ -5,3 +5,11 @@ type Pool @entity {
   markets: [Bytes!]!
 }
 
+type Liquidity @entity {
+  id: ID!
+  bTokeId: Bytes
+  lTokenId: Bytes
+  amount: BigInt
+  newLiquidity: BigInt
+}
+

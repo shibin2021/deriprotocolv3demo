@@ -4,6 +4,8 @@ import {
   NewAdmin,
   NewImplementation,
   AddMarket,
+  AddLiquidity,
+  RemoveLiquidity,
 } from "../generated/PoolImplementation/PoolImplementation"
 import { Pool } from "../generated/schema"
 
@@ -61,7 +63,7 @@ export function handleNewImplementation(event: NewImplementation): void {
 
 export function handleAddMarket(event: AddMarket): void {
   const id = event.address.toHexString()
-  let entity = Pool.load(id.toString())
+  let entity = Pool.load(id)
   if(!entity) {
     entity = new Pool(id)
     entity.markets = []
@@ -70,3 +72,35 @@ export function handleAddMarket(event: AddMarket): void {
   entity.save()
 }
 
+export function handleAddLiquidity(event: AddLiquidity): void {
+  const lTokenId = event.transaction.from.toHex()
+  const bTokenId = event.params.underlying
+  const id=`${lTokenId}_${bTokenId}`
+  let entity = Liquidity.load(id)
+  if(!entity) {
+    entity = new Liquidity(id)
+    entity.amount = 0
+    entity.bTokenId=bTokenId
+    entity.lTokenId=lTokenId
+  }
+  entity.amount = entity.amount + event.params.amount
+  entity.newLiquidity = event.params.newLiquidity
+  entity.save()
+}
+
+
+export function handleRemoveLiquidity(event: RemoveLiquidity): void {
+  const lTokenId = event.transaction.from.toHex()
+  const bTokenId = event.params.underlying
+  const id=`${lTokenId}_${bTokenId}`
+  let entity = Liquidity.load(id)
+  if(!entity) {
+    entity = new Liquidity(id)
+    entity.amount = 0
+    entity.bTokenId=bTokenId
+    entity.lTokenId=lTokenId
+  }
+  entity.amount = entity.amount - event.params.amount
+  entity.newLiquidity = event.params.newLiquidity
+  entity.save()
+}
