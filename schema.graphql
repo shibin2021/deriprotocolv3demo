@@ -2,6 +2,6 @@ type Pool @entity {
   id: ID!
   admin: Bytes
   implementation: Bytes
-  liquidity: BigInt!
-  markets: [Bytes]
+  liquidity: BigInt
+  markets: [Bytes!]
 }

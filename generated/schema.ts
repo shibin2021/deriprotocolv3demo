@@ -42,39 +42,71 @@ export class Pool extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get admin(): Bytes {
+  get admin(): Bytes | null {
     let value = this.get("admin");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set admin(value: Bytes) {
-    this.set("admin", Value.fromBytes(value));
+  set admin(value: Bytes | null) {
+    if (!value) {
+      this.unset("admin");
+    } else {
+      this.set("admin", Value.fromBytes(<Bytes>value));
+    }
   }
 
-  get implementation(): Bytes {
+  get implementation(): Bytes | null {
     let value = this.get("implementation");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set implementation(value: Bytes) {
-    this.set("implementation", Value.fromBytes(value));
+  set implementation(value: Bytes | null) {
+    if (!value) {
+      this.unset("implementation");
+    } else {
+      this.set("implementation", Value.fromBytes(<Bytes>value));
+    }
   }
 
-  get liquidity(): BigInt {
+  get liquidity(): BigInt | null {
     let value = this.get("liquidity");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set liquidity(value: BigInt) {
-    this.set("liquidity", Value.fromBigInt(value));
+  set liquidity(value: BigInt | null) {
+    if (!value) {
+      this.unset("liquidity");
+    } else {
+      this.set("liquidity", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get markets(): Array<Bytes> {
+  get markets(): Array<Bytes> | null {
     let value = this.get("markets");
-    return value!.toBytesArray();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytesArray();
+    }
   }
 
-  set markets(value: Array<Bytes>) {
-    this.set("markets", Value.fromBytesArray(value));
+  set markets(value: Array<Bytes> | null) {
+    if (!value) {
+      this.unset("markets");
+    } else {
+      this.set("markets", Value.fromBytesArray(<Array<Bytes>>value));
+    }
   }
 }
