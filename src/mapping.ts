@@ -83,12 +83,9 @@ export function handleAddLiquidity(event: AddLiquidity): void {
     entity.bTokenId=bTokenId
     entity.lTokenId=lTokenId
     entity.account = account
+    entity.amount = BigInt.fromI32(0)
   }
-  if (!entity.amount) {
-    entity.amount = event.params.amount
-  } else {
-    entity.amount = entity.amount.plus(event.params.amount)
-  }
+  entity.amount = entity.amount.plus(event.params.amount)
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
 }
@@ -105,12 +102,9 @@ export function handleRemoveLiquidity(event: RemoveLiquidity): void {
     entity.bTokenId=bTokenId
     entity.lTokenId=lTokenId
     entity.account = account
+    entity.amount = BigInt.fromI32(0)
   }
-  if (!entity.amount) {
-    entity.amount = event.params.amount
-  } else {
-    entity.amount = entity.amount.minus(event.params.amount)
-  }
+  entity.amount = entity.amount.minus(event.params.amount)
   entity.newLiquidity = event.params.newLiquidity
   entity.save()
 }
