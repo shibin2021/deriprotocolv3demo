@@ -23,4 +23,6 @@ dataSources:
           handler: handleNewAdmin
         - event: NewImplementation(address)
           handler: handleNewImplementation
+        - event: AddMarket(indexed address)
+          handler: handleAddMarket
       file: ./src/mapping.ts

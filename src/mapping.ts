@@ -9,12 +9,13 @@ import { Pool } from "../generated/schema"
 export function handleNewAdmin(event: NewAdmin): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = Pool.load(event.transaction.from.toHex())
+  let entity = Pool.load(event.transaction.to.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new Pool(event.transaction.from.toHex())
+    entity = new Pool(event.transaction.to.toHex())
+    entity.markets = []
   }
 
   // Entity fields can be set based on event parameters
@@ -51,16 +52,35 @@ export function handleNewAdmin(event: NewAdmin): void {
 }
 
 export function handleNewImplementation(event: NewImplementation): void {
-  let entity = Pool.load(event.transaction.from.toHex())
+  let entity = Pool.load(event.transaction.to.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new Pool(event.transaction.from.toHex())
+    entity = new Pool(event.transaction.to.toHex())
+    entity.markets = []
   }
 
   // Entity fields can be set based on event parameters
   entity.implementation = event.params.newImplementation
+
+  // Entities can be written to the store with `.save()`
+  entity.save()
+}
+
+
+export function handleAddMarket(event: AddMarket): void {
+  let entity = Pool.load(event.transaction.to.toHex())
+
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (!entity) {
+    entity = new Pool(event.transaction.to.toHex())
+    entity.markets = []
+  }
+
+  // Entity fields can be set based on event parameters
+  entity.markets.push(event.params.market)
 
   // Entities can be written to the store with `.save()`
   entity.save()

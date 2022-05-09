@@ -76,20 +76,12 @@ export class Pool extends Entity {
     }
   }
 
-  get liquidity(): BigInt | null {
-    let value = this.get("liquidity");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+  get markets(): Array<Bytes> {
+    let value = this.get("markets");
+    return value!.toBytesArray();
   }
 
-  set liquidity(value: BigInt | null) {
-    if (!value) {
-      this.unset("liquidity");
-    } else {
-      this.set("liquidity", Value.fromBigInt(<BigInt>value));
-    }
+  set markets(value: Array<Bytes>) {
+    this.set("markets", Value.fromBytesArray(value));
   }
 }
