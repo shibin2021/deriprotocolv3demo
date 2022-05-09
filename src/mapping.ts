@@ -3,7 +3,7 @@ import {
   PoolImplementation,
   NewAdmin,
   NewImplementation,
-  AddMaraket,
+  AddMarket,
 } from "../generated/PoolImplementation/PoolImplementation"
 import { Pool } from "../generated/schema"
 
@@ -19,7 +19,7 @@ export function handleNewAdmin(event: NewAdmin): void {
   }
 
   // Entity fields can be set based on event parameters
-  entity.newAdmin = event.params.newAdmin
+  entity.admin = event.params.newAdmin
 
   // Entities can be written to the store with `.save()`
   entity.save()
@@ -61,7 +61,7 @@ export function handleNewImplementation(event: NewImplementation): void {
   }
 
   // Entity fields can be set based on event parameters
-  entity.newImplementation = event.params.newImplementation
+  entity.implementation = event.params.newImplementation
 
   // Entities can be written to the store with `.save()`
   entity.save()

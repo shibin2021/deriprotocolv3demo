@@ -1,5 +1,5 @@
 type Pool @entity {
-  id: ID!
+  id: Bytes!
   admin: Bytes!
   implementation: Bytes!
   liquidity: BigInt! 
