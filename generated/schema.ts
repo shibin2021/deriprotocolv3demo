@@ -85,3 +85,103 @@ export class Pool extends Entity {
     this.set("markets", Value.fromBytesArray(value));
   }
 }
+
+export class Liquidity extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Liquidity entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Liquidity must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Liquidity", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Liquidity | null {
+    return changetype<Liquidity | null>(store.get("Liquidity", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get bTokeId(): Bytes | null {
+    let value = this.get("bTokeId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set bTokeId(value: Bytes | null) {
+    if (!value) {
+      this.unset("bTokeId");
+    } else {
+      this.set("bTokeId", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get lTokenId(): Bytes | null {
+    let value = this.get("lTokenId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set lTokenId(value: Bytes | null) {
+    if (!value) {
+      this.unset("lTokenId");
+    } else {
+      this.set("lTokenId", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get amount(): BigInt | null {
+    let value = this.get("amount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set amount(value: BigInt | null) {
+    if (!value) {
+      this.unset("amount");
+    } else {
+      this.set("amount", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get newLiquidity(): BigInt | null {
+    let value = this.get("newLiquidity");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set newLiquidity(value: BigInt | null) {
+    if (!value) {
+      this.unset("newLiquidity");
+    } else {
+      this.set("newLiquidity", Value.fromBigInt(<BigInt>value));
+    }
+  }
+}

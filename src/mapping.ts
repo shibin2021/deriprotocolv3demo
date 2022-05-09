@@ -7,7 +7,7 @@ import {
   AddLiquidity,
   RemoveLiquidity,
 } from "../generated/PoolImplementation/PoolImplementation"
-import { Pool } from "../generated/schema"
+import { Pool, Liquidity } from "../generated/schema"
 
 export function handleNewAdmin(event: NewAdmin): void {
   // Entities can be loaded from the store using a string ID; this ID
