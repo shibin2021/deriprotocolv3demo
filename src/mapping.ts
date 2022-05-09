@@ -61,7 +61,6 @@ export function handleNewImplementation(event: NewImplementation): void {
 
 export function handleAddMarket(event: AddMarket): void {
   const id = event.address.toHexString()
-  const id = event.transaction.to.toHex()
   let entity = Pool.load(id.toString())
   if(!entity) {
     entity = new Pool(id)
