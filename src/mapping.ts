@@ -76,7 +76,7 @@ export function handleAddLiquidity(event: AddLiquidity): void {
   const account = event.transaction.from
   const lTokenId = event.params.lTokenId
   const bTokenId = event.params.underlying
-  const id=`${lTokenId}_${bTokenId}`
+  const id=`${lTokenId.toString()}_${bTokenId.toHexString()}`
   let entity = Liquidity.load(id)
   if(!entity) {
     entity = new Liquidity(id)
@@ -98,7 +98,7 @@ export function handleRemoveLiquidity(event: RemoveLiquidity): void {
   const account = event.transaction.from
   const lTokenId = event.params.lTokenId
   const bTokenId = event.params.underlying
-  const id=`${lTokenId}_${bTokenId}`
+  const id=`${lTokenId.toString()}_${bTokenId.toHexString()}`
   let entity = Liquidity.load(id)
   if(!entity) {
     entity = new Liquidity(id)
