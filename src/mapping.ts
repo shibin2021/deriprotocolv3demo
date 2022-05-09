@@ -20,6 +20,9 @@ export function handleNewAdmin(event: NewAdmin): void {
 
   // Entity fields can be set based on event parameters
   entity.admin = event.params.newAdmin
+  if (!entity.markets) {
+    entity.markets = []
+  }
 
   // Entities can be written to the store with `.save()`
   entity.save()
@@ -62,6 +65,9 @@ export function handleNewImplementation(event: NewImplementation): void {
 
   // Entity fields can be set based on event parameters
   entity.implementation = event.params.newImplementation
+  if (!entity.markets) {
+    entity.markets = []
+  }
 
   // Entities can be written to the store with `.save()`
   entity.save()

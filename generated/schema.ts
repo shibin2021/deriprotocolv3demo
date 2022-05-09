@@ -93,20 +93,12 @@ export class Pool extends Entity {
     }
   }
 
-  get markets(): Array<Bytes> | null {
+  get markets(): Array<Bytes> {
     let value = this.get("markets");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytesArray();
-    }
+    return value!.toBytesArray();
   }
 
-  set markets(value: Array<Bytes> | null) {
-    if (!value) {
-      this.unset("markets");
-    } else {
-      this.set("markets", Value.fromBytesArray(<Array<Bytes>>value));
-    }
+  set markets(value: Array<Bytes>) {
+    this.set("markets", Value.fromBytesArray(value));
   }
 }

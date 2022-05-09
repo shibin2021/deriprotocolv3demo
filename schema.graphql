@@ -3,5 +3,5 @@ type Pool @entity {
   admin: Bytes
   implementation: Bytes
   liquidity: BigInt
-  markets: [Bytes!]
+  markets: [Bytes!]!
 }
