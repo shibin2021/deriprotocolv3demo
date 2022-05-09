@@ -52,12 +52,12 @@ export function handleNewAdmin(event: NewAdmin): void {
 }
 
 export function handleNewImplementation(event: NewImplementation): void {
-  let entity = Pool.load(ByteArray.fromHexString(event.transaction.to.toHex()).toHexString())
+  let entity = Pool.load(event.transaction.to.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new Pool(ByteArray.fromHexString(event.transaction.to.toHex()).toHexString())
+    entity = new Pool(event.transaction.to.toString())
   }
 
   // Entity fields can be set based on event parameters
