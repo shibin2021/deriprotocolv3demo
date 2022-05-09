@@ -11,15 +11,15 @@ export function handleNewAdmin(event: NewAdmin): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
   const id = event.transaction.to.toHex()
-  let entity:Pool
   if (id) {
-    entity = Pool.load()
-  } else {
-    entity = new Pool(event.transaction.to.toHex())
-    entity.markets = []
+    let entity = entity = Pool.load(id)
+    if (!entity) {
+      entity = new Pool(event.transaction.to.toHex())
+      entity.markets = []
+      entity.admin = event.params.newAdmin
+      entity.save()
+    }
   }
-  entity.admin = event.params.newAdmin
-  entity.save()
 
   // Note: If a handler doesn't require existing field values, it is faster
   // _not_ to load the entity from the store. Instead, create it fresh with
@@ -50,29 +50,29 @@ export function handleNewAdmin(event: NewAdmin): void {
 
 export function handleNewImplementation(event: NewImplementation): void {
   const id = event.transaction.to.toHex()
-  let entity:Pool
   if (id) {
-    entity = Pool.load()
-  } else {
-    entity = new Pool(event.transaction.to.toHex())
-    entity.markets = []
+    let entity = Pool.load(id)
+    if (!entity) {
+      entity = new Pool(event.transaction.to.toHex())
+      entity.markets = []
+    }
   }
-
   entity.implementation = event.params.newImplementation
   entity.save()
+
 }
 
 
 export function handleAddMarket(event: AddMarket): void {
   const id = event.transaction.to.toHex()
-  let entity:Pool
   if (id) {
-    entity = Pool.load()
-  } else {
-    entity = new Pool(event.transaction.to.toHex())
-    entity.markets = []
+    let entity = Pool.load()
+    if(!entity) {
+      entity = new Pool(event.transaction.to.toHex())
+      entity.markets = []
+    }
+    entity.markets.push(event.params.market)
+    entity.save()
   }
-  entity.markets.push(event.params.market)
-  entity.save()
 }
 
