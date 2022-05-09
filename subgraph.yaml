@@ -14,11 +14,7 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - NewAdmin
-        - NewImplementation
-        - AddLiquidity
-        - RemoveLiquidity
-        - AddMarket
+        - Pool
       abis:
         - name: PoolImplementation
           file: ./abis/PoolImplementation.json
@@ -27,10 +23,4 @@ dataSources:
           handler: handleNewAdmin
         - event: NewImplementation(address)
           handler: handleNewImplementation
-        - event: AddMarket(indexed address)
-          handler: handleAddMarket
-        - event: AddLiquidity(indexed uint256,indexed address,uint256,int256)
-          handler: handleAddLiquidity
-        - event: RemoveLiquidity(indexed uint256,indexed address,uint256,int256)
-          handler: handleRemoveLiquidity
       file: ./src/mapping.ts

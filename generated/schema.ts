@@ -92,13 +92,4 @@ export class Pool extends Entity {
       this.set("liquidity", Value.fromBigInt(<BigInt>value));
     }
   }
-
-  get markets(): Array<Bytes> {
-    let value = this.get("markets");
-    return value!.toBytesArray();
-  }
-
-  set markets(value: Array<Bytes>) {
-    this.set("markets", Value.fromBytesArray(value));
-  }
 }
