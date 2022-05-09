@@ -10,7 +10,7 @@ import { Pool } from "../generated/schema"
 export function handleNewAdmin(event: NewAdmin): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  if (event.transaction.to) {
+  if (event.transaction.to != null) {
     const id = event.transaction.to.toHex()
     let entity = Pool.load(id)
     if (!entity) {
@@ -49,7 +49,7 @@ export function handleNewAdmin(event: NewAdmin): void {
 }
 
 export function handleNewImplementation(event: NewImplementation): void {
-  if (event.transaction.to) {
+  if (event.transaction.to != null) {
     const id = event.transaction.to.toHex()
     let entity = Pool.load(id)
     if (!entity) {
@@ -64,7 +64,7 @@ export function handleNewImplementation(event: NewImplementation): void {
 
 
 export function handleAddMarket(event: AddMarket): void {
-  if (event.transaction.to) {
+  if (event.transaction.to != null) {
     const id = event.transaction.to.toHex()
     let entity = Pool.load(id.toString())
     if(!entity) {
