@@ -17,7 +17,7 @@ export function handleNewAdmin(event: NewAdmin): void {
     if (!entity) {
       entity = new Pool(id)
       const contract = PoolImplementation.bind(event.address)
-      entity.markets = contract.markets()
+      entity.markets = contract.markets().map((m) => m.toHex())
     }
     entity.admin = event.params.newAdmin
     entity.save()
@@ -55,7 +55,7 @@ export function handleNewImplementation(event: NewImplementation): void {
   if (!entity) {
     entity = new Pool(id)
     const contract = PoolImplementation.bind(event.address)
-    entity.markets = contract.markets()
+    entity.markets = contract.markets().map((m) => m.toHex())
   }
   entity.implementation = event.params.newImplementation
   entity.save()
@@ -69,9 +69,9 @@ export function handleAddMarket(event: AddMarket): void {
   if(!entity) {
     entity = new Pool(id)
     const contract = PoolImplementation.bind(event.address)
-    entity.markets = contract.markets()
+    entity.markets = contract.markets().map((m) => m.toHex())
   }
-  entity.markets.push(event.params.market)
+  entity.markets.push(event.params.market.toHex())
   entity.save()
 }
 
