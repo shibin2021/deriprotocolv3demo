@@ -16,7 +16,8 @@ export function handleNewAdmin(event: NewAdmin): void {
     let entity = Pool.load(id)
     if (!entity) {
       entity = new Pool(id)
-      entity.markets = []
+      const contract = PoolImplementation.bind(event.address)
+      entity.markets = contract.markets()
     }
     entity.admin = event.params.newAdmin
     entity.save()
@@ -53,7 +54,8 @@ export function handleNewImplementation(event: NewImplementation): void {
   let entity = Pool.load(id)
   if (!entity) {
     entity = new Pool(id)
-    entity.markets = []
+    const contract = PoolImplementation.bind(event.address)
+    entity.markets = contract.markets()
   }
   entity.implementation = event.params.newImplementation
   entity.save()
@@ -66,7 +68,8 @@ export function handleAddMarket(event: AddMarket): void {
   let entity = Pool.load(id)
   if(!entity) {
     entity = new Pool(id)
-    entity.markets = []
+    const contract = PoolImplementation.bind(event.address)
+    entity.markets = contract.markets()
   }
   entity.markets.push(event.params.market)
   entity.save()
@@ -87,6 +90,7 @@ export function handleAddLiquidity(event: AddLiquidity): void {
   }
   entity.amount = entity.amount.plus(event.params.amount)
   entity.newLiquidity = event.params.newLiquidity
+  entity.timestamp = event.block.timestamp.toI32()
   entity.save()
 }
 
@@ -106,5 +110,6 @@ export function handleRemoveLiquidity(event: RemoveLiquidity): void {
   }
   entity.amount = entity.amount.minus(event.params.amount)
   entity.newLiquidity = event.params.newLiquidity
+  entity.timestamp = event.block.timestamp.toI32()
   entity.save()
 }

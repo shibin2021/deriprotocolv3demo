@@ -12,5 +12,6 @@ type Liquidity @entity {
   lTokenId: BigInt!
   amount: BigInt!
   newLiquidity: BigInt!
+  timestamp: Int!
 }
 

@@ -161,4 +161,13 @@ export class Liquidity extends Entity {
   set newLiquidity(value: BigInt) {
     this.set("newLiquidity", Value.fromBigInt(value));
   }
+
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
+  }
+
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
+  }
 }
