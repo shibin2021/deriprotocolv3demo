@@ -3,7 +3,6 @@ import {
   PoolImplementation,
   NewAdmin,
   NewImplementation,
-  AddMarket,
   AddLiquidity,
   RemoveLiquidity,
 } from "../generated/PoolImplementation/PoolImplementation"
@@ -17,7 +16,7 @@ export function handleNewAdmin(event: NewAdmin): void {
     if (!entity) {
       entity = new Pool(id)
       const contract = PoolImplementation.bind(event.address)
-      entity.markets = contract.markets().map((m) => m.toHex())
+      // entity.markets = contract.markets().map((m) => m.toHex())
     }
     entity.admin = event.params.newAdmin
     entity.save()
@@ -55,7 +54,7 @@ export function handleNewImplementation(event: NewImplementation): void {
   if (!entity) {
     entity = new Pool(id)
     const contract = PoolImplementation.bind(event.address)
-    entity.markets = contract.markets().map((m) => m.toHex())
+    // entity.markets = contract.markets().map((m) => m.toHex())
   }
   entity.implementation = event.params.newImplementation
   entity.save()
@@ -63,17 +62,17 @@ export function handleNewImplementation(event: NewImplementation): void {
 }
 
 
-export function handleAddMarket(event: AddMarket): void {
-  const id = event.address.toHexString()
-  let entity = Pool.load(id)
-  if(!entity) {
-    entity = new Pool(id)
-    const contract = PoolImplementation.bind(event.address)
-    entity.markets = contract.markets().map((m) => m.toHex())
-  }
-  entity.markets.push(event.params.market.toHex())
-  entity.save()
-}
+//export function handleAddMarket(event: AddMarket): void {
+  //const id = event.address.toHexString()
+  //let entity = Pool.load(id)
+  //if(!entity) {
+    //entity = new Pool(id)
+    //const contract = PoolImplementation.bind(event.address)
+    //entity.markets = contract.markets().map((m) => m.toHex())
+  //}
+  //entity.markets.push(event.params.market.toHex())
+  //entity.save()
+//}
 
 export function handleAddLiquidity(event: AddLiquidity): void {
   const account = event.transaction.from
