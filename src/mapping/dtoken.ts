@@ -1,15 +1,14 @@
 import {
-  DToken,
   Transfer,
 } from "../../generated/DToken/DToken"
-import { Pool } from "../../generated/schema"
+import { DToken } from "../../generated/schema"
 import { POOL_ADDRESS } from "./helper"
 
 export function handleDTokenTransder(event: Transfer): void {
-  const emitter = event.transaction.from.toHexString()
+  const emitter = event.transaction.from
   const from = event.params.from.toHexString()
-  const to = event.params.to.toHexString()
-  const id = event.params.tokenId.toHexString()
+  const to = event.params.to
+  const id = event.params.tokenId
   let entity = DToken.load(id)
   let pool = Pool.load(POOL_ADDRESS)
   if(!entity) {
