@@ -187,4 +187,106 @@ export class Pool extends Entity {
       this.set("lToken", Value.fromBytes(<Bytes>value));
     }
   }
+
+  get symbolManager(): Bytes | null {
+    let value = this.get("symbolManager");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set symbolManager(value: Bytes | null) {
+    if (!value) {
+      this.unset("symbolManager");
+    } else {
+      this.set("symbolManager", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get swapper(): Bytes | null {
+    let value = this.get("swapper");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set swapper(value: Bytes | null) {
+    if (!value) {
+      this.unset("swapper");
+    } else {
+      this.set("swapper", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get tokenB0(): Bytes | null {
+    let value = this.get("tokenB0");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set tokenB0(value: Bytes | null) {
+    if (!value) {
+      this.unset("tokenB0");
+    } else {
+      this.set("tokenB0", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get tokenWETH(): Bytes | null {
+    let value = this.get("tokenWETH");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set tokenWETH(value: Bytes | null) {
+    if (!value) {
+      this.unset("tokenWETH");
+    } else {
+      this.set("tokenWETH", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get vaultImplementation(): Bytes | null {
+    let value = this.get("vaultImplementation");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set vaultImplementation(value: Bytes | null) {
+    if (!value) {
+      this.unset("vaultImplementation");
+    } else {
+      this.set("vaultImplementation", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get protocolFeeCollector(): Bytes | null {
+    let value = this.get("protocolFeeCollector");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set protocolFeeCollector(value: Bytes | null) {
+    if (!value) {
+      this.unset("protocolFeeCollector");
+    } else {
+      this.set("protocolFeeCollector", Value.fromBytes(<Bytes>value));
+    }
+  }
 }

@@ -58,6 +58,13 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     const contract = PoolImplementation.bind(event.address)
     entity.pToken = contract.pToken()
     entity.lToken = contract.lToken()
+    entity.symbolManager = contract.symbolManager()
+    entity.swapper = contract.swapper()
+    entity.tokenB0 = contract.tokenB0()
+    entity.tokenWETH = contract.tokenWETH()
+    entity.implementation = contract.implementation()
+    entity.vaultImplementation = contract.vaultImplementation()
+    entity.protocolFeeCollector = contract.protocolFeeCollector()
   }
   entity.implementation = event.params.newImplementation
   entity.save()

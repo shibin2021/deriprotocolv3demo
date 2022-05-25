@@ -16,4 +16,10 @@ type Pool @entity {
   # address
   pToken: Bytes
   lToken: Bytes
+  symbolManager: Bytes
+  swapper: Bytes
+  tokenB0: Bytes
+  tokenWETH: Bytes
+  vaultImplementation:Bytes
+  protocolFeeCollector:Bytes
 }
