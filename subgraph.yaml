@@ -46,5 +46,5 @@ dataSources:
           file: ./abis/DToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleLTokenTransder
+          handler: handleDTokenTransder
       file: ./src/mapping/dtoken.ts
