@@ -2,6 +2,7 @@ specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
+  # === PoolImplementation
   - kind: ethereum
     name: PoolImplementation
     network: arbitrum-one
@@ -21,13 +22,29 @@ dataSources:
           file: ./abis/PoolImplementation.json
       eventHandlers:
         - event: NewAdmin(indexed address)
-          handler: handleNewAdmin
+          handler: handlePoolNewAdmin
         - event: NewImplementation(address)
-          handler: handleNewImplementation
-        - event: AddMarket(indexed address)
-          handler: handleAddMarket
+          handler: handlePoolNewImplementation
         - event: AddLiquidity(indexed uint256,indexed address,uint256,int256)
-          handler: handleAddLiquidity
+          handler: handlePoolAddLiquidity
         - event: RemoveLiquidity(indexed uint256,indexed address,uint256,int256)
-          handler: handleRemoveLiquidity
-      file: ./src/mapping.ts
+          handler: handlePoolRemoveLiquidity
+      file: ./src/mapping/pool.ts
+  - kind: ethereum
+    name: DToken
+    network: arbitrum-one
+    source:
+      abi: DToken 
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - DToken
+      abis:
+        - name: DToken
+          file: ./abis/DToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleLTokenTransder
+      file: ./src/mapping/dtoken.ts

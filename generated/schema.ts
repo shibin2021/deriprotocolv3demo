@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Pool extends Entity {
+export class DToken extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,18 +19,18 @@ export class Pool extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Pool entity without an ID");
+    assert(id != null, "Cannot save DToken entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Pool must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type DToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Pool", id.toString(), this);
+      store.set("DToken", id.toString(), this);
     }
   }
 
-  static load(id: string): Pool | null {
-    return changetype<Pool | null>(store.get("Pool", id));
+  static load(id: string): DToken | null {
+    return changetype<DToken | null>(store.get("DToken", id));
   }
 
   get id(): string {
@@ -42,47 +42,31 @@ export class Pool extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get admin(): Bytes | null {
-    let value = this.get("admin");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+  get account(): Bytes {
+    let value = this.get("account");
+    return value!.toBytes();
   }
 
-  set admin(value: Bytes | null) {
-    if (!value) {
-      this.unset("admin");
-    } else {
-      this.set("admin", Value.fromBytes(<Bytes>value));
-    }
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
   }
 
-  get implementation(): Bytes | null {
-    let value = this.get("implementation");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+  get type(): string {
+    let value = this.get("type");
+    return value!.toString();
   }
 
-  set implementation(value: Bytes | null) {
-    if (!value) {
-      this.unset("implementation");
-    } else {
-      this.set("implementation", Value.fromBytes(<Bytes>value));
-    }
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
   }
 
-  get markets(): Array<Bytes> {
-    let value = this.get("markets");
-    return value!.toBytesArray();
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
   }
 
-  set markets(value: Array<Bytes>) {
-    this.set("markets", Value.fromBytesArray(value));
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
   }
 }
 
@@ -169,5 +153,81 @@ export class Liquidity extends Entity {
 
   set timestamp(value: i32) {
     this.set("timestamp", Value.fromI32(value));
+  }
+}
+
+export class Pool extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Pool entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Pool must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Pool", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Pool | null {
+    return changetype<Pool | null>(store.get("Pool", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get admin(): Bytes {
+    let value = this.get("admin");
+    return value!.toBytes();
+  }
+
+  set admin(value: Bytes) {
+    this.set("admin", Value.fromBytes(value));
+  }
+
+  get implementation(): Bytes | null {
+    let value = this.get("implementation");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set implementation(value: Bytes | null) {
+    if (!value) {
+      this.unset("implementation");
+    } else {
+      this.set("implementation", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get LTokenAddress(): Bytes {
+    let value = this.get("LTokenAddress");
+    return value!.toBytes();
+  }
+
+  set LTokenAddress(value: Bytes) {
+    this.set("LTokenAddress", Value.fromBytes(value));
+  }
+
+  get PTokenAddress(): Bytes {
+    let value = this.get("PTokenAddress");
+    return value!.toBytes();
+  }
+
+  set PTokenAddress(value: Bytes) {
+    this.set("PTokenAddress", Value.fromBytes(value));
   }
 }

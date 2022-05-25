@@ -1,7 +1,9 @@
-type Pool @entity {
+
+type DToken @entity {
   id: ID!
-  admin: Bytes
-  implementation: Bytes
+  account: Bytes!
+  type: String!
+  timestamp: Int!
 }
 
 type Liquidity @entity {
@@ -14,3 +16,10 @@ type Liquidity @entity {
   timestamp: Int!
 }
 
+type Pool @entity {
+  id: ID!
+  admin: Bytes!
+  implementation: Bytes
+  LTokenAddress: Bytes!
+  PTokenAddress: Bytes!
+}

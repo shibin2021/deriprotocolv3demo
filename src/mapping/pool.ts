@@ -7,8 +7,9 @@ import {
   RemoveLiquidity,
 } from "../generated/PoolImplementation/PoolImplementation"
 import { Pool, Liquidity } from "../generated/schema"
+import { POOL_ADDRESS } from "./helper"
 
-export function handleNewAdmin(event: NewAdmin): void {
+export function handlePoolNewAdmin(event: NewAdmin): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
     const id = event.address.toHexString()
@@ -16,7 +17,8 @@ export function handleNewAdmin(event: NewAdmin): void {
     if (!entity) {
       entity = new Pool(id)
       const contract = PoolImplementation.bind(event.address)
-      // entity.markets = contract.markets().map((m) => m.toHex())
+      entity.PTokenAddress = contract.pToken()
+      entity.LTokenAddress = contract.lToken()
     }
     entity.admin = event.params.newAdmin
     entity.save()
@@ -48,7 +50,7 @@ export function handleNewAdmin(event: NewAdmin): void {
   // - contract.tdInfos(...)
 }
 
-export function handleNewImplementation(event: NewImplementation): void {
+export function handlePoolNewImplementation(event: NewImplementation): void {
   const id = event.address.toHexString()
   let entity = Pool.load(id)
   if (!entity) {
@@ -58,7 +60,6 @@ export function handleNewImplementation(event: NewImplementation): void {
   }
   entity.implementation = event.params.newImplementation
   entity.save()
-
 }
 
 
@@ -74,7 +75,7 @@ export function handleNewImplementation(event: NewImplementation): void {
   //entity.save()
 //}
 
-export function handleAddLiquidity(event: AddLiquidity): void {
+export function handlePoolAddLiquidity(event: AddLiquidity): void {
   const account = event.transaction.from
   const lTokenId = event.params.lTokenId
   const bTokenId = event.params.underlying
@@ -94,7 +95,7 @@ export function handleAddLiquidity(event: AddLiquidity): void {
 }
 
 
-export function handleRemoveLiquidity(event: RemoveLiquidity): void {
+export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   const account = event.transaction.from
   const lTokenId = event.params.lTokenId
   const bTokenId = event.params.underlying
@@ -112,3 +113,4 @@ export function handleRemoveLiquidity(event: RemoveLiquidity): void {
   entity.timestamp = event.block.timestamp.toI32()
   entity.save()
 }
+
