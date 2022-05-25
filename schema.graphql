@@ -14,12 +14,6 @@ type Pool @entity {
   admin: Bytes!
   implementation: Bytes
   # address
-  pToken: Bytes!
-  lToken: Bytes!
-  symbolManager: Bytes!
-  swapper: Bytes!
-  tokenB0: Bytes!
-  tokenWETH: Bytes!
-  vaultImplementation:Bytes!
-  protocolFeeCollector:Bytes!
+  pToken: Bytes
+  lToken: Bytes
 }

@@ -154,75 +154,37 @@ export class Pool extends Entity {
     }
   }
 
-  get pToken(): Bytes {
+  get pToken(): Bytes | null {
     let value = this.get("pToken");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set pToken(value: Bytes) {
-    this.set("pToken", Value.fromBytes(value));
+  set pToken(value: Bytes | null) {
+    if (!value) {
+      this.unset("pToken");
+    } else {
+      this.set("pToken", Value.fromBytes(<Bytes>value));
+    }
   }
 
-  get lToken(): Bytes {
+  get lToken(): Bytes | null {
     let value = this.get("lToken");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set lToken(value: Bytes) {
-    this.set("lToken", Value.fromBytes(value));
-  }
-
-  get symbolManager(): Bytes {
-    let value = this.get("symbolManager");
-    return value!.toBytes();
-  }
-
-  set symbolManager(value: Bytes) {
-    this.set("symbolManager", Value.fromBytes(value));
-  }
-
-  get swapper(): Bytes {
-    let value = this.get("swapper");
-    return value!.toBytes();
-  }
-
-  set swapper(value: Bytes) {
-    this.set("swapper", Value.fromBytes(value));
-  }
-
-  get tokenB0(): Bytes {
-    let value = this.get("tokenB0");
-    return value!.toBytes();
-  }
-
-  set tokenB0(value: Bytes) {
-    this.set("tokenB0", Value.fromBytes(value));
-  }
-
-  get tokenWETH(): Bytes {
-    let value = this.get("tokenWETH");
-    return value!.toBytes();
-  }
-
-  set tokenWETH(value: Bytes) {
-    this.set("tokenWETH", Value.fromBytes(value));
-  }
-
-  get vaultImplementation(): Bytes {
-    let value = this.get("vaultImplementation");
-    return value!.toBytes();
-  }
-
-  set vaultImplementation(value: Bytes) {
-    this.set("vaultImplementation", Value.fromBytes(value));
-  }
-
-  get protocolFeeCollector(): Bytes {
-    let value = this.get("protocolFeeCollector");
-    return value!.toBytes();
-  }
-
-  set protocolFeeCollector(value: Bytes) {
-    this.set("protocolFeeCollector", Value.fromBytes(value));
+  set lToken(value: Bytes | null) {
+    if (!value) {
+      this.unset("lToken");
+    } else {
+      this.set("lToken", Value.fromBytes(<Bytes>value));
+    }
   }
 }
