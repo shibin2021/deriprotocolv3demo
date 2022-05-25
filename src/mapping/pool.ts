@@ -53,6 +53,8 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
   let entity = Pool.load(id)
   if (!entity) {
     entity = new Pool(id)
+  }
+  if (!entity.pToken || !entity.lToken) {
     const contract = PoolImplementation.bind(event.address)
     entity.pToken = contract.pToken()
     entity.lToken = contract.lToken()
