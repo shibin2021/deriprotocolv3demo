@@ -6,10 +6,10 @@ import { Pool } from "../../generated/schema"
 import { POOL_ADDRESS } from "./helper"
 
 export function handleDTokenTransder(event: Transfer): void {
-  const emitter = event.transaction.from
-  const from = event.params.from
-  const to = event.params.to
-  const id = event.params.tokenId
+  const emitter = event.transaction.from.toHexString()
+  const from = event.params.from.toHexString()
+  const to = event.params.to.toHexString()
+  const id = event.params.tokenId.toHexString()
   let entity = DToken.load(id)
   let pool = Pool.load(POOL_ADDRESS)
   if(!entity) {
