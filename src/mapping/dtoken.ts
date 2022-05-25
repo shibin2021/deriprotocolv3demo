@@ -12,7 +12,10 @@ export function handleDTokenTransder(event: Transfer): void {
   let entity = DToken.load(id)
   let pool = Pool.load(POOL_ADDRESS)
   if (!pool) {
-    pool = new Pool(id)
+    pool = new Pool(POOL_ADDRESS)
+    const contract = PoolImplementation.bind(POOL_ADDRESS)
+    pool.PTokenAddress = contract.pToken()
+    pool.LTokenAddress = contract.lToken()
   }
   if(!entity) {
     entity = new DToken(id)
