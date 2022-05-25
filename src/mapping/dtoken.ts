@@ -1,8 +1,8 @@
 import {
   DToken,
   Transfer,
-} from "../generated/DToken/DToken"
-import { Pool } from "../generated/schema"
+} from "../../generated/DToken/DToken"
+import { Pool } from "../../generated/schema"
 import { POOL_ADDRESS } from "./helper"
 
 export function handleDTokenTransder(event: Transfer): void {

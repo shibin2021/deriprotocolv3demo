@@ -5,8 +5,8 @@ import {
   NewImplementation,
   AddLiquidity,
   RemoveLiquidity,
-} from "../generated/PoolImplementation/PoolImplementation"
-import { Pool, Liquidity } from "../generated/schema"
+} from "../../generated/PoolImplementation/PoolImplementation"
+import { Pool, Liquidity } from "../../generated/schema"
 import { POOL_ADDRESS } from "./helper"
 
 export function handlePoolNewAdmin(event: NewAdmin): void {
