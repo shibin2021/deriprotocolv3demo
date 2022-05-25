@@ -163,13 +163,13 @@ export class Pool extends Entity {
     this.set("pToken", Value.fromBytes(value));
   }
 
-  get lTpken(): Bytes {
-    let value = this.get("lTpken");
+  get lToken(): Bytes {
+    let value = this.get("lToken");
     return value!.toBytes();
   }
 
-  set lTpken(value: Bytes) {
-    this.set("lTpken", Value.fromBytes(value));
+  set lToken(value: Bytes) {
+    this.set("lToken", Value.fromBytes(value));
   }
 
   get symbolManager(): Bytes {
@@ -208,15 +208,6 @@ export class Pool extends Entity {
     this.set("tokenWETH", Value.fromBytes(value));
   }
 
-  get implementation(): Bytes {
-    let value = this.get("implementation");
-    return value!.toBytes();
-  }
-
-  set implementation(value: Bytes) {
-    this.set("implementation", Value.fromBytes(value));
-  }
-
   get vaultImplementation(): Bytes {
     let value = this.get("vaultImplementation");
     return value!.toBytes();
@@ -226,20 +217,12 @@ export class Pool extends Entity {
     this.set("vaultImplementation", Value.fromBytes(value));
   }
 
-  get protocolFeeCollector(): Bytes | null {
+  get protocolFeeCollector(): Bytes {
     let value = this.get("protocolFeeCollector");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set protocolFeeCollector(value: Bytes | null) {
-    if (!value) {
-      this.unset("protocolFeeCollector");
-    } else {
-      this.set("protocolFeeCollector", Value.fromBytes(<Bytes>value));
-    }
+  set protocolFeeCollector(value: Bytes) {
+    this.set("protocolFeeCollector", Value.fromBytes(value));
   }
 }
