@@ -1,4 +1,7 @@
 import {
+  PoolImplementation,
+} from "../../generated/PoolImplementation/PoolImplementation"
+import {
   Transfer,
 } from "../../generated/DToken/DToken"
 import { DToken, Pool } from "../../generated/schema"
