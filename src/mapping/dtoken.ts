@@ -11,6 +11,9 @@ export function handleDTokenTransder(event: Transfer): void {
   const id = event.params.tokenId.toString()
   let entity = DToken.load(id)
   let pool = Pool.load(POOL_ADDRESS)
+  if (!pool) {
+    pool = new Pool(id)
+  }
   if(!entity) {
     entity = new DToken(id)
   }
