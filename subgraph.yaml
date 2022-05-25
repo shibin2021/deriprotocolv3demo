@@ -30,23 +30,3 @@ dataSources:
         - event: RemoveLiquidity(indexed uint256,indexed address,uint256,int256)
           handler: handlePoolRemoveLiquidity
       file: ./src/mapping/pool.ts
-  - kind: ethereum
-    name: DToken
-    network: arbitrum-one
-    source:
-      abi: DToken 
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - DToken
-      abis:
-        - name: DToken
-          file: ./abis/DToken.json
-        - name: PoolImplementation
-          file: ./abis/PoolImplementation.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleDTokenTransder
-      file: ./src/mapping/dtoken.ts

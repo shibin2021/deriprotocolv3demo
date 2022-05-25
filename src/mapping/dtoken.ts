@@ -10,7 +10,7 @@ import { Address } from '@graphprotocol/graph-ts'
 
 export function handleDTokenTransder(event: Transfer): void {
   const emitter = event.transaction.from
-  const from = event.params.from.toHexString()
+  const from = event.params.from
   const to = event.params.to
   const id = event.params.tokenId.toString()
   let entity = DToken.load(id)

@@ -11,65 +11,6 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class DToken extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save DToken entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type DToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("DToken", id.toString(), this);
-    }
-  }
-
-  static load(id: string): DToken | null {
-    return changetype<DToken | null>(store.get("DToken", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get account(): Bytes {
-    let value = this.get("account");
-    return value!.toBytes();
-  }
-
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
-  }
-
-  get type(): string {
-    let value = this.get("type");
-    return value!.toString();
-  }
-
-  set type(value: string) {
-    this.set("type", Value.fromString(value));
-  }
-
-  get timestamp(): i32 {
-    let value = this.get("timestamp");
-    return value!.toI32();
-  }
-
-  set timestamp(value: i32) {
-    this.set("timestamp", Value.fromI32(value));
-  }
-}
-
 export class Liquidity extends Entity {
   constructor(id: string) {
     super();
@@ -213,21 +154,92 @@ export class Pool extends Entity {
     }
   }
 
-  get LTokenAddress(): Bytes {
-    let value = this.get("LTokenAddress");
+  get pToken(): Bytes {
+    let value = this.get("pToken");
     return value!.toBytes();
   }
 
-  set LTokenAddress(value: Bytes) {
-    this.set("LTokenAddress", Value.fromBytes(value));
+  set pToken(value: Bytes) {
+    this.set("pToken", Value.fromBytes(value));
   }
 
-  get PTokenAddress(): Bytes {
-    let value = this.get("PTokenAddress");
+  get lTpken(): Bytes {
+    let value = this.get("lTpken");
     return value!.toBytes();
   }
 
-  set PTokenAddress(value: Bytes) {
-    this.set("PTokenAddress", Value.fromBytes(value));
+  set lTpken(value: Bytes) {
+    this.set("lTpken", Value.fromBytes(value));
+  }
+
+  get symbolManager(): Bytes {
+    let value = this.get("symbolManager");
+    return value!.toBytes();
+  }
+
+  set symbolManager(value: Bytes) {
+    this.set("symbolManager", Value.fromBytes(value));
+  }
+
+  get swapper(): Bytes {
+    let value = this.get("swapper");
+    return value!.toBytes();
+  }
+
+  set swapper(value: Bytes) {
+    this.set("swapper", Value.fromBytes(value));
+  }
+
+  get tokenB0(): Bytes {
+    let value = this.get("tokenB0");
+    return value!.toBytes();
+  }
+
+  set tokenB0(value: Bytes) {
+    this.set("tokenB0", Value.fromBytes(value));
+  }
+
+  get tokenWETH(): Bytes {
+    let value = this.get("tokenWETH");
+    return value!.toBytes();
+  }
+
+  set tokenWETH(value: Bytes) {
+    this.set("tokenWETH", Value.fromBytes(value));
+  }
+
+  get implementation(): Bytes {
+    let value = this.get("implementation");
+    return value!.toBytes();
+  }
+
+  set implementation(value: Bytes) {
+    this.set("implementation", Value.fromBytes(value));
+  }
+
+  get vaultImplementation(): Bytes {
+    let value = this.get("vaultImplementation");
+    return value!.toBytes();
+  }
+
+  set vaultImplementation(value: Bytes) {
+    this.set("vaultImplementation", Value.fromBytes(value));
+  }
+
+  get protocolFeeCollector(): Bytes | null {
+    let value = this.get("protocolFeeCollector");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set protocolFeeCollector(value: Bytes | null) {
+    if (!value) {
+      this.unset("protocolFeeCollector");
+    } else {
+      this.set("protocolFeeCollector", Value.fromBytes(<Bytes>value));
+    }
   }
 }

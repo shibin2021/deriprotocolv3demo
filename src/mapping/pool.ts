@@ -17,8 +17,15 @@ export function handlePoolNewAdmin(event: NewAdmin): void {
     if (!entity) {
       entity = new Pool(id)
       const contract = PoolImplementation.bind(event.address)
-      entity.PTokenAddress = contract.pToken()
-      entity.LTokenAddress = contract.lToken()
+      entity.pToken = contract.pToken()
+      entity.lToken = contract.lToken()
+      entity.symbolManager = contract.symbolManager()
+      entity.swapper = contract.swapper()
+      entity.tokenB0 = contract.tokenB0()
+      entity.tokenWETH = contract.tokenWETH()
+      entity.implementation = contract.implementation()
+      entity.vaultImplementation = contract.vaultImplementation()
+      entity.protocolFeeCollector = contract.protocolFeeCollector()
     }
     entity.admin = event.params.newAdmin
     entity.save()
@@ -61,19 +68,6 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
   entity.implementation = event.params.newImplementation
   entity.save()
 }
-
-
-//export function handleAddMarket(event: AddMarket): void {
-  //const id = event.address.toHexString()
-  //let entity = Pool.load(id)
-  //if(!entity) {
-    //entity = new Pool(id)
-    //const contract = PoolImplementation.bind(event.address)
-    //entity.markets = contract.markets().map((m) => m.toHex())
-  //}
-  //entity.markets.push(event.params.market.toHex())
-  //entity.save()
-//}
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {
   const account = event.transaction.from

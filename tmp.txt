@@ -1,0 +1,45 @@
+type LiquidityEvent @entity {
+  id: ID!
+  account: Bytes!
+  bTokenId: Bytes!
+  lTokenId: BigInt!
+  amount: BigInt!
+  newLiquidity: BigInt!
+  timestamp: Int!
+}
+
+type Token @entity {
+  id: ID!
+  name: String()!
+}
+
+type TokenTransfer @entity {
+  id: ID!
+  from: Bytes!
+  to: String!
+  timestamp: Int!
+}
+
+
+  - kind: ethereum
+    name: DToken
+    network: arbitrum-one
+    source:
+      abi: DToken 
+      startBlock: 11116070
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - DToken
+      abis:
+        - name: DToken
+          file: ./abis/DToken.json
+        - name: PoolImplementation
+          file: ./abis/PoolImplementation.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleDTokenTransder
+      file: ./src/mapping/dtoken.ts
+
