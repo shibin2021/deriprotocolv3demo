@@ -44,6 +44,8 @@ dataSources:
       abis:
         - name: DToken
           file: ./abis/DToken.json
+        - name: PoolImplementation
+          file: ./abis/PoolImplementation.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleDTokenTransder
