@@ -6,6 +6,7 @@ import {
 } from "../../generated/DToken/DToken"
 import { DToken, Pool } from "../../generated/schema"
 import { POOL_ADDRESS } from "./helper"
+import { Address } from '@graphprotocol/graph-ts'
 
 export function handleDTokenTransder(event: Transfer): void {
   const emitter = event.transaction.from
@@ -16,7 +17,7 @@ export function handleDTokenTransder(event: Transfer): void {
   let pool = Pool.load(POOL_ADDRESS)
   if (!pool) {
     pool = new Pool(POOL_ADDRESS)
-    const contract = PoolImplementation.bind(POOL_ADDRESS)
+    const contract = PoolImplementation.bind(Address.fromString(POOL_ADDRESS))
     pool.PTokenAddress = contract.pToken()
     pool.LTokenAddress = contract.lToken()
   }
