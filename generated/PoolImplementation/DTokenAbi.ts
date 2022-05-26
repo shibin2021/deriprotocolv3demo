@@ -88,9 +88,9 @@ export class Transfer__Params {
   }
 }
 
-export class DToken extends ethereum.SmartContract {
-  static bind(address: Address): DToken {
-    return new DToken("DToken", address);
+export class DTokenAbi extends ethereum.SmartContract {
+  static bind(address: Address): DTokenAbi {
+    return new DTokenAbi("DTokenAbi", address);
   }
 
   balanceOf(owner: Address): BigInt {

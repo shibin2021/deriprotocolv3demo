@@ -8,7 +8,7 @@ dataSources:
     network: arbitrum-one
     source:
       address: "0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8"
-      abi: PoolImplementation
+      abi: PoolImplementationAbi
       startBlock: 11116070
     mapping:
       kind: ethereum/events
@@ -18,8 +18,10 @@ dataSources:
         - Pool
         - Liquidity
       abis:
-        - name: PoolImplementation
+        - name: PoolImplementationAbi
           file: ./abis/PoolImplementation.json
+        - name: DTokenAbi
+          file: ./abis/DToken.json
       eventHandlers:
         - event: NewAdmin(indexed address)
           handler: handlePoolNewAdmin

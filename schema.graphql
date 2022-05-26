@@ -8,18 +8,23 @@ type Liquidity @entity {
   timestamp: Int!
 }
 
+type DToken @entity {
+  id: ID!
+  name: String!
+}
+
 type Pool @entity {
   id: ID!
-  # meta
   admin: Bytes!
-  implementation: Bytes
-  # address
-  pToken: Bytes
-  lToken: Bytes
-  symbolManager: Bytes
-  swapper: Bytes
-  tokenB0: Bytes
-  tokenWETH: Bytes
-  vaultImplementation:Bytes
-  protocolFeeCollector:Bytes
+  implementation: Bytes!
+  pToken: DToken!
+  lToken: DToken!
+  symbolManager: Bytes!
+  swapper: Bytes!
+  tokenB0: Bytes!
+  tokenWETH: Bytes!
+  vaultImplementation:Bytes!
+  protocolFeeCollector:Bytes!
 }
+
+

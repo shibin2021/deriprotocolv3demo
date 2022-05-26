@@ -97,6 +97,47 @@ export class Liquidity extends Entity {
   }
 }
 
+export class DToken extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save DToken entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type DToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("DToken", id.toString(), this);
+    }
+  }
+
+  static load(id: string): DToken | null {
+    return changetype<DToken | null>(store.get("DToken", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value!.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+}
+
 export class Pool extends Entity {
   constructor(id: string) {
     super();
@@ -137,156 +178,84 @@ export class Pool extends Entity {
     this.set("admin", Value.fromBytes(value));
   }
 
-  get implementation(): Bytes | null {
+  get implementation(): Bytes {
     let value = this.get("implementation");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set implementation(value: Bytes | null) {
-    if (!value) {
-      this.unset("implementation");
-    } else {
-      this.set("implementation", Value.fromBytes(<Bytes>value));
-    }
+  set implementation(value: Bytes) {
+    this.set("implementation", Value.fromBytes(value));
   }
 
-  get pToken(): Bytes | null {
+  get pToken(): string {
     let value = this.get("pToken");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toString();
   }
 
-  set pToken(value: Bytes | null) {
-    if (!value) {
-      this.unset("pToken");
-    } else {
-      this.set("pToken", Value.fromBytes(<Bytes>value));
-    }
+  set pToken(value: string) {
+    this.set("pToken", Value.fromString(value));
   }
 
-  get lToken(): Bytes | null {
+  get lToken(): string {
     let value = this.get("lToken");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toString();
   }
 
-  set lToken(value: Bytes | null) {
-    if (!value) {
-      this.unset("lToken");
-    } else {
-      this.set("lToken", Value.fromBytes(<Bytes>value));
-    }
+  set lToken(value: string) {
+    this.set("lToken", Value.fromString(value));
   }
 
-  get symbolManager(): Bytes | null {
+  get symbolManager(): Bytes {
     let value = this.get("symbolManager");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set symbolManager(value: Bytes | null) {
-    if (!value) {
-      this.unset("symbolManager");
-    } else {
-      this.set("symbolManager", Value.fromBytes(<Bytes>value));
-    }
+  set symbolManager(value: Bytes) {
+    this.set("symbolManager", Value.fromBytes(value));
   }
 
-  get swapper(): Bytes | null {
+  get swapper(): Bytes {
     let value = this.get("swapper");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set swapper(value: Bytes | null) {
-    if (!value) {
-      this.unset("swapper");
-    } else {
-      this.set("swapper", Value.fromBytes(<Bytes>value));
-    }
+  set swapper(value: Bytes) {
+    this.set("swapper", Value.fromBytes(value));
   }
 
-  get tokenB0(): Bytes | null {
+  get tokenB0(): Bytes {
     let value = this.get("tokenB0");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set tokenB0(value: Bytes | null) {
-    if (!value) {
-      this.unset("tokenB0");
-    } else {
-      this.set("tokenB0", Value.fromBytes(<Bytes>value));
-    }
+  set tokenB0(value: Bytes) {
+    this.set("tokenB0", Value.fromBytes(value));
   }
 
-  get tokenWETH(): Bytes | null {
+  get tokenWETH(): Bytes {
     let value = this.get("tokenWETH");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set tokenWETH(value: Bytes | null) {
-    if (!value) {
-      this.unset("tokenWETH");
-    } else {
-      this.set("tokenWETH", Value.fromBytes(<Bytes>value));
-    }
+  set tokenWETH(value: Bytes) {
+    this.set("tokenWETH", Value.fromBytes(value));
   }
 
-  get vaultImplementation(): Bytes | null {
+  get vaultImplementation(): Bytes {
     let value = this.get("vaultImplementation");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set vaultImplementation(value: Bytes | null) {
-    if (!value) {
-      this.unset("vaultImplementation");
-    } else {
-      this.set("vaultImplementation", Value.fromBytes(<Bytes>value));
-    }
+  set vaultImplementation(value: Bytes) {
+    this.set("vaultImplementation", Value.fromBytes(value));
   }
 
-  get protocolFeeCollector(): Bytes | null {
+  get protocolFeeCollector(): Bytes {
     let value = this.get("protocolFeeCollector");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set protocolFeeCollector(value: Bytes | null) {
-    if (!value) {
-      this.unset("protocolFeeCollector");
-    } else {
-      this.set("protocolFeeCollector", Value.fromBytes(<Bytes>value));
-    }
+  set protocolFeeCollector(value: Bytes) {
+    this.set("protocolFeeCollector", Value.fromBytes(value));
   }
 }

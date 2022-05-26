@@ -20,6 +20,12 @@ type TokenTransfer @entity {
   timestamp: Int!
 }
 
+type TokenIdOwner @entity {
+  id: ID!
+  owner: Bytes!
+  timestamp: Int!
+}
+
 
 
   - kind: ethereum
