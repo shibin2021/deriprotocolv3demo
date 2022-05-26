@@ -38,7 +38,7 @@ export const getOrInitDToken = (address:Bytes): DToken => {
 }
 
 export const getOrInitOwnerTokenId = (tokenId:String, event: ethereum.Event): OwnerTokenId=> {
-  const id = `${tokenId}_${event.address}`
+  const id = `${tokenId}_${event.address.toHexString()}`
   let ownerTokenId = OwnerTokenId.load(id)
   if (!ownerTokenId) {
     ownerTokenId = new OwnerTokenId(id)
