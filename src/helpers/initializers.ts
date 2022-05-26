@@ -1,7 +1,8 @@
-import { Address, Bytes } from "@graphprotocol/graph-ts"
+import { Address, Bytes, ethereum } from "@graphprotocol/graph-ts"
 import { DTokenAbi } from "../../generated/PoolImplementation/DTokenAbi"
-import { PoolImplementationAbi } from "../../generated/PoolImplementation/PoolImplementationAbi"
-import { DToken, Pool } from "../../generated/schema"
+import { AddMargin, PoolImplementationAbi } from "../../generated/PoolImplementation/PoolImplementationAbi"
+import { DToken, OwnerTokenId, Pool } from "../../generated/schema"
+import { POOL_ADDRESS } from "../mapping/helper"
 import { ZERO_ADDRESS } from "../utils/constants"
 
 export const getOrInitPool = (address:Bytes): Pool => {
@@ -34,4 +35,13 @@ export const getOrInitDToken = (address:Bytes): DToken => {
     dToken.save()
   }
   return dToken
+}
+
+export const getOrInitOwnerTokenId = (tokenId:String, event: ethereum.Event): OwnerTokenId=> {
+  const id = `${tokenId}_${event.address}`
+  let ownerTokenId = OwnerTokenId.load(id)
+  if (!ownerTokenId) {
+    ownerTokenId = new OwnerTokenId(id)
+  }
+  return ownerTokenId
 }

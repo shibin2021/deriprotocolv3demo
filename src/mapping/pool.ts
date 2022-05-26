@@ -73,4 +73,3 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   entity.timestamp = event.block.timestamp.toI32()
   entity.save()
 }
-

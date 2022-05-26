@@ -136,6 +136,74 @@ export class DToken extends Entity {
   set name(value: string) {
     this.set("name", Value.fromString(value));
   }
+
+  get ownerTokenId(): Array<string> {
+    let value = this.get("ownerTokenId");
+    return value!.toStringArray();
+  }
+
+  set ownerTokenId(value: Array<string>) {
+    this.set("ownerTokenId", Value.fromStringArray(value));
+  }
+}
+
+export class OwnerTokenId extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save OwnerTokenId entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type OwnerTokenId must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("OwnerTokenId", id.toString(), this);
+    }
+  }
+
+  static load(id: string): OwnerTokenId | null {
+    return changetype<OwnerTokenId | null>(store.get("OwnerTokenId", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get owner(): Bytes {
+    let value = this.get("owner");
+    return value!.toBytes();
+  }
+
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
+  }
+
+  get tokenId(): string {
+    let value = this.get("tokenId");
+    return value!.toString();
+  }
+
+  set tokenId(value: string) {
+    this.set("tokenId", Value.fromString(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    return value!.toString();
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
 }
 
 export class Pool extends Entity {

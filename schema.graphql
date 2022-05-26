@@ -11,6 +11,14 @@ type Liquidity @entity {
 type DToken @entity {
   id: ID!
   name: String!
+  ownerTokenId: [OwnerTokenId!]! @derivedFrom(field: "token")
+}
+
+type OwnerTokenId @entity {
+  id: ID!
+  owner: Bytes!
+  tokenId: String!
+  token: DToken!
 }
 
 type Pool @entity {
