@@ -51,7 +51,7 @@ dataSources:
           file: ./abis/DToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleDTokenPTransder
+          handler: handleDTokenTransder
       file: ./src/mapping/dtoken.ts
   - kind: ethereum
     name: DTokenL
@@ -72,5 +72,5 @@ dataSources:
           file: ./abis/DToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleDTokenLTransder
+          handler: handleDTokenTransder
       file: ./src/mapping/dtoken.ts
