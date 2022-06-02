@@ -1,5 +1,6 @@
+import { ByteArray, Bytes } from "@graphprotocol/graph-ts"
 import { Trade } from "../../generated/SymbolManagerImplementation/SymbolManagerImplementationAbi"
-import { getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
+import { getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
 
 // pTokenId, symbolId, indexPrice,tradeVolume,tradeCost,tradeFee
 export function handlePoolTrade(event: Trade): void {
@@ -26,5 +27,7 @@ export function handlePoolTrade(event: Trade): void {
   position.timestamp = event.block.timestamp.toI32()
   position.pool = symbolManager.pool
   const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, Bytes.fromHexString(symbolManager.pool))
+  position.poolAccount = poolAccount.id
   position.save()
 }

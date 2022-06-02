@@ -12,7 +12,7 @@ import {
   Trade
 } from "../../generated/SymbolManagerImplementation/SymbolManagerImplementationAbi"
 import { Pool, Liquidity, DToken } from "../../generated/schema"
-import { getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
+import { getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
 
 export function handlePoolNewAdmin(event: NewAdmin): void {
     let pool = getOrInitPool(event.address)
@@ -48,6 +48,9 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   liquidity.liquidity = liquidity.liquidity.plus(event.params.amount)
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
+  const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, event.address)
+  liquidity.poolAccount = poolAccount.id
   liquidity.save()
 
   let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bTokenAddress, event)
@@ -70,6 +73,9 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   liquidity.liquidity = liquidity.liquidity.plus(event.params.amount)
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
+  const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, event.address)
+  liquidity.poolAccount = poolAccount.id
   liquidity.save()
 
   let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bTokenAddress, event)
@@ -92,6 +98,9 @@ export function handlePoolAddMargin(event: AddMargin): void {
   margin.margin = margin.margin.plus(event.params.amount)
   margin.timestamp = event.block.timestamp.toI32()
   margin.pool = event.address.toHexString()
+  const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, event.address)
+  margin.poolAccount = poolAccount.id
   margin.save()
 
   let marginHistory = getOrInitMarginHistory(pTokenId, bTokenAddress, event)
@@ -114,6 +123,9 @@ export function handlePoolRemoveMargin(event: RemoveMargin): void {
   margin.margin = margin.margin.plus(event.params.amount)
   margin.timestamp = event.block.timestamp.toI32()
   margin.pool = event.address.toHexString()
+  const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, event.address)
+  margin.poolAccount = poolAccount.id
   margin.save()
 
   let marginHistory = getOrInitMarginHistory(pTokenId, bTokenAddress, event)
