@@ -101,7 +101,7 @@ type Pool @entity {
   liquidityHistory: [LiquidityHistory!]! @derivedFrom(field: "pool")
   tradeHistory: [TradeHistory!]! @derivedFrom(field: "pool")
   liquidity: [Liquidity!]! @derivedFrom(field: "pool")
-  position: [Liquidity!]! @derivedFrom(field: "pool")
+  position: [Position!]! @derivedFrom(field: "pool")
 }
 
 type SymbolManager @entity {
