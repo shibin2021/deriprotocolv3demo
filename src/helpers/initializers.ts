@@ -133,6 +133,8 @@ export const getOrInitPoolAccount = (account:Bytes, pool: Bytes): PoolAccount =>
     poolAccount = new PoolAccount(id)
     poolAccount.account = getOrInitAccount(account).id
     poolAccount.pool = getOrInitPool(pool).id
+    poolAccount.pTokenId = BigInt.fromI32(0)
+    poolAccount.lTokenId = BigInt.fromI32(0)
     poolAccount.save()
   }
   return poolAccount
