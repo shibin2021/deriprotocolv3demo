@@ -17,6 +17,7 @@ export function handlePoolTrade(event: Trade): void {
   tradeHistory.timestamp = event.block.timestamp.toI32()
   const symbolManager = getOrInitSymbolManager(event.address)
   tradeHistory.pool = symbolManager.pool
+  tradeHistory.account = event.transaction.from
   tradeHistory.save()
 
   let position = getOrInitPosition(pTokenId, symbolId, event)

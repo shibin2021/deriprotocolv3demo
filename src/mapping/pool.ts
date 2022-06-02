@@ -60,6 +60,7 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   liquidityHistory.amount = liquidityHistory.amount.plus(event.params.amount)
   liquidityHistory.timestamp = event.block.timestamp.toI32()
   liquidityHistory.pool = event.address.toHexString()
+  liquidityHistory.account = event.transaction.from
   liquidityHistory.save()
 }
 
@@ -85,6 +86,7 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   liquidityHistory.amount = liquidityHistory.amount.plus(event.params.amount)
   liquidityHistory.timestamp = event.block.timestamp.toI32()
   liquidityHistory.pool = event.address.toHexString()
+  liquidityHistory.account = event.transaction.from
   liquidityHistory.save()
 }
 
@@ -110,6 +112,7 @@ export function handlePoolAddMargin(event: AddMargin): void {
   marginHistory.amount = marginHistory.amount.plus(event.params.amount)
   marginHistory.timestamp = event.block.timestamp.toI32()
   marginHistory.pool = event.address.toHexString()
+  marginHistory.account = event.transaction.from
   marginHistory.save()
 }
 
@@ -135,6 +138,7 @@ export function handlePoolRemoveMargin(event: RemoveMargin): void {
   marginHistory.amount = marginHistory.amount.plus(event.params.amount)
   marginHistory.timestamp = event.block.timestamp.toI32()
   marginHistory.pool = event.address.toHexString()
+  marginHistory.account = event.transaction.from
   marginHistory.save()
 }
 
