@@ -11,92 +11,6 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Liquidity extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Liquidity entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Liquidity must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("Liquidity", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Liquidity | null {
-    return changetype<Liquidity | null>(store.get("Liquidity", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get account(): Bytes {
-    let value = this.get("account");
-    return value!.toBytes();
-  }
-
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
-  }
-
-  get bTokenId(): Bytes {
-    let value = this.get("bTokenId");
-    return value!.toBytes();
-  }
-
-  set bTokenId(value: Bytes) {
-    this.set("bTokenId", Value.fromBytes(value));
-  }
-
-  get lTokenId(): BigInt {
-    let value = this.get("lTokenId");
-    return value!.toBigInt();
-  }
-
-  set lTokenId(value: BigInt) {
-    this.set("lTokenId", Value.fromBigInt(value));
-  }
-
-  get amount(): BigInt {
-    let value = this.get("amount");
-    return value!.toBigInt();
-  }
-
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
-  }
-
-  get newLiquidity(): BigInt {
-    let value = this.get("newLiquidity");
-    return value!.toBigInt();
-  }
-
-  set newLiquidity(value: BigInt) {
-    this.set("newLiquidity", Value.fromBigInt(value));
-  }
-
-  get timestamp(): i32 {
-    let value = this.get("timestamp");
-    return value!.toI32();
-  }
-
-  set timestamp(value: i32) {
-    this.set("timestamp", Value.fromI32(value));
-  }
-}
-
 export class DToken extends Entity {
   constructor(id: string) {
     super();
@@ -204,6 +118,641 @@ export class OwnerTokenId extends Entity {
   set token(value: string) {
     this.set("token", Value.fromString(value));
   }
+
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
+  }
+
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
+  }
+}
+
+export class LiquidityHistory extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save LiquidityHistory entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type LiquidityHistory must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("LiquidityHistory", id.toString(), this);
+    }
+  }
+
+  static load(id: string): LiquidityHistory | null {
+    return changetype<LiquidityHistory | null>(
+      store.get("LiquidityHistory", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+
+  get account(): Bytes {
+    let value = this.get("account");
+    return value!.toBytes();
+  }
+
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
+  }
+
+  get bTokenAddress(): Bytes {
+    let value = this.get("bTokenAddress");
+    return value!.toBytes();
+  }
+
+  set bTokenAddress(value: Bytes) {
+    this.set("bTokenAddress", Value.fromBytes(value));
+  }
+
+  get bToken(): string {
+    let value = this.get("bToken");
+    return value!.toString();
+  }
+
+  set bToken(value: string) {
+    this.set("bToken", Value.fromString(value));
+  }
+
+  get lTokenId(): BigInt {
+    let value = this.get("lTokenId");
+    return value!.toBigInt();
+  }
+
+  set lTokenId(value: BigInt) {
+    this.set("lTokenId", Value.fromBigInt(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value!.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+
+  get newLiquidity(): BigInt {
+    let value = this.get("newLiquidity");
+    return value!.toBigInt();
+  }
+
+  set newLiquidity(value: BigInt) {
+    this.set("newLiquidity", Value.fromBigInt(value));
+  }
+
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
+  }
+
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
+  }
+}
+
+export class Liquidity extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Liquidity entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Liquidity must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Liquidity", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Liquidity | null {
+    return changetype<Liquidity | null>(store.get("Liquidity", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+
+  get poolAccount(): string {
+    let value = this.get("poolAccount");
+    return value!.toString();
+  }
+
+  set poolAccount(value: string) {
+    this.set("poolAccount", Value.fromString(value));
+  }
+
+  get bTokenAddress(): Bytes {
+    let value = this.get("bTokenAddress");
+    return value!.toBytes();
+  }
+
+  set bTokenAddress(value: Bytes) {
+    this.set("bTokenAddress", Value.fromBytes(value));
+  }
+
+  get bToken(): string {
+    let value = this.get("bToken");
+    return value!.toString();
+  }
+
+  set bToken(value: string) {
+    this.set("bToken", Value.fromString(value));
+  }
+
+  get lTokenId(): BigInt {
+    let value = this.get("lTokenId");
+    return value!.toBigInt();
+  }
+
+  set lTokenId(value: BigInt) {
+    this.set("lTokenId", Value.fromBigInt(value));
+  }
+
+  get liquidity(): BigInt {
+    let value = this.get("liquidity");
+    return value!.toBigInt();
+  }
+
+  set liquidity(value: BigInt) {
+    this.set("liquidity", Value.fromBigInt(value));
+  }
+
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
+  }
+
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
+  }
+}
+
+export class MarginHistory extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save MarginHistory entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type MarginHistory must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("MarginHistory", id.toString(), this);
+    }
+  }
+
+  static load(id: string): MarginHistory | null {
+    return changetype<MarginHistory | null>(store.get("MarginHistory", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+
+  get account(): Bytes {
+    let value = this.get("account");
+    return value!.toBytes();
+  }
+
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
+  }
+
+  get bTokenAddress(): Bytes {
+    let value = this.get("bTokenAddress");
+    return value!.toBytes();
+  }
+
+  set bTokenAddress(value: Bytes) {
+    this.set("bTokenAddress", Value.fromBytes(value));
+  }
+
+  get bToken(): string {
+    let value = this.get("bToken");
+    return value!.toString();
+  }
+
+  set bToken(value: string) {
+    this.set("bToken", Value.fromString(value));
+  }
+
+  get pTokenId(): BigInt {
+    let value = this.get("pTokenId");
+    return value!.toBigInt();
+  }
+
+  set pTokenId(value: BigInt) {
+    this.set("pTokenId", Value.fromBigInt(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value!.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+
+  get newLiquidity(): BigInt {
+    let value = this.get("newLiquidity");
+    return value!.toBigInt();
+  }
+
+  set newLiquidity(value: BigInt) {
+    this.set("newLiquidity", Value.fromBigInt(value));
+  }
+
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
+  }
+
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
+  }
+}
+
+export class Margin extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Margin entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Margin must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Margin", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Margin | null {
+    return changetype<Margin | null>(store.get("Margin", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+
+  get poolAccount(): string {
+    let value = this.get("poolAccount");
+    return value!.toString();
+  }
+
+  set poolAccount(value: string) {
+    this.set("poolAccount", Value.fromString(value));
+  }
+
+  get bTokenAddress(): Bytes {
+    let value = this.get("bTokenAddress");
+    return value!.toBytes();
+  }
+
+  set bTokenAddress(value: Bytes) {
+    this.set("bTokenAddress", Value.fromBytes(value));
+  }
+
+  get bToken(): string {
+    let value = this.get("bToken");
+    return value!.toString();
+  }
+
+  set bToken(value: string) {
+    this.set("bToken", Value.fromString(value));
+  }
+
+  get pTokenId(): BigInt {
+    let value = this.get("pTokenId");
+    return value!.toBigInt();
+  }
+
+  set pTokenId(value: BigInt) {
+    this.set("pTokenId", Value.fromBigInt(value));
+  }
+
+  get margin(): BigInt {
+    let value = this.get("margin");
+    return value!.toBigInt();
+  }
+
+  set margin(value: BigInt) {
+    this.set("margin", Value.fromBigInt(value));
+  }
+
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
+  }
+
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
+  }
+}
+
+export class TradeHistory extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TradeHistory entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TradeHistory must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TradeHistory", id.toString(), this);
+    }
+  }
+
+  static load(id: string): TradeHistory | null {
+    return changetype<TradeHistory | null>(store.get("TradeHistory", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+
+  get account(): Bytes {
+    let value = this.get("account");
+    return value!.toBytes();
+  }
+
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
+  }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value!.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get symbolId(): Bytes {
+    let value = this.get("symbolId");
+    return value!.toBytes();
+  }
+
+  set symbolId(value: Bytes) {
+    this.set("symbolId", Value.fromBytes(value));
+  }
+
+  get pTokenId(): BigInt {
+    let value = this.get("pTokenId");
+    return value!.toBigInt();
+  }
+
+  set pTokenId(value: BigInt) {
+    this.set("pTokenId", Value.fromBigInt(value));
+  }
+
+  get indexPrice(): BigInt {
+    let value = this.get("indexPrice");
+    return value!.toBigInt();
+  }
+
+  set indexPrice(value: BigInt) {
+    this.set("indexPrice", Value.fromBigInt(value));
+  }
+
+  get tradeVolume(): BigInt {
+    let value = this.get("tradeVolume");
+    return value!.toBigInt();
+  }
+
+  set tradeVolume(value: BigInt) {
+    this.set("tradeVolume", Value.fromBigInt(value));
+  }
+
+  get tradeCost(): BigInt {
+    let value = this.get("tradeCost");
+    return value!.toBigInt();
+  }
+
+  set tradeCost(value: BigInt) {
+    this.set("tradeCost", Value.fromBigInt(value));
+  }
+
+  get tradeFee(): BigInt {
+    let value = this.get("tradeFee");
+    return value!.toBigInt();
+  }
+
+  set tradeFee(value: BigInt) {
+    this.set("tradeFee", Value.fromBigInt(value));
+  }
+
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
+  }
+
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
+  }
+}
+
+export class Position extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Position entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Position must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Position", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Position | null {
+    return changetype<Position | null>(store.get("Position", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+
+  get poolAccount(): string {
+    let value = this.get("poolAccount");
+    return value!.toString();
+  }
+
+  set poolAccount(value: string) {
+    this.set("poolAccount", Value.fromString(value));
+  }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value!.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get symbolId(): Bytes {
+    let value = this.get("symbolId");
+    return value!.toBytes();
+  }
+
+  set symbolId(value: Bytes) {
+    this.set("symbolId", Value.fromBytes(value));
+  }
+
+  get pTokenId(): BigInt {
+    let value = this.get("pTokenId");
+    return value!.toBigInt();
+  }
+
+  set pTokenId(value: BigInt) {
+    this.set("pTokenId", Value.fromBigInt(value));
+  }
+
+  get volume(): BigInt {
+    let value = this.get("volume");
+    return value!.toBigInt();
+  }
+
+  set volume(value: BigInt) {
+    this.set("volume", Value.fromBigInt(value));
+  }
+
+  get cost(): BigInt {
+    let value = this.get("cost");
+    return value!.toBigInt();
+  }
+
+  set cost(value: BigInt) {
+    this.set("cost", Value.fromBigInt(value));
+  }
+
+  get timestamp(): i32 {
+    let value = this.get("timestamp");
+    return value!.toI32();
+  }
+
+  set timestamp(value: i32) {
+    this.set("timestamp", Value.fromI32(value));
+  }
 }
 
 export class Pool extends Entity {
@@ -273,13 +822,13 @@ export class Pool extends Entity {
     this.set("lToken", Value.fromString(value));
   }
 
-  get symbolManager(): Bytes {
+  get symbolManager(): string {
     let value = this.get("symbolManager");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set symbolManager(value: Bytes) {
-    this.set("symbolManager", Value.fromBytes(value));
+  set symbolManager(value: string) {
+    this.set("symbolManager", Value.fromString(value));
   }
 
   get swapper(): Bytes {
@@ -325,5 +874,218 @@ export class Pool extends Entity {
 
   set protocolFeeCollector(value: Bytes) {
     this.set("protocolFeeCollector", Value.fromBytes(value));
+  }
+
+  get liquidityHistory(): Array<string> {
+    let value = this.get("liquidityHistory");
+    return value!.toStringArray();
+  }
+
+  set liquidityHistory(value: Array<string>) {
+    this.set("liquidityHistory", Value.fromStringArray(value));
+  }
+
+  get tradeHistory(): Array<string> {
+    let value = this.get("tradeHistory");
+    return value!.toStringArray();
+  }
+
+  set tradeHistory(value: Array<string>) {
+    this.set("tradeHistory", Value.fromStringArray(value));
+  }
+
+  get liquidity(): Array<string> {
+    let value = this.get("liquidity");
+    return value!.toStringArray();
+  }
+
+  set liquidity(value: Array<string>) {
+    this.set("liquidity", Value.fromStringArray(value));
+  }
+
+  get position(): Array<string> {
+    let value = this.get("position");
+    return value!.toStringArray();
+  }
+
+  set position(value: Array<string>) {
+    this.set("position", Value.fromStringArray(value));
+  }
+}
+
+export class SymbolManager extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save SymbolManager entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type SymbolManager must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("SymbolManager", id.toString(), this);
+    }
+  }
+
+  static load(id: string): SymbolManager | null {
+    return changetype<SymbolManager | null>(store.get("SymbolManager", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+}
+
+export class PoolAccount extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save PoolAccount entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type PoolAccount must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("PoolAccount", id.toString(), this);
+    }
+  }
+
+  static load(id: string): PoolAccount | null {
+    return changetype<PoolAccount | null>(store.get("PoolAccount", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get account(): string {
+    let value = this.get("account");
+    return value!.toString();
+  }
+
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+
+  get pTokenId(): BigInt {
+    let value = this.get("pTokenId");
+    return value!.toBigInt();
+  }
+
+  set pTokenId(value: BigInt) {
+    this.set("pTokenId", Value.fromBigInt(value));
+  }
+
+  get lTokenId(): BigInt {
+    let value = this.get("lTokenId");
+    return value!.toBigInt();
+  }
+
+  set lTokenId(value: BigInt) {
+    this.set("lTokenId", Value.fromBigInt(value));
+  }
+
+  get positions(): Array<string> {
+    let value = this.get("positions");
+    return value!.toStringArray();
+  }
+
+  set positions(value: Array<string>) {
+    this.set("positions", Value.fromStringArray(value));
+  }
+
+  get liquidities(): Array<string> {
+    let value = this.get("liquidities");
+    return value!.toStringArray();
+  }
+
+  set liquidities(value: Array<string>) {
+    this.set("liquidities", Value.fromStringArray(value));
+  }
+
+  get margins(): Array<string> {
+    let value = this.get("margins");
+    return value!.toStringArray();
+  }
+
+  set margins(value: Array<string>) {
+    this.set("margins", Value.fromStringArray(value));
+  }
+}
+
+export class Account extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Account entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Account must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Account", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Account | null {
+    return changetype<Account | null>(store.get("Account", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pools(): Array<string> {
+    let value = this.get("pools");
+    return value!.toStringArray();
+  }
+
+  set pools(value: Array<string>) {
+    this.set("pools", Value.fromStringArray(value));
   }
 }
