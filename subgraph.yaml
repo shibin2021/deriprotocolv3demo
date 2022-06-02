@@ -22,6 +22,8 @@ dataSources:
           file: ./abis/PoolImplementation.json
         - name: DTokenAbi
           file: ./abis/DToken.json
+        - name: SymbolManagerImplementationAbi
+          file: ./abis/SymbolManagerImplementation.json
       eventHandlers:
         - event: NewAdmin(indexed address)
           handler: handlePoolNewAdmin

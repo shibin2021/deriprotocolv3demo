@@ -1,9 +1,7 @@
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts"
 import { DTokenAbi } from "../../generated/PoolImplementation/DTokenAbi"
-import { AddMargin, PoolImplementationAbi } from "../../generated/PoolImplementation/PoolImplementationAbi"
 import { Account, DToken, Liquidity, LiquidityHistory, Margin, MarginHistory, OwnerTokenId, Pool, PoolAccount, Position, SymbolManager, TradeHistory } from "../../generated/schema"
-import { SymbolManagerImplementationAbi } from "../../generated/SymbolManagerImplementation/SymbolManagerImplementationAbi"
-import { POOL_ADDRESS } from "../mapping/helper"
+import { SymbolManagerImplementationAbi } from "../../generated/PoolImplementation/SymbolManagerImplementationAbi"
 import { ZERO_ADDRESS } from "../utils/constants"
 
 export const getOrInitPool = (address:Bytes): Pool => {
