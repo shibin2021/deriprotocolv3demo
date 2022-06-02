@@ -57,7 +57,7 @@ dataSources:
       eventHandlers:
         - event: Trade(indexed uint256,indexed bytes32,int256,int256,int256,int256)
           handler: handlePoolTrade
-      file: ./src/mapping/pool.ts
+      file: ./src/mapping/symbol_manager.ts
   # === PToken
   - kind: ethereum
     name: DTokenP
