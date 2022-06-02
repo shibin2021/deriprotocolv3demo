@@ -6,5 +6,6 @@ export function handleDTokenTransder(event: Transfer): void {
   ownerTokenId.token = event.address.toHexString()
   ownerTokenId.tokenId = event.params.tokenId.toString()
   ownerTokenId.owner = event.params.to
+  ownerTokenId.timestamp = event.block.timestamp.toI32()
   ownerTokenId.save()
 }
