@@ -415,13 +415,13 @@ export class MarginHistory extends Entity {
     this.set("amount", Value.fromBigInt(value));
   }
 
-  get newLiquidity(): BigInt {
-    let value = this.get("newLiquidity");
+  get newMargin(): BigInt {
+    let value = this.get("newMargin");
     return value!.toBigInt();
   }
 
-  set newLiquidity(value: BigInt) {
-    this.set("newLiquidity", Value.fromBigInt(value));
+  set newMargin(value: BigInt) {
+    this.set("newMargin", Value.fromBigInt(value));
   }
 
   get timestamp(): i32 {

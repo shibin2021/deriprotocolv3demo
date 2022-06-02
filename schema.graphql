@@ -45,7 +45,7 @@ type MarginHistory @entity {
   bToken: String!
   pTokenId: BigInt!
   amount: BigInt!
-  newLiquidity: BigInt!
+  newMargin: BigInt!
   timestamp: Int!
 }
 
