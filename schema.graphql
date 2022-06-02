@@ -83,7 +83,6 @@ type Position @entity {
   symbolId: Bytes!
   pTokenId: BigInt!
   volume: BigInt!
-  cost: BigInt!
   timestamp: Int!
 }
 

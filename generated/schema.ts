@@ -736,15 +736,6 @@ export class Position extends Entity {
     this.set("volume", Value.fromBigInt(value));
   }
 
-  get cost(): BigInt {
-    let value = this.get("cost");
-    return value!.toBigInt();
-  }
-
-  set cost(value: BigInt) {
-    this.set("cost", Value.fromBigInt(value));
-  }
-
   get timestamp(): i32 {
     let value = this.get("timestamp");
     return value!.toI32();
