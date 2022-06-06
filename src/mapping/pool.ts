@@ -1,4 +1,4 @@
-import { BigInt, ByteArray } from "@graphprotocol/graph-ts"
+import { Address, BigInt, ByteArray } from "@graphprotocol/graph-ts"
 import {
   PoolImplementationAbi,
   NewAdmin,
@@ -63,6 +63,13 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   liquidityHistory.account = event.transaction.from
   liquidityHistory.newLiquidity = event.params.newLiquidity
   liquidityHistory.save()
+  
+  // update poolLiquidity
+  
+  const poolContract = PoolImplementationAbi.bind(Address.fromBytes(event.address))
+  const pool = getOrInitPool(event.address)
+  pool.poolLiquidity = poolContract.liquidity()
+  pool.save()
 }
 
 export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
@@ -90,6 +97,11 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   liquidityHistory.account = event.transaction.from
   liquidityHistory.newLiquidity = event.params.newLiquidity
   liquidityHistory.save()
+
+  const poolContract = PoolImplementationAbi.bind(Address.fromBytes(event.address))
+  const pool = getOrInitPool(event.address)
+  pool.poolLiquidity = poolContract.liquidity()
+  pool.save()
 }
 
 export function handlePoolAddMargin(event: AddMargin): void {

@@ -867,6 +867,15 @@ export class Pool extends Entity {
     this.set("protocolFeeCollector", Value.fromBytes(value));
   }
 
+  get poolLiquidity(): BigInt {
+    let value = this.get("poolLiquidity");
+    return value!.toBigInt();
+  }
+
+  set poolLiquidity(value: BigInt) {
+    this.set("poolLiquidity", Value.fromBigInt(value));
+  }
+
   get liquidityHistory(): Array<string> {
     let value = this.get("liquidityHistory");
     return value!.toStringArray();
@@ -892,6 +901,15 @@ export class Pool extends Entity {
 
   set liquidity(value: Array<string>) {
     this.set("liquidity", Value.fromStringArray(value));
+  }
+
+  get margin(): Array<string> {
+    let value = this.get("margin");
+    return value!.toStringArray();
+  }
+
+  set margin(value: Array<string>) {
+    this.set("margin", Value.fromStringArray(value));
   }
 
   get position(): Array<string> {
