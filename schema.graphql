@@ -98,7 +98,7 @@ type Pool @entity {
   tokenWETH: Bytes!
   vaultImplementation: Bytes!
   protocolFeeCollector: Bytes!
-  poolLiquidity: BigInt!
+  poolLiquidity: BigDecimal!
   liquidityHistory: [LiquidityHistory!]! @derivedFrom(field: "pool")
   tradeHistory: [TradeHistory!]! @derivedFrom(field: "pool")
   liquidity: [Liquidity!]! @derivedFrom(field: "pool")

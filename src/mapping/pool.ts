@@ -13,6 +13,7 @@ import {
 } from "../../generated/SymbolManagerImplementation/SymbolManagerImplementationAbi"
 import { Pool, Liquidity, DToken } from "../../generated/schema"
 import { getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
+import { formatDecimal } from "../utils/converters"
 
 export function handlePoolNewAdmin(event: NewAdmin): void {
     let pool = getOrInitPool(event.address)
@@ -65,10 +66,9 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   liquidityHistory.save()
   
   // update poolLiquidity
-  
   const poolContract = PoolImplementationAbi.bind(Address.fromBytes(event.address))
   const pool = getOrInitPool(event.address)
-  pool.poolLiquidity = poolContract.liquidity()
+  pool.poolLiquidity = formatDecimal(poolContract.liquidity())
   pool.save()
 }
 
@@ -100,7 +100,7 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
 
   const poolContract = PoolImplementationAbi.bind(Address.fromBytes(event.address))
   const pool = getOrInitPool(event.address)
-  pool.poolLiquidity = poolContract.liquidity()
+  pool.poolLiquidity = formatDecimal(poolContract.liquidity())
   pool.save()
 }
 

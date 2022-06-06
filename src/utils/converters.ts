@@ -32,13 +32,12 @@ export function expToBigInt(decimals: i32): BigInt {
   return bi;
 }
 // @ts-ignore
-export function formatDecimals(amount: BigInt, decimals: i32): BigDecimal {
+export function formatDecimal(amount: BigInt, decimals: i32 = 18): BigDecimal {
   return amount.toBigDecimal().div(expToBigDecimal(decimals));
 }
 
-
-export function format18(price: BigInt): BigInt {
+export function formatInteger(price: BigInt, decimals: i32 = 18): BigInt {
   // IF the price is 0
   if (price == BigInt.fromI32(0)) return price;
-  return expToBigInt(18).div(price);
+  return price.div(expToBigInt(decimals))
 }

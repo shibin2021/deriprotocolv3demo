@@ -867,13 +867,13 @@ export class Pool extends Entity {
     this.set("protocolFeeCollector", Value.fromBytes(value));
   }
 
-  get poolLiquidity(): BigInt {
+  get poolLiquidity(): BigDecimal {
     let value = this.get("poolLiquidity");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set poolLiquidity(value: BigInt) {
-    this.set("poolLiquidity", Value.fromBigInt(value));
+  set poolLiquidity(value: BigDecimal) {
+    this.set("poolLiquidity", Value.fromBigDecimal(value));
   }
 
   get liquidityHistory(): Array<string> {
