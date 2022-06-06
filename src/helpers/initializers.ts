@@ -3,6 +3,7 @@ import { DTokenAbi } from "../../generated/PoolImplementation/DTokenAbi"
 import { Account, DToken, Liquidity, LiquidityHistory, Margin, MarginHistory, OwnerTokenId, Pool, PoolAccount, Position, SymbolManager, TradeHistory } from "../../generated/schema"
 import { SymbolManagerImplementationAbi } from "../../generated/PoolImplementation/SymbolManagerImplementationAbi"
 import { ZERO_ADDRESS } from "../utils/constants"
+import { zeroBI } from "../utils/converters"
 
 export const getOrInitPool = (address:Bytes): Pool => {
   const id = address.toHexString()
@@ -19,6 +20,7 @@ export const getOrInitPool = (address:Bytes): Pool => {
     pool.tokenWETH            = Bytes.fromHexString(ZERO_ADDRESS)
     pool.vaultImplementation  = Bytes.fromHexString(ZERO_ADDRESS)
     pool.protocolFeeCollector = Bytes.fromHexString(ZERO_ADDRESS)
+    pool.poolLiquidity = zeroBI()
     pool.save()
   }
   return pool
