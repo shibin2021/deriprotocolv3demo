@@ -915,6 +915,32 @@
         "stateMutability": "view",
         "type": "function"
     },
+        {
+      "inputs": [],
+      "name": "marketB0",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "marketWETH",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
     {
         "inputs": [
             {

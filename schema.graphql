@@ -12,6 +12,73 @@ type OwnerTokenId @entity {
   timestamp: Int!
 }
 
+type Vault @entity {
+  id: ID!
+  aavePool: Bytes!
+  aaveOracle: Bytes!
+}
+
+type BToken @entity {
+  id: ID!
+  bToken: Bytes!
+  bTokenSymbol: String!
+  market: Bytes!
+  marketSymbol: String!
+  bTokenPrice: BigInt!
+  collateralFactor: BigDecimal!
+  pool: Pool!
+}
+
+type Symbol @entity {
+  id: ID!
+  category: String!
+  symbol: String!
+  symbolAddress: Bytes!
+  manager: Bytes!
+  oracleManager: Bytes!
+  symbolId: Bytes!
+  feeRatio: BigInt!
+  alpha: BigInt!
+  fundingPeriod: BigInt!
+  minTradeVolume: BigInt!
+  minInitialMarginRatio: BigInt!
+  initialMarginRatio: BigInt!
+  maintenanceMarginRatio: BigInt!
+  pricePercentThreshold: BigInt!
+  timeThreshold: BigInt!
+  isCloseOnly: Boolean!
+  priceId: Bytes!
+  volatilityId: Bytes!
+  feeRatioITM: BigInt!
+  feeRatioOTM: BigInt!
+  strikePrice: BigInt!
+  isCall: Boolean!
+
+  netVolume: BigInt!
+  netCost: BigInt!
+  indexPrice: BigInt!
+  fundingTimestamp: BigInt!
+  cumulativeFundingPerVolume: BigInt!
+  tradersPnl: BigInt!
+  initialMarginRequired: BigInt!
+  nPositionHolders: BigInt!
+
+  curIndexPrice: BigInt!
+  curVolatility: BigInt!
+  curCumulativeFundingPerVolume: BigInt!
+  K: BigInt!
+  markPrice: BigInt!
+  funding: BigInt!
+  timeValue: BigInt!
+  delta: BigInt!
+  u: BigInt!
+
+  power: BigInt!
+  hT: BigInt!
+  powerPrice: BigInt!
+  theoreticalPrice: BigInt!
+}
+
 type LiquidityHistory @entity {
   id: ID!
   pool: Pool!
@@ -96,6 +163,8 @@ type Pool @entity {
   swapper: Bytes!
   tokenB0: Bytes!
   tokenWETH: Bytes!
+  marketB0: Bytes!
+  marketWETH: Bytes!
   vaultImplementation: Bytes!
   protocolFeeCollector: Bytes!
   poolLiquidity: BigDecimal!

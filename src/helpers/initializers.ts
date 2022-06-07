@@ -1,9 +1,9 @@
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts"
 import { DTokenAbi } from "../../generated/PoolImplementation/DTokenAbi"
-import { Account, DToken, Liquidity, LiquidityHistory, Margin, MarginHistory, OwnerTokenId, Pool, PoolAccount, Position, SymbolManager, TradeHistory } from "../../generated/schema"
+import { Account, BToken, DToken, Liquidity, LiquidityHistory, Margin, MarginHistory, OwnerTokenId, Pool, PoolAccount, Position, SymbolManager, TradeHistory, Vault } from "../../generated/schema"
 import { SymbolManagerImplementationAbi } from "../../generated/PoolImplementation/SymbolManagerImplementationAbi"
 import { ZERO_ADDRESS } from "../utils/constants"
-import { zeroBD, zeroBI } from "../utils/converters"
+import { zeroAddress, zeroBD, zeroBI } from "../utils/converters"
 
 export const getOrInitPool = (address:Bytes): Pool => {
   const id = address.toHexString()
@@ -18,6 +18,8 @@ export const getOrInitPool = (address:Bytes): Pool => {
     pool.swapper              = Bytes.fromHexString(ZERO_ADDRESS)
     pool.tokenB0              = Bytes.fromHexString(ZERO_ADDRESS)
     pool.tokenWETH            = Bytes.fromHexString(ZERO_ADDRESS)
+    pool.marketB0             = Bytes.fromHexString(ZERO_ADDRESS)
+    pool.marketWETH           = Bytes.fromHexString(ZERO_ADDRESS)
     pool.vaultImplementation  = Bytes.fromHexString(ZERO_ADDRESS)
     pool.protocolFeeCollector = Bytes.fromHexString(ZERO_ADDRESS)
     pool.poolLiquidity = zeroBD()
@@ -140,4 +142,31 @@ export const getOrInitPoolAccount = (account:Bytes, pool: Bytes): PoolAccount =>
     poolAccount.save()
   }
   return poolAccount
+}
+
+export const getOrInitBToken = (id:Bytes): BToken => {
+  let bToken = BToken.load(id.toHexString())
+  if (!bToken) {
+    bToken = new BToken(id.toHexString())
+    bToken.bToken= zeroAddress()
+    bToken.bTokenSymbol = ''
+    bToken.market = zeroAddress()
+    bToken.marketSymbol = ''
+    bToken.bTokenPrice = zeroBI()
+    bToken.collateralFactor = zeroBD()
+    bToken.pool = zeroAddress().toHexString()
+    bToken.save()
+  }
+  return bToken
+}
+
+export const getOrInitVault = (id:Bytes): Vault => {
+  let vault = Vault.load(id.toHexString())
+  if (!vault) {
+    vault = new Vault(id.toHexString())
+    vault.aavePool = zeroAddress()
+    vault.aaveOracle = zeroAddress()
+    vault.save()
+  }
+  return vault
 }

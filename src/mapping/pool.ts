@@ -1,4 +1,4 @@
-import { Address, BigInt, ByteArray } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts"
 import {
   PoolImplementationAbi,
   NewAdmin,
@@ -9,10 +9,19 @@ import {
   RemoveMargin,
 } from "../../generated/PoolImplementation/PoolImplementationAbi"
 import {
-  Trade
-} from "../../generated/SymbolManagerImplementation/SymbolManagerImplementationAbi"
+  VaultImplementationAbi
+} from "../../generated/PoolImplementation/VaultImplementationAbi"
+import {
+  AavePoolAbi
+} from "../../generated/PoolImplementation/AavePoolAbi"
+import {
+  AaveOracleAbi
+} from "../../generated/PoolImplementation/AaveOracleAbi"
+import {
+  ERC20Abi
+} from "../../generated/PoolImplementation/ERC20Abi"
 import { Pool, Liquidity, DToken } from "../../generated/schema"
-import { getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
+import { getOrInitBToken, getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory, getOrInitVault } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
 
 export function handlePoolNewAdmin(event: NewAdmin): void {
@@ -33,10 +42,37 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
   pool.swapper = contract.swapper()
   pool.tokenB0 = contract.tokenB0()
   pool.tokenWETH = contract.tokenWETH()
+  pool.marketB0 = contract.marketB0()
+  pool.marketWETH = contract.marketWETH()
   pool.vaultImplementation = contract.vaultImplementation()
   pool.protocolFeeCollector = contract.protocolFeeCollector()
   pool.implementation = event.params.newImplementation
   pool.save()
+
+  const vaultImplementationContract = VaultImplementationAbi.bind(Address.fromBytes(pool.vaultImplementation))
+  const vault = getOrInitVault(pool.vaultImplementation)
+  vault.aavePool = vaultImplementationContract.aavePool()
+  vault.aaveOracle = vaultImplementationContract.aaveOracle()
+  vault.save()
+
+  const aavePoolContract = AavePoolAbi.bind(Address.fromBytes(vault.aavePool))
+  const aaveOracleContract = AaveOracleAbi.bind(Address.fromBytes(vault.aaveOracle))
+  const allAssets = aavePoolContract.getReservesList()
+  for (let i = 0; i < allAssets.length; i++) {
+    const asset = allAssets[i]
+    const bToken = getOrInitBToken(asset)
+    const configData = aavePoolContract.getConfiguration(asset).toHexString()
+    const market = asset === pool.tokenB0 ? pool.marketB0 : asset === pool.tokenWETH ? pool.marketWETH : contract.markets(asset)
+
+    bToken.bToken = asset
+    bToken.bTokenSymbol = ERC20Abi.bind(Address.fromBytes(asset)).symbol()
+    bToken.market = market
+    bToken.marketSymbol = ERC20Abi.bind(Address.fromBytes(market)).symbol()
+    bToken.bTokenPrice = aaveOracleContract.getAssetPrice(asset).div(aaveOracleContract.BASE_CURRENCY_UNIT())
+    bToken.collateralFactor = BigInt.fromByteArray(ByteArray.fromHexString(`${configData.slice(configData.length - 4)}`)).toBigDecimal().div(BigDecimal.fromString("10000"))
+    bToken.pool = pool.id
+    bToken.save()
+  }
 }
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {

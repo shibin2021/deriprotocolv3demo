@@ -764,6 +764,36 @@ export class PoolImplementationAbi extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  marketB0(): Address {
+    let result = super.call("marketB0", "marketB0():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_marketB0(): ethereum.CallResult<Address> {
+    let result = super.tryCall("marketB0", "marketB0():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  marketWETH(): Address {
+    let result = super.call("marketWETH", "marketWETH():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_marketWETH(): ethereum.CallResult<Address> {
+    let result = super.tryCall("marketWETH", "marketWETH():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   vTokenB0(): Address {
     let result = super.call("vTokenB0", "vTokenB0():(address)", []);
 

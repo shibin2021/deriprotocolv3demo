@@ -17,6 +17,8 @@ dataSources:
       entities:
         - Pool
         - Liquidity
+        - Margin
+        - Position
       abis:
         - name: PoolImplementationAbi
           file: ./abis/PoolImplementation.json
@@ -24,6 +26,14 @@ dataSources:
           file: ./abis/DToken.json
         - name: SymbolManagerImplementationAbi
           file: ./abis/SymbolManagerImplementation.json
+        - name: VaultImplementationAbi
+          file: ./abis/VaultImplementation.json
+        - name: AavePoolAbi 
+          file: ./abis/AavePool.json
+        - name: AaveOracleAbi
+          file: ./abis/AaveOracle.json
+        - name: ERC20Abi
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: NewAdmin(indexed address)
           handler: handlePoolNewAdmin
@@ -52,7 +62,6 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Pool
-        - Liquidity
       abis:
         - name: SymbolManagerImplementationAbi
           file: ./abis/SymbolManagerImplementation.json
