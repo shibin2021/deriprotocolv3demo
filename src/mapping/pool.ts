@@ -64,9 +64,9 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     const bToken = getOrInitBToken(asset)
     const configData = aavePoolContract.getConfiguration(asset).toHexString()
     let market:Bytes
-    if (asset.toHexString() === pool.tokenB0.toHexString()) {
+    if (asset.toHexString().toLowerCase() === pool.tokenB0.toHexString().toLowerCase()) {
       market = pool.marketB0
-    } else if (asset.toHexString() === pool.tokenWETH.toHexString()) {
+    } else if (asset.toHexString().toLowerCase() === pool.tokenWETH.toHexString().toLowerCase()) {
       market = pool.marketWETH
     } else {
       market = contract.markets(asset)
@@ -75,7 +75,7 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     const marketContract = ERC20Abi.bind(Address.fromBytes(market))
 
     // ignore not support market
-    if (market.toHexString() === ZERO_ADDRESS) {
+    if (market.toHexString().toLowerCase() === ZERO_ADDRESS.toLowerCase()) {
       continue
     }
     bToken.bToken = asset
