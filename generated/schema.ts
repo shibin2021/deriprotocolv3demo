@@ -1449,6 +1449,15 @@ export class Pool extends Entity {
     this.set("protocolFeeCollector", Value.fromBytes(value));
   }
 
+  get bTokens(): Array<string> {
+    let value = this.get("bTokens");
+    return value!.toStringArray();
+  }
+
+  set bTokens(value: Array<string>) {
+    this.set("bTokens", Value.fromStringArray(value));
+  }
+
   get poolLiquidity(): BigDecimal {
     let value = this.get("poolLiquidity");
     return value!.toBigDecimal();
@@ -1456,33 +1465,6 @@ export class Pool extends Entity {
 
   set poolLiquidity(value: BigDecimal) {
     this.set("poolLiquidity", Value.fromBigDecimal(value));
-  }
-
-  get liquidityHistory(): Array<string> {
-    let value = this.get("liquidityHistory");
-    return value!.toStringArray();
-  }
-
-  set liquidityHistory(value: Array<string>) {
-    this.set("liquidityHistory", Value.fromStringArray(value));
-  }
-
-  get tradeHistory(): Array<string> {
-    let value = this.get("tradeHistory");
-    return value!.toStringArray();
-  }
-
-  set tradeHistory(value: Array<string>) {
-    this.set("tradeHistory", Value.fromStringArray(value));
-  }
-
-  get liquidity(): Array<string> {
-    let value = this.get("liquidity");
-    return value!.toStringArray();
-  }
-
-  set liquidity(value: Array<string>) {
-    this.set("liquidity", Value.fromStringArray(value));
   }
 
   get margin(): Array<string> {
@@ -1501,6 +1483,42 @@ export class Pool extends Entity {
 
   set position(value: Array<string>) {
     this.set("position", Value.fromStringArray(value));
+  }
+
+  get liquidity(): Array<string> {
+    let value = this.get("liquidity");
+    return value!.toStringArray();
+  }
+
+  set liquidity(value: Array<string>) {
+    this.set("liquidity", Value.fromStringArray(value));
+  }
+
+  get liquidityHistory(): Array<string> {
+    let value = this.get("liquidityHistory");
+    return value!.toStringArray();
+  }
+
+  set liquidityHistory(value: Array<string>) {
+    this.set("liquidityHistory", Value.fromStringArray(value));
+  }
+
+  get marginHistory(): Array<string> {
+    let value = this.get("marginHistory");
+    return value!.toStringArray();
+  }
+
+  set marginHistory(value: Array<string>) {
+    this.set("marginHistory", Value.fromStringArray(value));
+  }
+
+  get tradeHistory(): Array<string> {
+    let value = this.get("tradeHistory");
+    return value!.toStringArray();
+  }
+
+  set tradeHistory(value: Array<string>) {
+    this.set("tradeHistory", Value.fromStringArray(value));
   }
 }
 

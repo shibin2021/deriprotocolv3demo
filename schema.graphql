@@ -157,6 +157,7 @@ type Pool @entity {
   id: ID!
   admin: Bytes!
   implementation: Bytes!
+  # parameter
   pToken: DToken!
   lToken: DToken!
   symbolManager: SymbolManager!
@@ -167,12 +168,17 @@ type Pool @entity {
   marketWETH: Bytes!
   vaultImplementation: Bytes!
   protocolFeeCollector: Bytes!
+  # bToken & symbols
+  bTokens: [BToken!]! @derivedFrom(field: "pool")
+  # state
   poolLiquidity: BigDecimal!
-  liquidityHistory: [LiquidityHistory!]! @derivedFrom(field: "pool")
-  tradeHistory: [TradeHistory!]! @derivedFrom(field: "pool")
-  liquidity: [Liquidity!]! @derivedFrom(field: "pool")
   margin: [Margin!]! @derivedFrom(field: "pool")
   position: [Position!]! @derivedFrom(field: "pool")
+  liquidity: [Liquidity!]! @derivedFrom(field: "pool")
+  # events
+  liquidityHistory: [LiquidityHistory!]! @derivedFrom(field: "pool")
+  marginHistory: [MarginHistory!]! @derivedFrom(field: "pool")
+  tradeHistory: [TradeHistory!]! @derivedFrom(field: "pool")
 }
 
 type SymbolManager @entity {
