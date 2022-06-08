@@ -78,7 +78,7 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     bToken.bTokenPrice = aaveOracleContract.getAssetPrice(asset).toBigDecimal()
       .div(aaveOracleContract.BASE_CURRENCY_UNIT().toBigDecimal())
     bToken.collateralFactor = BigInt.fromByteArray(ByteArray.fromHexString(configData.slice(configData.length - 4))).toBigDecimal().div(BigDecimal.fromString("10000"))
-    bToken.test1 = BigInt.fromUnsignedBytes(Bytes.fromHexString(configData.slice(configData.length - 4)))
+    bToken.test1 = BigInt.fromI32(I32.parseInt(configData.slice(configData.length - 4), 16))
     bToken.test2 = configData.slice(configData.length - 4)
     bToken.pool = pool.id
     bToken.save()
