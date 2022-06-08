@@ -63,14 +63,7 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     const asset = allAssets[i]
     const bToken = getOrInitBToken(asset)
     const configData = aavePoolContract.getConfiguration(asset).toHexString()
-    let market:Bytes
-    if (asset === pool.tokenB0) {
-      market = pool.marketB0
-    } else if (asset === pool.tokenWETH) {
-      market = pool.marketWETH
-    } else {
-      market = contract.markets(asset)
-    }
+    const market = (asset === pool.tokenB0) ? pool.marketB0 : (asset === pool.tokenWETH) ? pool.marketWETH : contract.markets(asset)
     const bTokenContract = ERC20Abi.bind(Address.fromBytes(asset))
     const marketContract = ERC20Abi.bind(Address.fromBytes(market))
 
