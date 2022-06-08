@@ -67,7 +67,7 @@ export const getOrInitLiquidity = (tokenId:BigInt, bTokenAddress: Bytes, event: 
   let liquidity = Liquidity.load(id)
   if (!liquidity) {
     liquidity = new Liquidity(id)
-    liquidity.liquidity = BigInt.fromI32(0)
+    liquidity.liquidity = BigDecimal.fromString('0')
   }
   return liquidity
 }
@@ -77,7 +77,7 @@ export const getOrInitLiquidityHistory = (tokenId: BigInt, bTokenAddress: Bytes,
   let liquidityHistory = LiquidityHistory.load(id)
   if (!liquidityHistory) {
     liquidityHistory = new LiquidityHistory(id)
-    liquidityHistory.amount = BigInt.fromI32(0)
+    liquidityHistory.amount = BigDecimal.fromString("0")
   }
   return liquidityHistory
 }
@@ -87,7 +87,7 @@ export const getOrInitMargin = (tokenId:BigInt, bTokenAddress: Bytes, event: eth
   let margin = Margin.load(id)
   if (!margin) {
     margin = new Margin(id)
-    margin.margin = BigInt.fromI32(0)
+    margin.margin = BigDecimal.fromString('0')
   }
   return margin
 }
@@ -97,7 +97,7 @@ export const getOrInitMarginHistory = (tokenId:BigInt, bTokenAddress: Bytes, eve
   let marginHistory = MarginHistory.load(id)
   if (!marginHistory) {
     marginHistory = new MarginHistory(id)
-    marginHistory.amount = BigInt.fromI32(0)
+    marginHistory.amount = BigDecimal.fromString("0")
   }
   return marginHistory
 }
@@ -116,7 +116,7 @@ export const getOrInitPosition = (tokenId:BigInt, symbolId: Bytes, event: ethere
   let position = Position.load(id)
   if (!position) {
     position = new Position(id)
-    position.volume = BigInt.fromI32(0)
+    position.volume = BigDecimal.fromString('0')
   }
   return position
 }

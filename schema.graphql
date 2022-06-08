@@ -72,11 +72,12 @@ type LiquidityHistory @entity {
   id: ID!
   pool: Pool!
   account: Bytes!
-  bTokenAddress: Bytes!
-  bToken: String!
+  action: String!
+  bToken: Bytes!
+  bTokenSymbol: String!
   lTokenId: BigInt!
-  amount: BigInt!
-  newLiquidity: BigInt!
+  amount: BigDecimal!
+  newLiquidity: BigDecimal!
   timestamp: Int!
 }
 
@@ -85,10 +86,10 @@ type Liquidity @entity {
   pool: Pool!
   poolAccount: PoolAccount!
   # account: Bytes!
-  bTokenAddress: Bytes!
-  bToken: String!
+  bToken: Bytes!
+  bTokenSymbol: String!
   lTokenId: BigInt!
-  liquidity: BigInt!
+  liquidity: BigDecimal!
   timestamp: Int!
 }
 
@@ -97,11 +98,12 @@ type MarginHistory @entity {
   id: ID!
   pool: Pool!
   account: Bytes!
-  bTokenAddress: Bytes!
-  bToken: String!
+  action: String!
+  bToken: Bytes!
+  bTokenSymbol: String!
   pTokenId: BigInt!
-  amount: BigInt!
-  newMargin: BigInt!
+  amount: BigDecimal!
+  newMargin: BigDecimal!
   timestamp: Int!
 }
 
@@ -110,24 +112,25 @@ type Margin @entity {
   pool: Pool!
   poolAccount: PoolAccount!
   # account: Bytes!
-  bTokenAddress: Bytes!
-  bToken: String!
+  bToken: Bytes!
+  bTokenSymbol: String!
   pTokenId: BigInt!
-  margin: BigInt!
+  margin: BigDecimal!
   timestamp: Int!
 }
 
 type TradeHistory @entity {
   id: ID!
   pool: Pool!
+  action: String!
   account: Bytes!
   symbol: String!
   symbolId: Bytes!
   pTokenId: BigInt!
-  indexPrice: BigInt!
-  tradeVolume: BigInt!
-  tradeCost: BigInt!
-  tradeFee: BigInt!
+  indexPrice: BigDecimal!
+  tradeVolume: BigDecimal!
+  tradeCost: BigDecimal!
+  tradeFee: BigDecimal!
   timestamp: Int!
 }
 
@@ -138,7 +141,7 @@ type Position @entity {
   symbol: String!
   symbolId: Bytes!
   pTokenId: BigInt!
-  volume: BigInt!
+  volume: BigDecimal!
   timestamp: Int!
 }
 

@@ -20,8 +20,7 @@ import {
 import {
   ERC20Abi
 } from "../../generated/Pool/ERC20Abi"
-import { Pool, Liquidity, DToken } from "../../generated/schema"
-import { getOrInitBToken, getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory, getOrInitVault } from "../helpers/initializers"
+import { getOrInitBToken, getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPoolAccount, getOrInitSymbolManager, getOrInitVault } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
 import { ZERO_ADDRESS } from "../utils/constants"
 import { initSymbols } from "./helper"
@@ -91,12 +90,14 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {
   const lTokenId = event.params.lTokenId
-  const bTokenAddress = event.params.underlying
-  let liquidity = getOrInitLiquidity(lTokenId, bTokenAddress, event)
-  liquidity.bTokenAddress = bTokenAddress
-  liquidity.bToken = ""
+  const bToken = event.params.underlying
+  const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
+  const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
+  let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
+  liquidity.bToken = bToken
+  liquidity.bTokenSymbol = bTokenSymbol
   liquidity.lTokenId = lTokenId
-  liquidity.liquidity = liquidity.liquidity.plus(event.params.amount)
+  liquidity.liquidity = liquidity.liquidity
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
   const account = event.transaction.from
@@ -104,15 +105,16 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   liquidity.poolAccount = poolAccount.id
   liquidity.save()
 
-  let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bTokenAddress, event)
-  liquidityHistory.bTokenAddress = bTokenAddress
-  liquidityHistory.bToken = ""
+  let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bToken, event)
+  liquidityHistory.bToken = bToken
+  liquidityHistory.bTokenSymbol = bTokenSymbol
   liquidityHistory.lTokenId = lTokenId
-  liquidityHistory.amount = liquidityHistory.amount.plus(event.params.amount)
+  liquidityHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
   liquidityHistory.timestamp = event.block.timestamp.toI32()
   liquidityHistory.pool = event.address.toHexString()
   liquidityHistory.account = event.transaction.from
-  liquidityHistory.newLiquidity = event.params.newLiquidity
+  liquidityHistory.newLiquidity = formatDecimal(event.params.newLiquidity)
+  liquidityHistory.action = 'addLiquidity'
   liquidityHistory.save()
   
   // update poolLiquidity
@@ -124,12 +126,14 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
 
 export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   const lTokenId = event.params.lTokenId
-  const bTokenAddress = event.params.underlying
-  let liquidity = getOrInitLiquidity(lTokenId, bTokenAddress, event)
-  liquidity.bTokenAddress = bTokenAddress
-  liquidity.bToken = ""
+  const bToken = event.params.underlying
+  const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
+  const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
+  let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
+  liquidity.bToken = bToken
+  liquidity.bTokenSymbol = bTokenSymbol
   liquidity.lTokenId = lTokenId
-  liquidity.liquidity = liquidity.liquidity.plus(event.params.amount)
+  liquidity.liquidity = liquidity.liquidity
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
   const account = event.transaction.from
@@ -137,15 +141,16 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   liquidity.poolAccount = poolAccount.id
   liquidity.save()
 
-  let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bTokenAddress, event)
-  liquidityHistory.bTokenAddress = bTokenAddress
-  liquidityHistory.bToken = ""
+  let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bToken, event)
+  liquidityHistory.bToken = bToken
+  liquidityHistory.bTokenSymbol = bTokenSymbol
   liquidityHistory.lTokenId = lTokenId
-  liquidityHistory.amount = liquidityHistory.amount.plus(event.params.amount)
+  liquidityHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
   liquidityHistory.timestamp = event.block.timestamp.toI32()
   liquidityHistory.pool = event.address.toHexString()
   liquidityHistory.account = event.transaction.from
-  liquidityHistory.newLiquidity = event.params.newLiquidity
+  liquidityHistory.newLiquidity = formatDecimal(event.params.newLiquidity)
+  liquidityHistory.action = 'removeLiquidity'
   liquidityHistory.save()
 
   const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
@@ -156,12 +161,14 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
 
 export function handlePoolAddMargin(event: AddMargin): void {
   const pTokenId = event.params.pTokenId
-  const bTokenAddress = event.params.underlying
-  let margin = getOrInitMargin(pTokenId, bTokenAddress, event)
-  margin.bTokenAddress = bTokenAddress
-  margin.bToken = ""
+  const bToken = event.params.underlying
+  const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
+  const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
+  let margin = getOrInitMargin(pTokenId, bToken, event)
+  margin.bToken = bToken
+  margin.bTokenSymbol = bTokenSymbol
   margin.pTokenId = pTokenId
-  margin.margin = margin.margin.plus(event.params.amount)
+  margin.margin = margin.margin
   margin.timestamp = event.block.timestamp.toI32()
   margin.pool = event.address.toHexString()
   const account = event.transaction.from
@@ -169,26 +176,29 @@ export function handlePoolAddMargin(event: AddMargin): void {
   margin.poolAccount = poolAccount.id
   margin.save()
 
-  let marginHistory = getOrInitMarginHistory(pTokenId, bTokenAddress, event)
-  marginHistory.bTokenAddress = bTokenAddress
-  marginHistory.bToken = ""
+  let marginHistory = getOrInitMarginHistory(pTokenId, bToken, event)
+  marginHistory.bToken = bToken
+  marginHistory.bTokenSymbol = bTokenSymbol
   marginHistory.pTokenId = pTokenId
-  marginHistory.amount = marginHistory.amount.plus(event.params.amount)
+  marginHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
   marginHistory.timestamp = event.block.timestamp.toI32()
   marginHistory.pool = event.address.toHexString()
   marginHistory.account = event.transaction.from
-  marginHistory.newMargin = event.params.newMargin
+  marginHistory.newMargin = formatDecimal(event.params.newMargin)
+  marginHistory.action = 'addMargin'
   marginHistory.save()
 }
 
 export function handlePoolRemoveMargin(event: RemoveMargin): void {
   const pTokenId = event.params.pTokenId
-  const bTokenAddress = event.params.underlying
-  let margin = getOrInitMargin(pTokenId, bTokenAddress, event)
-  margin.bTokenAddress = bTokenAddress
-  margin.bToken = ""
+  const bToken = event.params.underlying
+  const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
+  const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
+  let margin = getOrInitMargin(pTokenId, bToken, event)
+  margin.bToken = bToken
+  margin.bTokenSymbol = bTokenSymbol
   margin.pTokenId = pTokenId
-  margin.margin = margin.margin.plus(event.params.amount)
+  margin.margin = margin.margin
   margin.timestamp = event.block.timestamp.toI32()
   margin.pool = event.address.toHexString()
   const account = event.transaction.from
@@ -196,15 +206,16 @@ export function handlePoolRemoveMargin(event: RemoveMargin): void {
   margin.poolAccount = poolAccount.id
   margin.save()
 
-  let marginHistory = getOrInitMarginHistory(pTokenId, bTokenAddress, event)
-  marginHistory.bTokenAddress = bTokenAddress
-  marginHistory.bToken = ""
+  let marginHistory = getOrInitMarginHistory(pTokenId, bToken, event)
+  marginHistory.bToken = bToken
+  marginHistory.bTokenSymbol = bTokenSymbol
   marginHistory.pTokenId = pTokenId
-  marginHistory.amount = marginHistory.amount.plus(event.params.amount)
+  marginHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
   marginHistory.timestamp = event.block.timestamp.toI32()
   marginHistory.pool = event.address.toHexString()
   marginHistory.account = event.transaction.from
-  marginHistory.newMargin = event.params.newMargin
+  marginHistory.newMargin = formatDecimal(event.params.newMargin)
+  marginHistory.action = 'removeMargin'
   marginHistory.save()
 }
 

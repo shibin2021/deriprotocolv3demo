@@ -1,6 +1,7 @@
-import { ByteArray, Bytes } from "@graphprotocol/graph-ts"
+import { BigDecimal, ByteArray, Bytes } from "@graphprotocol/graph-ts"
 import { Trade } from "../../generated/SymbolManager/SymbolManagerAbi"
 import { getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
+import { formatDecimal } from "../utils/converters"
 
 // pTokenId, symbolId, indexPrice,tradeVolume,tradeCost,tradeFee
 export function handlePoolTrade(event: Trade): void {
@@ -10,21 +11,26 @@ export function handlePoolTrade(event: Trade): void {
   tradeHistory.symbolId = symbolId
   tradeHistory.symbol = ""
   tradeHistory.pTokenId = pTokenId
-  tradeHistory.indexPrice = event.params.indexPrice
-  tradeHistory.tradeVolume = event.params.tradeVolume
-  tradeHistory.tradeCost = event.params.tradeCost
-  tradeHistory.tradeFee = event.params.tradeFee
+  tradeHistory.indexPrice = formatDecimal(event.params.indexPrice)
+  tradeHistory.tradeVolume = formatDecimal(event.params.tradeVolume)
+  tradeHistory.tradeCost = formatDecimal(event.params.tradeCost)
+  tradeHistory.tradeFee = formatDecimal(event.params.tradeFee)
   tradeHistory.timestamp = event.block.timestamp.toI32()
   const symbolManager = getOrInitSymbolManager(event.address)
   tradeHistory.pool = symbolManager.pool
   tradeHistory.account = event.transaction.from
+  tradeHistory.action = tradeHistory.tradeFee.equals(BigDecimal.fromString('-0.00000000000000001'))
+    ? "liquidation"
+    : tradeHistory.tradeVolume.gt(BigDecimal.fromString('0'))
+    ? "long"
+    : "short"
   tradeHistory.save()
 
   let position = getOrInitPosition(pTokenId, symbolId, event)
   position.symbolId = symbolId
   position.symbol = ""
   position.pTokenId = pTokenId
-  position.volume = position.volume.plus(event.params.tradeVolume)
+  position.volume = position.volume.plus(formatDecimal(event.params.tradeVolume))
   position.timestamp = event.block.timestamp.toI32()
   position.pool = symbolManager.pool
   const account = event.transaction.from

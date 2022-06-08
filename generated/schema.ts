@@ -654,22 +654,31 @@ export class LiquidityHistory extends Entity {
     this.set("account", Value.fromBytes(value));
   }
 
-  get bTokenAddress(): Bytes {
-    let value = this.get("bTokenAddress");
-    return value!.toBytes();
-  }
-
-  set bTokenAddress(value: Bytes) {
-    this.set("bTokenAddress", Value.fromBytes(value));
-  }
-
-  get bToken(): string {
-    let value = this.get("bToken");
+  get action(): string {
+    let value = this.get("action");
     return value!.toString();
   }
 
-  set bToken(value: string) {
-    this.set("bToken", Value.fromString(value));
+  set action(value: string) {
+    this.set("action", Value.fromString(value));
+  }
+
+  get bToken(): Bytes {
+    let value = this.get("bToken");
+    return value!.toBytes();
+  }
+
+  set bToken(value: Bytes) {
+    this.set("bToken", Value.fromBytes(value));
+  }
+
+  get bTokenSymbol(): string {
+    let value = this.get("bTokenSymbol");
+    return value!.toString();
+  }
+
+  set bTokenSymbol(value: string) {
+    this.set("bTokenSymbol", Value.fromString(value));
   }
 
   get lTokenId(): BigInt {
@@ -681,22 +690,22 @@ export class LiquidityHistory extends Entity {
     this.set("lTokenId", Value.fromBigInt(value));
   }
 
-  get amount(): BigInt {
+  get amount(): BigDecimal {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
   }
 
-  get newLiquidity(): BigInt {
+  get newLiquidity(): BigDecimal {
     let value = this.get("newLiquidity");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set newLiquidity(value: BigInt) {
-    this.set("newLiquidity", Value.fromBigInt(value));
+  set newLiquidity(value: BigDecimal) {
+    this.set("newLiquidity", Value.fromBigDecimal(value));
   }
 
   get timestamp(): i32 {
@@ -758,22 +767,22 @@ export class Liquidity extends Entity {
     this.set("poolAccount", Value.fromString(value));
   }
 
-  get bTokenAddress(): Bytes {
-    let value = this.get("bTokenAddress");
+  get bToken(): Bytes {
+    let value = this.get("bToken");
     return value!.toBytes();
   }
 
-  set bTokenAddress(value: Bytes) {
-    this.set("bTokenAddress", Value.fromBytes(value));
+  set bToken(value: Bytes) {
+    this.set("bToken", Value.fromBytes(value));
   }
 
-  get bToken(): string {
-    let value = this.get("bToken");
+  get bTokenSymbol(): string {
+    let value = this.get("bTokenSymbol");
     return value!.toString();
   }
 
-  set bToken(value: string) {
-    this.set("bToken", Value.fromString(value));
+  set bTokenSymbol(value: string) {
+    this.set("bTokenSymbol", Value.fromString(value));
   }
 
   get lTokenId(): BigInt {
@@ -785,13 +794,13 @@ export class Liquidity extends Entity {
     this.set("lTokenId", Value.fromBigInt(value));
   }
 
-  get liquidity(): BigInt {
+  get liquidity(): BigDecimal {
     let value = this.get("liquidity");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set liquidity(value: BigInt) {
-    this.set("liquidity", Value.fromBigInt(value));
+  set liquidity(value: BigDecimal) {
+    this.set("liquidity", Value.fromBigDecimal(value));
   }
 
   get timestamp(): i32 {
@@ -853,22 +862,31 @@ export class MarginHistory extends Entity {
     this.set("account", Value.fromBytes(value));
   }
 
-  get bTokenAddress(): Bytes {
-    let value = this.get("bTokenAddress");
-    return value!.toBytes();
-  }
-
-  set bTokenAddress(value: Bytes) {
-    this.set("bTokenAddress", Value.fromBytes(value));
-  }
-
-  get bToken(): string {
-    let value = this.get("bToken");
+  get action(): string {
+    let value = this.get("action");
     return value!.toString();
   }
 
-  set bToken(value: string) {
-    this.set("bToken", Value.fromString(value));
+  set action(value: string) {
+    this.set("action", Value.fromString(value));
+  }
+
+  get bToken(): Bytes {
+    let value = this.get("bToken");
+    return value!.toBytes();
+  }
+
+  set bToken(value: Bytes) {
+    this.set("bToken", Value.fromBytes(value));
+  }
+
+  get bTokenSymbol(): string {
+    let value = this.get("bTokenSymbol");
+    return value!.toString();
+  }
+
+  set bTokenSymbol(value: string) {
+    this.set("bTokenSymbol", Value.fromString(value));
   }
 
   get pTokenId(): BigInt {
@@ -880,22 +898,22 @@ export class MarginHistory extends Entity {
     this.set("pTokenId", Value.fromBigInt(value));
   }
 
-  get amount(): BigInt {
+  get amount(): BigDecimal {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
   }
 
-  get newMargin(): BigInt {
+  get newMargin(): BigDecimal {
     let value = this.get("newMargin");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set newMargin(value: BigInt) {
-    this.set("newMargin", Value.fromBigInt(value));
+  set newMargin(value: BigDecimal) {
+    this.set("newMargin", Value.fromBigDecimal(value));
   }
 
   get timestamp(): i32 {
@@ -957,22 +975,22 @@ export class Margin extends Entity {
     this.set("poolAccount", Value.fromString(value));
   }
 
-  get bTokenAddress(): Bytes {
-    let value = this.get("bTokenAddress");
+  get bToken(): Bytes {
+    let value = this.get("bToken");
     return value!.toBytes();
   }
 
-  set bTokenAddress(value: Bytes) {
-    this.set("bTokenAddress", Value.fromBytes(value));
+  set bToken(value: Bytes) {
+    this.set("bToken", Value.fromBytes(value));
   }
 
-  get bToken(): string {
-    let value = this.get("bToken");
+  get bTokenSymbol(): string {
+    let value = this.get("bTokenSymbol");
     return value!.toString();
   }
 
-  set bToken(value: string) {
-    this.set("bToken", Value.fromString(value));
+  set bTokenSymbol(value: string) {
+    this.set("bTokenSymbol", Value.fromString(value));
   }
 
   get pTokenId(): BigInt {
@@ -984,13 +1002,13 @@ export class Margin extends Entity {
     this.set("pTokenId", Value.fromBigInt(value));
   }
 
-  get margin(): BigInt {
+  get margin(): BigDecimal {
     let value = this.get("margin");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set margin(value: BigInt) {
-    this.set("margin", Value.fromBigInt(value));
+  set margin(value: BigDecimal) {
+    this.set("margin", Value.fromBigDecimal(value));
   }
 
   get timestamp(): i32 {
@@ -1043,6 +1061,15 @@ export class TradeHistory extends Entity {
     this.set("pool", Value.fromString(value));
   }
 
+  get action(): string {
+    let value = this.get("action");
+    return value!.toString();
+  }
+
+  set action(value: string) {
+    this.set("action", Value.fromString(value));
+  }
+
   get account(): Bytes {
     let value = this.get("account");
     return value!.toBytes();
@@ -1079,40 +1106,40 @@ export class TradeHistory extends Entity {
     this.set("pTokenId", Value.fromBigInt(value));
   }
 
-  get indexPrice(): BigInt {
+  get indexPrice(): BigDecimal {
     let value = this.get("indexPrice");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set indexPrice(value: BigInt) {
-    this.set("indexPrice", Value.fromBigInt(value));
+  set indexPrice(value: BigDecimal) {
+    this.set("indexPrice", Value.fromBigDecimal(value));
   }
 
-  get tradeVolume(): BigInt {
+  get tradeVolume(): BigDecimal {
     let value = this.get("tradeVolume");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set tradeVolume(value: BigInt) {
-    this.set("tradeVolume", Value.fromBigInt(value));
+  set tradeVolume(value: BigDecimal) {
+    this.set("tradeVolume", Value.fromBigDecimal(value));
   }
 
-  get tradeCost(): BigInt {
+  get tradeCost(): BigDecimal {
     let value = this.get("tradeCost");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set tradeCost(value: BigInt) {
-    this.set("tradeCost", Value.fromBigInt(value));
+  set tradeCost(value: BigDecimal) {
+    this.set("tradeCost", Value.fromBigDecimal(value));
   }
 
-  get tradeFee(): BigInt {
+  get tradeFee(): BigDecimal {
     let value = this.get("tradeFee");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set tradeFee(value: BigInt) {
-    this.set("tradeFee", Value.fromBigInt(value));
+  set tradeFee(value: BigDecimal) {
+    this.set("tradeFee", Value.fromBigDecimal(value));
   }
 
   get timestamp(): i32 {
@@ -1201,13 +1228,13 @@ export class Position extends Entity {
     this.set("pTokenId", Value.fromBigInt(value));
   }
 
-  get volume(): BigInt {
+  get volume(): BigDecimal {
     let value = this.get("volume");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set volume(value: BigInt) {
-    this.set("volume", Value.fromBigInt(value));
+  set volume(value: BigDecimal) {
+    this.set("volume", Value.fromBigDecimal(value));
   }
 
   get timestamp(): i32 {
