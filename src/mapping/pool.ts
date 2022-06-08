@@ -115,6 +115,7 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   liquidityHistory.account = event.transaction.from
   liquidityHistory.newLiquidity = formatDecimal(event.params.newLiquidity)
   liquidityHistory.action = 'addLiquidity'
+  liquidityHistory.txHash = event.transaction.hash
   liquidityHistory.save()
   
   // update poolLiquidity
@@ -151,6 +152,7 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   liquidityHistory.account = event.transaction.from
   liquidityHistory.newLiquidity = formatDecimal(event.params.newLiquidity)
   liquidityHistory.action = 'removeLiquidity'
+  liquidityHistory.txHash = event.transaction.hash
   liquidityHistory.save()
 
   const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
@@ -186,6 +188,7 @@ export function handlePoolAddMargin(event: AddMargin): void {
   marginHistory.account = event.transaction.from
   marginHistory.newMargin = formatDecimal(event.params.newMargin)
   marginHistory.action = 'addMargin'
+  marginHistory.txHash = event.transaction.hash
   marginHistory.save()
 }
 
@@ -216,6 +219,7 @@ export function handlePoolRemoveMargin(event: RemoveMargin): void {
   marginHistory.account = event.transaction.from
   marginHistory.newMargin = formatDecimal(event.params.newMargin)
   marginHistory.action = 'removeMargin'
+  marginHistory.txHash = event.transaction.hash
   marginHistory.save()
 }
 

@@ -708,6 +708,15 @@ export class LiquidityHistory extends Entity {
     this.set("newLiquidity", Value.fromBigDecimal(value));
   }
 
+  get txHash(): Bytes {
+    let value = this.get("txHash");
+    return value!.toBytes();
+  }
+
+  set txHash(value: Bytes) {
+    this.set("txHash", Value.fromBytes(value));
+  }
+
   get timestamp(): i32 {
     let value = this.get("timestamp");
     return value!.toI32();
@@ -914,6 +923,15 @@ export class MarginHistory extends Entity {
 
   set newMargin(value: BigDecimal) {
     this.set("newMargin", Value.fromBigDecimal(value));
+  }
+
+  get txHash(): Bytes {
+    let value = this.get("txHash");
+    return value!.toBytes();
+  }
+
+  set txHash(value: Bytes) {
+    this.set("txHash", Value.fromBytes(value));
   }
 
   get timestamp(): i32 {
@@ -1140,6 +1158,15 @@ export class TradeHistory extends Entity {
 
   set tradeFee(value: BigDecimal) {
     this.set("tradeFee", Value.fromBigDecimal(value));
+  }
+
+  get txHash(): Bytes {
+    let value = this.get("txHash");
+    return value!.toBytes();
+  }
+
+  set txHash(value: Bytes) {
+    this.set("txHash", Value.fromBytes(value));
   }
 
   get timestamp(): i32 {

@@ -19,11 +19,12 @@ export function handlePoolTrade(event: Trade): void {
   const symbolManager = getOrInitSymbolManager(event.address)
   tradeHistory.pool = symbolManager.pool
   tradeHistory.account = event.transaction.from
-  tradeHistory.action = tradeHistory.tradeFee.equals(BigDecimal.fromString('-0.00000000000000001'))
+  tradeHistory.action = tradeHistory.tradeFee.lt(BigDecimal.fromString('0'))
     ? "liquidation"
     : tradeHistory.tradeVolume.gt(BigDecimal.fromString('0'))
     ? "long"
     : "short"
+  tradeHistory.txHash = event.transaction.hash
   tradeHistory.save()
 
   let position = getOrInitPosition(pTokenId, symbolId, event)

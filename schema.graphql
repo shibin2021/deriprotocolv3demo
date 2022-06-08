@@ -78,6 +78,7 @@ type LiquidityHistory @entity {
   lTokenId: BigInt!
   amount: BigDecimal!
   newLiquidity: BigDecimal!
+  txHash: Bytes!
   timestamp: Int!
 }
 
@@ -104,6 +105,7 @@ type MarginHistory @entity {
   pTokenId: BigInt!
   amount: BigDecimal!
   newMargin: BigDecimal!
+  txHash: Bytes!
   timestamp: Int!
 }
 
@@ -131,6 +133,7 @@ type TradeHistory @entity {
   tradeVolume: BigDecimal!
   tradeCost: BigDecimal!
   tradeFee: BigDecimal!
+  txHash: Bytes!
   timestamp: Int!
 }
 

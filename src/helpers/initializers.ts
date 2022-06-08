@@ -77,7 +77,6 @@ export const getOrInitLiquidityHistory = (tokenId: BigInt, bTokenAddress: Bytes,
   let liquidityHistory = LiquidityHistory.load(id)
   if (!liquidityHistory) {
     liquidityHistory = new LiquidityHistory(id)
-    liquidityHistory.amount = BigDecimal.fromString("0")
   }
   return liquidityHistory
 }
@@ -97,7 +96,6 @@ export const getOrInitMarginHistory = (tokenId:BigInt, bTokenAddress: Bytes, eve
   let marginHistory = MarginHistory.load(id)
   if (!marginHistory) {
     marginHistory = new MarginHistory(id)
-    marginHistory.amount = BigDecimal.fromString("0")
   }
   return marginHistory
 }
