@@ -90,7 +90,11 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {
   const lTokenId = event.params.lTokenId
-  const bToken = event.params.underlying
+  let bToken = event.params.underlying
+  if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
+    let pool = getOrInitPool(event.address)
+    bToken = Address.fromBytes(pool.tokenWETH)
+  }
   const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
   const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
   let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
@@ -127,7 +131,11 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
 
 export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   const lTokenId = event.params.lTokenId
-  const bToken = event.params.underlying
+  let bToken = event.params.underlying
+  if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
+    let pool = getOrInitPool(event.address)
+    bToken = Address.fromBytes(pool.tokenWETH)
+  }
   const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
   const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
   let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
@@ -163,7 +171,11 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
 
 export function handlePoolAddMargin(event: AddMargin): void {
   const pTokenId = event.params.pTokenId
-  const bToken = event.params.underlying
+  let bToken = event.params.underlying
+  if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
+    let pool = getOrInitPool(event.address)
+    bToken = Address.fromBytes(pool.tokenWETH)
+  }
   const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
   const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
   let margin = getOrInitMargin(pTokenId, bToken, event)
@@ -194,7 +206,11 @@ export function handlePoolAddMargin(event: AddMargin): void {
 
 export function handlePoolRemoveMargin(event: RemoveMargin): void {
   const pTokenId = event.params.pTokenId
-  const bToken = event.params.underlying
+  let bToken = event.params.underlying
+  if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
+    let pool = getOrInitPool(event.address)
+    bToken = Address.fromBytes(pool.tokenWETH)
+  }
   const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
   const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
   let margin = getOrInitMargin(pTokenId, bToken, event)

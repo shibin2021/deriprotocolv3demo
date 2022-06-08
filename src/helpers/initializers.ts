@@ -156,7 +156,7 @@ export const getOrInitBToken = (id:Bytes): BToken => {
     bToken.collateralFactor = zeroBD()
     bToken.bTokenPrice = zeroBD()
     bToken.pool = zeroAddress().toHexString()
-    bToken.save()
+    // bToken.save()
   }
   return bToken
 }

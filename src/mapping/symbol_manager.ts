@@ -9,7 +9,7 @@ export function handlePoolTrade(event: Trade): void {
   const symbolId = event.params.symbolId
   let tradeHistory = getOrInitTradeHistory(pTokenId, symbolId, event)
   tradeHistory.symbolId = symbolId
-  tradeHistory.symbol = ""
+  tradeHistory.symbol = getOrInitIdToName(symbolId).Name
   tradeHistory.pTokenId = pTokenId
   tradeHistory.indexPrice = formatDecimal(event.params.indexPrice)
   tradeHistory.tradeVolume = formatDecimal(event.params.tradeVolume)
