@@ -64,22 +64,22 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     const bToken = getOrInitBToken(asset)
     const configData = aavePoolContract.getConfiguration(asset).toHexString()
     const market = (asset === pool.tokenB0) ? pool.marketB0 : (asset === pool.tokenWETH) ? pool.marketWETH : contract.markets(asset)
-    const bTokenContract = ERC20Abi.bind(Address.fromBytes(asset))
-    const marketContract = ERC20Abi.bind(Address.fromBytes(market))
 
     // ignore not support market
     if (market === Bytes.fromHexString(ZERO_ADDRESS)) {
       continue
+    } else {
+      const bTokenContract = ERC20Abi.bind(Address.fromBytes(asset))
+      const marketContract = ERC20Abi.bind(Address.fromBytes(market))
+      bToken.bToken = asset
+      bToken.bTokenSymbol = bTokenContract.symbol()
+      bToken.market = market
+      bToken.marketSymbol = marketContract.symbol()
+      bToken.bTokenPrice = aaveOracleContract.getAssetPrice(asset).div(aaveOracleContract.BASE_CURRENCY_UNIT())
+      bToken.collateralFactor = BigInt.fromByteArray(ByteArray.fromHexString(`${configData.slice(configData.length - 4)}`)).toBigDecimal().div(BigDecimal.fromString("10000"))
+      bToken.pool = pool.id
+      bToken.save()
     }
-
-    bToken.bToken = asset
-    bToken.bTokenSymbol = bTokenContract.symbol()
-    bToken.market = market
-    bToken.marketSymbol = marketContract.symbol()
-    bToken.bTokenPrice = aaveOracleContract.getAssetPrice(asset).div(aaveOracleContract.BASE_CURRENCY_UNIT())
-    bToken.collateralFactor = BigInt.fromByteArray(ByteArray.fromHexString(`${configData.slice(configData.length - 4)}`)).toBigDecimal().div(BigDecimal.fromString("10000"))
-    bToken.pool = pool.id
-    bToken.save()
   }
 }
 
