@@ -75,9 +75,10 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     const marketContract = ERC20Abi.bind(Address.fromBytes(market))
 
     // ignore not support market
-    if (market.toHexString().toLowerCase() === ZERO_ADDRESS.toLowerCase()) {
+    if (market === Bytes.fromHexString(ZERO_ADDRESS.toLowerCase())) {
       continue
     }
+
     bToken.bToken = asset
     bToken.bTokenSymbol = bTokenContract.symbol()
     bToken.market = market
