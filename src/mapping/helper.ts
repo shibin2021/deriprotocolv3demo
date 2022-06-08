@@ -2,7 +2,7 @@ import { Address, BigDecimal, BigInt, bigInt, Bytes } from "@graphprotocol/graph
 import { SymbolManagerAbi } from "../../generated/Pool/SymbolManagerAbi"
 import { SymbolAbi } from "../../generated/Pool/SymbolAbi"
 import { Pool } from "../../generated/schema"
-import { getOrInitSymbol, getOrInitSymbolManager } from "../helpers/initializers"
+import { getOrInitIdToName, getOrInitNameToCId, getOrInitSymbol, getOrInitSymbolManager } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
@@ -20,7 +20,7 @@ export const initSymbols = (pool: Pool):void => {
   for (let i = 0; i < length.toI32(); i++) {
     const symbolAddress = symbolManagerContract.indexedSymbols(BigInt.fromI32(i))
     const symbolContract = SymbolAbi.bind(symbolAddress)
-    const symbol  = getOrInitSymbol(symbolAddress)
+    const symbol = getOrInitSymbol(symbolAddress)
     symbol.symbol = symbolContract.symbol()
     symbol.symbolAddress = symbolAddress
     symbol.manager = symbolContract.manager()
@@ -36,6 +36,14 @@ export const initSymbols = (pool: Pool):void => {
     symbol.isCloseOnly = symbolContract.isCloseOnly()
     symbol.pool = pool.id
     symbol.save()
+
+    const nameToCId = getOrInitNameToCId(symbol.symbol)
+    nameToCId.CId = symbol.symbolId
+    nameToCId.save()
+
+    const idToName = getOrInitIdToName(symbol.symbolId)
+    idToName.Name = symbol.symbol
+    idToName.save()
   }
 }
 

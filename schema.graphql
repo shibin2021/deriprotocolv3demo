@@ -219,3 +219,12 @@ type Account @entity {
   pools: [PoolAccount!]! @derivedFrom(field: "account")
 }
 
+type IdToName @entity {
+  id: ID!
+  Name: String!
+}
+
+type NameToCId @entity {
+  id: ID!
+  CId: Bytes!
+}

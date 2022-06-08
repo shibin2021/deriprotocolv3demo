@@ -1644,3 +1644,85 @@ export class Account extends Entity {
     this.set("pools", Value.fromStringArray(value));
   }
 }
+
+export class IdToName extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save IdToName entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type IdToName must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("IdToName", id.toString(), this);
+    }
+  }
+
+  static load(id: string): IdToName | null {
+    return changetype<IdToName | null>(store.get("IdToName", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get Name(): string {
+    let value = this.get("Name");
+    return value!.toString();
+  }
+
+  set Name(value: string) {
+    this.set("Name", Value.fromString(value));
+  }
+}
+
+export class NameToCId extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save NameToCId entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type NameToCId must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("NameToCId", id.toString(), this);
+    }
+  }
+
+  static load(id: string): NameToCId | null {
+    return changetype<NameToCId | null>(store.get("NameToCId", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get CId(): Bytes {
+    let value = this.get("CId");
+    return value!.toBytes();
+  }
+
+  set CId(value: Bytes) {
+    this.set("CId", Value.fromBytes(value));
+  }
+}

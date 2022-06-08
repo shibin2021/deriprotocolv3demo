@@ -1,6 +1,6 @@
-import { Address, BigDecimal, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, BigInt, ByteArray, Bytes, ethereum } from "@graphprotocol/graph-ts"
 import { DTokenAbi } from "../../generated/Pool/DTokenAbi"
-import { Account, BToken, DToken, Liquidity, LiquidityHistory, Margin, MarginHistory, OwnerTokenId, Pool, PoolAccount, Position, Symbol, SymbolManager, TradeHistory, Vault } from "../../generated/schema"
+import { Account, BToken, DToken, IdToName, Liquidity, LiquidityHistory, Margin, MarginHistory, NameToCId, OwnerTokenId, Pool, PoolAccount, Position, Symbol, SymbolManager, TradeHistory, Vault } from "../../generated/schema"
 import { SymbolManagerAbi } from "../../generated/Pool/SymbolManagerAbi"
 import { ZERO_ADDRESS } from "../utils/constants"
 import { zeroAddress, zeroBD, zeroBI } from "../utils/converters"
@@ -214,4 +214,24 @@ export const getOrInitVault = (id:Bytes): Vault => {
     vault.save()
   }
   return vault
+}
+
+export const getOrInitIdToName = (id: Bytes): IdToName => {
+  let idToName = IdToName.load(id.toHexString())
+  if (!idToName) {
+    idToName = new IdToName(id.toHexString())
+    idToName.Name = ""
+    idToName.save()
+  }
+  return idToName
+}
+
+export const getOrInitNameToCId = (id: String): NameToCId => {
+  let nameToCId = NameToCId.load(id)
+  if (!nameToCId) {
+    nameToCId = new NameToCId(id)
+    nameToCId.CId = Bytes.fromI32(0)
+    nameToCId.save()
+  }
+  return nameToCId
 }

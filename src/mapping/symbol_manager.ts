@@ -1,6 +1,6 @@
 import { BigDecimal, ByteArray, Bytes } from "@graphprotocol/graph-ts"
 import { Trade } from "../../generated/SymbolManager/SymbolManagerAbi"
-import { getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
+import { getOrInitIdToName, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
 
 // pTokenId, symbolId, indexPrice,tradeVolume,tradeCost,tradeFee
@@ -28,7 +28,7 @@ export function handlePoolTrade(event: Trade): void {
 
   let position = getOrInitPosition(pTokenId, symbolId, event)
   position.symbolId = symbolId
-  position.symbol = ""
+  position.symbol = getOrInitIdToName(symbolId).Name
   position.pTokenId = pTokenId
   position.volume = position.volume.plus(formatDecimal(event.params.tradeVolume))
   position.timestamp = event.block.timestamp.toI32()
