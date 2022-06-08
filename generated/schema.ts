@@ -246,13 +246,13 @@ export class BToken extends Entity {
     this.set("marketSymbol", Value.fromString(value));
   }
 
-  get bTokenPrice(): BigInt {
+  get bTokenPrice(): BigDecimal {
     let value = this.get("bTokenPrice");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set bTokenPrice(value: BigInt) {
-    this.set("bTokenPrice", Value.fromBigInt(value));
+  set bTokenPrice(value: BigDecimal) {
+    this.set("bTokenPrice", Value.fromBigDecimal(value));
   }
 
   get collateralFactor(): BigDecimal {
@@ -262,6 +262,24 @@ export class BToken extends Entity {
 
   set collateralFactor(value: BigDecimal) {
     this.set("collateralFactor", Value.fromBigDecimal(value));
+  }
+
+  get test1(): string {
+    let value = this.get("test1");
+    return value!.toString();
+  }
+
+  set test1(value: string) {
+    this.set("test1", Value.fromString(value));
+  }
+
+  get test2(): string {
+    let value = this.get("test2");
+    return value!.toString();
+  }
+
+  set test2(value: string) {
+    this.set("test2", Value.fromString(value));
   }
 
   get pool(): string {

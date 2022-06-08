@@ -24,8 +24,10 @@ type BToken @entity {
   bTokenSymbol: String!
   market: Bytes!
   marketSymbol: String!
-  bTokenPrice: BigInt!
+  bTokenPrice: BigDecimal!
   collateralFactor: BigDecimal!
+  test1: String!
+  test2: String!
   pool: Pool!
 }
 
