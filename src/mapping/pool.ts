@@ -64,9 +64,9 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     const bToken = getOrInitBToken(asset)
     const configData = aavePoolContract.getConfiguration(asset).toHexString()
     let market:Bytes
-    if (asset.toHexString().toLowerCase() === pool.tokenB0.toHexString().toLowerCase()) {
+    if (asset === pool.tokenB0) {
       market = pool.marketB0
-    } else if (asset.toHexString().toLowerCase() === pool.tokenWETH.toHexString().toLowerCase()) {
+    } else if (asset === pool.tokenWETH) {
       market = pool.marketWETH
     } else {
       market = contract.markets(asset)
