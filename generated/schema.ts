@@ -264,24 +264,6 @@ export class BToken extends Entity {
     this.set("collateralFactor", Value.fromBigDecimal(value));
   }
 
-  get test1(): BigInt {
-    let value = this.get("test1");
-    return value!.toBigInt();
-  }
-
-  set test1(value: BigInt) {
-    this.set("test1", Value.fromBigInt(value));
-  }
-
-  get test2(): string {
-    let value = this.get("test2");
-    return value!.toString();
-  }
-
-  set test2(value: string) {
-    this.set("test2", Value.fromString(value));
-  }
-
   get pool(): string {
     let value = this.get("pool");
     return value!.toString();
