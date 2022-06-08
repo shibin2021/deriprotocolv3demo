@@ -1,7 +1,7 @@
-import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts"
-import { DTokenAbi } from "../../generated/PoolImplementation/DTokenAbi"
-import { Account, BToken, DToken, Liquidity, LiquidityHistory, Margin, MarginHistory, OwnerTokenId, Pool, PoolAccount, Position, SymbolManager, TradeHistory, Vault } from "../../generated/schema"
-import { SymbolManagerImplementationAbi } from "../../generated/PoolImplementation/SymbolManagerImplementationAbi"
+import { Address, BigDecimal, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts"
+import { DTokenAbi } from "../../generated/Pool/DTokenAbi"
+import { Account, BToken, DToken, Liquidity, LiquidityHistory, Margin, MarginHistory, OwnerTokenId, Pool, PoolAccount, Position, Symbol, SymbolManager, TradeHistory, Vault } from "../../generated/schema"
+import { SymbolManagerAbi } from "../../generated/Pool/SymbolManagerAbi"
 import { ZERO_ADDRESS } from "../utils/constants"
 import { zeroAddress, zeroBD, zeroBI } from "../utils/converters"
 
@@ -33,8 +33,9 @@ export const getOrInitSymbolManager = (address:Bytes): SymbolManager => {
   let symbolManager = SymbolManager.load(id)
   if (!symbolManager) {
     symbolManager = new SymbolManager(id)
-    const symbolManagerContract = SymbolManagerImplementationAbi.bind(Address.fromBytes(address))
+    const symbolManagerContract = SymbolManagerAbi.bind(Address.fromBytes(address))
     symbolManager.pool = symbolManagerContract.pool().toHexString()
+    symbolManager.length = zeroBI()
     symbolManager.save()
   }
   return symbolManager
@@ -160,6 +161,46 @@ export const getOrInitBToken = (id:Bytes): BToken => {
     bToken.save()
   }
   return bToken
+}
+
+export const getOrInitSymbol = (id:Bytes): Symbol => {
+  let symbol = Symbol.load(id.toHexString())
+  if (!symbol) {
+    symbol = new Symbol(id.toHexString())
+    symbol.category = ''
+    symbol.symbol = ''
+    symbol.symbolAddress = zeroAddress()
+    symbol.manager = zeroAddress()
+    symbol.oracleManager = zeroAddress()
+    symbol.symbolId = Bytes.fromI32(0)
+    symbol.feeRatio = zeroBD()
+    symbol.alpha = zeroBD()
+    symbol.fundingPeriod = zeroBI()
+    symbol.minTradeVolume = zeroBD()
+    symbol.minInitialMarginRatio = zeroBD()
+    symbol.initialMarginRatio = zeroBD()
+    symbol.maintenanceMarginRatio = zeroBD()
+    symbol.pricePercentThreshold = zeroBD()
+    symbol.timeThreshold = zeroBI()
+    symbol.isCloseOnly = false
+    symbol.priceId = Bytes.fromI32(0)
+    symbol.volatilityId = Bytes.fromI32(0)
+    symbol.feeRatioITM = zeroBD()
+    symbol.feeRatioOTM = zeroBD()
+    symbol.strikePrice = zeroBD()
+    symbol.isCall = false
+
+    symbol.netVolume = zeroBD()
+    symbol.netCost = zeroBD()
+    symbol.indexPrice =zeroBD()
+    symbol.fundingTimestamp = zeroBI()
+    symbol.cumulativeFundingPerVolume = zeroBI()
+    symbol.tradersPnl = zeroBD()
+    symbol.initialMarginRequired = zeroBD()
+    symbol.nPositionHolders = zeroBI()
+    symbol.save()
+  }
+  return symbol
 }
 
 export const getOrInitVault = (id:Bytes): Vault => {

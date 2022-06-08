@@ -10,9 +10,9 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class VaultImplementationAbi extends ethereum.SmartContract {
-  static bind(address: Address): VaultImplementationAbi {
-    return new VaultImplementationAbi("VaultImplementationAbi", address);
+export class VaultAbi extends ethereum.SmartContract {
+  static bind(address: Address): VaultAbi {
+    return new VaultAbi("VaultAbi", address);
   }
 
   aaveOracle(): Address {

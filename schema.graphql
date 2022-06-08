@@ -39,46 +39,33 @@ type Symbol @entity {
   manager: Bytes!
   oracleManager: Bytes!
   symbolId: Bytes!
-  feeRatio: BigInt!
-  alpha: BigInt!
+  feeRatio: BigDecimal!
+  alpha: BigDecimal!
   fundingPeriod: BigInt!
-  minTradeVolume: BigInt!
-  minInitialMarginRatio: BigInt!
-  initialMarginRatio: BigInt!
-  maintenanceMarginRatio: BigInt!
-  pricePercentThreshold: BigInt!
+  minTradeVolume: BigDecimal!
+  minInitialMarginRatio: BigDecimal!
+  initialMarginRatio: BigDecimal!
+  maintenanceMarginRatio: BigDecimal!
+  pricePercentThreshold: BigDecimal!
   timeThreshold: BigInt!
   isCloseOnly: Boolean!
   priceId: Bytes!
   volatilityId: Bytes!
-  feeRatioITM: BigInt!
-  feeRatioOTM: BigInt!
-  strikePrice: BigInt!
+  feeRatioITM: BigDecimal!
+  feeRatioOTM: BigDecimal!
+  strikePrice: BigDecimal!
   isCall: Boolean!
 
-  netVolume: BigInt!
-  netCost: BigInt!
-  indexPrice: BigInt!
+  netVolume: BigDecimal!
+  netCost: BigDecimal!
+  indexPrice: BigDecimal!
   fundingTimestamp: BigInt!
   cumulativeFundingPerVolume: BigInt!
-  tradersPnl: BigInt!
-  initialMarginRequired: BigInt!
+  tradersPnl: BigDecimal!
+  initialMarginRequired: BigDecimal!
   nPositionHolders: BigInt!
 
-  curIndexPrice: BigInt!
-  curVolatility: BigInt!
-  curCumulativeFundingPerVolume: BigInt!
-  K: BigInt!
-  markPrice: BigInt!
-  funding: BigInt!
-  timeValue: BigInt!
-  delta: BigInt!
-  u: BigInt!
-
-  power: BigInt!
-  hT: BigInt!
-  powerPrice: BigInt!
-  theoreticalPrice: BigInt!
+  pool: Pool!
 }
 
 type LiquidityHistory @entity {
@@ -159,7 +146,7 @@ type Pool @entity {
   id: ID!
   admin: Bytes!
   implementation: Bytes!
-  # parameter
+  # addresses
   pToken: DToken!
   lToken: DToken!
   symbolManager: SymbolManager!
@@ -170,10 +157,24 @@ type Pool @entity {
   marketWETH: Bytes!
   vaultImplementation: Bytes!
   protocolFeeCollector: Bytes!
+  # parameter
+  # reserveRatioB0:
+  # minRatioB0
+  # poolInitialMarginMultiplier
+  # protocolFeeCollectRatio
+  # minLiquidationReward
+  # maxLiquidationReward
+  # liquidationRewardCutRatio
+
   # bToken & symbols
   bTokens: [BToken!]! @derivedFrom(field: "pool")
   # state
   poolLiquidity: BigDecimal!
+  # lpsPnl: BigDecimal!
+  # cumulativePnlPerLiquidity: BigInt
+  # initialMarginRequired
+
+  # state details
   margin: [Margin!]! @derivedFrom(field: "pool")
   position: [Position!]! @derivedFrom(field: "pool")
   liquidity: [Liquidity!]! @derivedFrom(field: "pool")
@@ -186,17 +187,28 @@ type Pool @entity {
 type SymbolManager @entity {
   id: ID!
   pool: Pool!
+  length: BigInt!
 }
 
 type PoolAccount @entity {
   id: ID!
   account: Account!
   pool: Pool!
-  pTokenId: BigInt!
+  # lp
   lTokenId: BigInt!
-  positions: [Position!]! @derivedFrom(field: "poolAccount")
+  # lpVault: Bytes!
+  # lpAmountB0: BigDecimal!
+  # liquidity: BigDecimal!
+  # cumulativePnlPerLiquidity: BigInt!
+  # lpVaultLiquidity: BigDecimal!
   liquidities: [Liquidity!]! @derivedFrom(field: "poolAccount")
+  # trader
+  pTokenId: BigInt!
+  # tdVault: Bytes!
+  # tdAmountB0: BigDecimal!
+  # tdVaultLiquidity: BigDecimal!
   margins: [Margin!]! @derivedFrom(field: "poolAccount")
+  positions: [Position!]! @derivedFrom(field: "poolAccount")
 }
 
 type Account @entity {

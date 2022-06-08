@@ -1,39 +1,40 @@
 import { Address, BigDecimal, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts"
 import {
-  PoolImplementationAbi,
+  PoolAbi,
   NewAdmin,
   NewImplementation,
   AddLiquidity,
   RemoveLiquidity,
   AddMargin,
   RemoveMargin,
-} from "../../generated/PoolImplementation/PoolImplementationAbi"
+} from "../../generated/Pool/PoolAbi"
 import {
-  VaultImplementationAbi
-} from "../../generated/PoolImplementation/VaultImplementationAbi"
+  VaultAbi
+} from "../../generated/Pool/VaultAbi"
 import {
   AavePoolAbi
-} from "../../generated/PoolImplementation/AavePoolAbi"
+} from "../../generated/Pool/AavePoolAbi"
 import {
   AaveOracleAbi
-} from "../../generated/PoolImplementation/AaveOracleAbi"
+} from "../../generated/Pool/AaveOracleAbi"
 import {
   ERC20Abi
-} from "../../generated/PoolImplementation/ERC20Abi"
+} from "../../generated/Pool/ERC20Abi"
 import { Pool, Liquidity, DToken } from "../../generated/schema"
 import { getOrInitBToken, getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory, getOrInitVault } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
 import { ZERO_ADDRESS } from "../utils/constants"
+import { initSymbols } from "./helper"
 
 export function handlePoolNewAdmin(event: NewAdmin): void {
-    let pool = getOrInitPool(event.address)
-    pool.admin = event.params.newAdmin
-    pool.save()
+  let pool = getOrInitPool(event.address)
+  pool.admin = event.params.newAdmin
+  pool.save()
 }
 
 export function handlePoolNewImplementation(event: NewImplementation): void {
   let pool = getOrInitPool(event.address)
-  const contract = PoolImplementationAbi.bind(event.address)
+  const contract = PoolAbi.bind(event.address)
   const pToken = getOrInitDToken(contract.pToken())
   pool.pToken = pToken.id
   const lToken = getOrInitDToken(contract.lToken())
@@ -50,10 +51,11 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
   pool.implementation = event.params.newImplementation
   pool.save()
 
-  const vaultImplementationContract = VaultImplementationAbi.bind(Address.fromBytes(pool.vaultImplementation))
+  // bToken init
+  const vaultContract = VaultAbi.bind(Address.fromBytes(pool.vaultImplementation))
   const vault = getOrInitVault(pool.vaultImplementation)
-  vault.aavePool = vaultImplementationContract.aavePool()
-  vault.aaveOracle = vaultImplementationContract.aaveOracle()
+  vault.aavePool = vaultContract.aavePool()
+  vault.aaveOracle = vaultContract.aaveOracle()
   vault.save()
 
   const aavePoolContract = AavePoolAbi.bind(Address.fromBytes(vault.aavePool))
@@ -83,6 +85,8 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     bToken.pool = pool.id
     bToken.save()
   }
+  // symbol init
+  initSymbols(pool)
 }
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {
@@ -112,7 +116,7 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   liquidityHistory.save()
   
   // update poolLiquidity
-  const poolContract = PoolImplementationAbi.bind(Address.fromBytes(event.address))
+  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
   const pool = getOrInitPool(event.address)
   pool.poolLiquidity = formatDecimal(poolContract.liquidity())
   pool.save()
@@ -144,7 +148,7 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   liquidityHistory.newLiquidity = event.params.newLiquidity
   liquidityHistory.save()
 
-  const poolContract = PoolImplementationAbi.bind(Address.fromBytes(event.address))
+  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
   const pool = getOrInitPool(event.address)
   pool.poolLiquidity = formatDecimal(poolContract.liquidity())
   pool.save()

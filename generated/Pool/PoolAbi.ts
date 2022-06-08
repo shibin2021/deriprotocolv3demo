@@ -224,7 +224,7 @@ export class RemoveMargin__Params {
   }
 }
 
-export class PoolImplementationAbi__lpInfosResult {
+export class PoolAbi__lpInfosResult {
   value0: Address;
   value1: BigInt;
   value2: BigInt;
@@ -247,7 +247,7 @@ export class PoolImplementationAbi__lpInfosResult {
   }
 }
 
-export class PoolImplementationAbi__tdInfosResult {
+export class PoolAbi__tdInfosResult {
   value0: Address;
   value1: BigInt;
 
@@ -264,9 +264,9 @@ export class PoolImplementationAbi__tdInfosResult {
   }
 }
 
-export class PoolImplementationAbi extends ethereum.SmartContract {
-  static bind(address: Address): PoolImplementationAbi {
-    return new PoolImplementationAbi("PoolImplementationAbi", address);
+export class PoolAbi extends ethereum.SmartContract {
+  static bind(address: Address): PoolAbi {
+    return new PoolAbi("PoolAbi", address);
   }
 
   admin(): Address {
@@ -379,14 +379,14 @@ export class PoolImplementationAbi extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  lpInfos(param0: BigInt): PoolImplementationAbi__lpInfosResult {
+  lpInfos(param0: BigInt): PoolAbi__lpInfosResult {
     let result = super.call(
       "lpInfos",
       "lpInfos(uint256):(address,int256,int256,int256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
-    return new PoolImplementationAbi__lpInfosResult(
+    return new PoolAbi__lpInfosResult(
       result[0].toAddress(),
       result[1].toBigInt(),
       result[2].toBigInt(),
@@ -394,9 +394,7 @@ export class PoolImplementationAbi extends ethereum.SmartContract {
     );
   }
 
-  try_lpInfos(
-    param0: BigInt
-  ): ethereum.CallResult<PoolImplementationAbi__lpInfosResult> {
+  try_lpInfos(param0: BigInt): ethereum.CallResult<PoolAbi__lpInfosResult> {
     let result = super.tryCall(
       "lpInfos",
       "lpInfos(uint256):(address,int256,int256,int256)",
@@ -407,7 +405,7 @@ export class PoolImplementationAbi extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new PoolImplementationAbi__lpInfosResult(
+      new PoolAbi__lpInfosResult(
         value[0].toAddress(),
         value[1].toBigInt(),
         value[2].toBigInt(),
@@ -705,20 +703,18 @@ export class PoolImplementationAbi extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  tdInfos(param0: BigInt): PoolImplementationAbi__tdInfosResult {
+  tdInfos(param0: BigInt): PoolAbi__tdInfosResult {
     let result = super.call("tdInfos", "tdInfos(uint256):(address,int256)", [
       ethereum.Value.fromUnsignedBigInt(param0)
     ]);
 
-    return new PoolImplementationAbi__tdInfosResult(
+    return new PoolAbi__tdInfosResult(
       result[0].toAddress(),
       result[1].toBigInt()
     );
   }
 
-  try_tdInfos(
-    param0: BigInt
-  ): ethereum.CallResult<PoolImplementationAbi__tdInfosResult> {
+  try_tdInfos(param0: BigInt): ethereum.CallResult<PoolAbi__tdInfosResult> {
     let result = super.tryCall("tdInfos", "tdInfos(uint256):(address,int256)", [
       ethereum.Value.fromUnsignedBigInt(param0)
     ]);
@@ -727,10 +723,7 @@ export class PoolImplementationAbi extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new PoolImplementationAbi__tdInfosResult(
-        value[0].toAddress(),
-        value[1].toBigInt()
-      )
+      new PoolAbi__tdInfosResult(value[0].toAddress(), value[1].toBigInt())
     );
   }
 

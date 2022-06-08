@@ -1,5 +1,5 @@
 import { getOrInitOwnerTokenId } from "../helpers/initializers"
-import { Transfer } from "../../generated/PoolImplementation/DTokenAbi"
+import { Transfer } from "../../generated/Pool/DTokenAbi"
 
 export function handleDTokenTransder(event: Transfer): void {
   let ownerTokenId = getOrInitOwnerTokenId(event.params.tokenId.toString(), event)

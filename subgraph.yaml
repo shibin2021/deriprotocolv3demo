@@ -2,13 +2,13 @@ specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
-  # === PoolImplementation
+  # === Pool
   - kind: ethereum
-    name: PoolImplementation
+    name: Pool
     network: arbitrum-one
     source:
       address: "0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8"
-      abi: PoolImplementationAbi
+      abi: PoolAbi
       startBlock: 11116070
     mapping:
       kind: ethereum/events
@@ -16,18 +16,22 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Pool
+        - BToken
+        - Symbol
         - Liquidity
         - Margin
         - Position
       abis:
-        - name: PoolImplementationAbi
-          file: ./abis/PoolImplementation.json
+        - name: PoolAbi
+          file: ./abis/Pool.json
         - name: DTokenAbi
           file: ./abis/DToken.json
-        - name: SymbolManagerImplementationAbi
-          file: ./abis/SymbolManagerImplementation.json
-        - name: VaultImplementationAbi
-          file: ./abis/VaultImplementation.json
+        - name: SymbolManagerAbi
+          file: ./abis/SymbolManager.json
+        - name: SymbolAbi
+          file: ./abis/Symbol.json
+        - name: VaultAbi
+          file: ./abis/Vault.json
         - name: AavePoolAbi 
           file: ./abis/AavePool.json
         - name: AaveOracleAbi
@@ -48,13 +52,13 @@ dataSources:
         - event: RemoveMargin(indexed uint256,indexed address,uint256,int256)
           handler: handlePoolRemoveMargin
       file: ./src/mapping/pool.ts
-  # === SymbolManagerImplementation
+  # === SymbolManager
   - kind: ethereum
-    name: SymbolManagerImplementation
+    name: SymbolManager
     network: arbitrum-one
     source:
       address: "0x741c8e810cD1C7baB6565E850b775fc33C15C084"
-      abi: SymbolManagerImplementationAbi
+      abi: SymbolManagerAbi
       startBlock: 11116070
     mapping:
       kind: ethereum/events
@@ -63,8 +67,8 @@ dataSources:
       entities:
         - Pool
       abis:
-        - name: SymbolManagerImplementationAbi
-          file: ./abis/SymbolManagerImplementation.json
+        - name: SymbolManagerAbi
+          file: ./abis/SymbolManager.json
       eventHandlers:
         - event: Trade(indexed uint256,indexed bytes32,int256,int256,int256,int256)
           handler: handlePoolTrade

@@ -377,22 +377,22 @@ export class Symbol extends Entity {
     this.set("symbolId", Value.fromBytes(value));
   }
 
-  get feeRatio(): BigInt {
+  get feeRatio(): BigDecimal {
     let value = this.get("feeRatio");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set feeRatio(value: BigInt) {
-    this.set("feeRatio", Value.fromBigInt(value));
+  set feeRatio(value: BigDecimal) {
+    this.set("feeRatio", Value.fromBigDecimal(value));
   }
 
-  get alpha(): BigInt {
+  get alpha(): BigDecimal {
     let value = this.get("alpha");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set alpha(value: BigInt) {
-    this.set("alpha", Value.fromBigInt(value));
+  set alpha(value: BigDecimal) {
+    this.set("alpha", Value.fromBigDecimal(value));
   }
 
   get fundingPeriod(): BigInt {
@@ -404,49 +404,49 @@ export class Symbol extends Entity {
     this.set("fundingPeriod", Value.fromBigInt(value));
   }
 
-  get minTradeVolume(): BigInt {
+  get minTradeVolume(): BigDecimal {
     let value = this.get("minTradeVolume");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set minTradeVolume(value: BigInt) {
-    this.set("minTradeVolume", Value.fromBigInt(value));
+  set minTradeVolume(value: BigDecimal) {
+    this.set("minTradeVolume", Value.fromBigDecimal(value));
   }
 
-  get minInitialMarginRatio(): BigInt {
+  get minInitialMarginRatio(): BigDecimal {
     let value = this.get("minInitialMarginRatio");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set minInitialMarginRatio(value: BigInt) {
-    this.set("minInitialMarginRatio", Value.fromBigInt(value));
+  set minInitialMarginRatio(value: BigDecimal) {
+    this.set("minInitialMarginRatio", Value.fromBigDecimal(value));
   }
 
-  get initialMarginRatio(): BigInt {
+  get initialMarginRatio(): BigDecimal {
     let value = this.get("initialMarginRatio");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set initialMarginRatio(value: BigInt) {
-    this.set("initialMarginRatio", Value.fromBigInt(value));
+  set initialMarginRatio(value: BigDecimal) {
+    this.set("initialMarginRatio", Value.fromBigDecimal(value));
   }
 
-  get maintenanceMarginRatio(): BigInt {
+  get maintenanceMarginRatio(): BigDecimal {
     let value = this.get("maintenanceMarginRatio");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set maintenanceMarginRatio(value: BigInt) {
-    this.set("maintenanceMarginRatio", Value.fromBigInt(value));
+  set maintenanceMarginRatio(value: BigDecimal) {
+    this.set("maintenanceMarginRatio", Value.fromBigDecimal(value));
   }
 
-  get pricePercentThreshold(): BigInt {
+  get pricePercentThreshold(): BigDecimal {
     let value = this.get("pricePercentThreshold");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set pricePercentThreshold(value: BigInt) {
-    this.set("pricePercentThreshold", Value.fromBigInt(value));
+  set pricePercentThreshold(value: BigDecimal) {
+    this.set("pricePercentThreshold", Value.fromBigDecimal(value));
   }
 
   get timeThreshold(): BigInt {
@@ -485,31 +485,31 @@ export class Symbol extends Entity {
     this.set("volatilityId", Value.fromBytes(value));
   }
 
-  get feeRatioITM(): BigInt {
+  get feeRatioITM(): BigDecimal {
     let value = this.get("feeRatioITM");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set feeRatioITM(value: BigInt) {
-    this.set("feeRatioITM", Value.fromBigInt(value));
+  set feeRatioITM(value: BigDecimal) {
+    this.set("feeRatioITM", Value.fromBigDecimal(value));
   }
 
-  get feeRatioOTM(): BigInt {
+  get feeRatioOTM(): BigDecimal {
     let value = this.get("feeRatioOTM");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set feeRatioOTM(value: BigInt) {
-    this.set("feeRatioOTM", Value.fromBigInt(value));
+  set feeRatioOTM(value: BigDecimal) {
+    this.set("feeRatioOTM", Value.fromBigDecimal(value));
   }
 
-  get strikePrice(): BigInt {
+  get strikePrice(): BigDecimal {
     let value = this.get("strikePrice");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set strikePrice(value: BigInt) {
-    this.set("strikePrice", Value.fromBigInt(value));
+  set strikePrice(value: BigDecimal) {
+    this.set("strikePrice", Value.fromBigDecimal(value));
   }
 
   get isCall(): boolean {
@@ -521,31 +521,31 @@ export class Symbol extends Entity {
     this.set("isCall", Value.fromBoolean(value));
   }
 
-  get netVolume(): BigInt {
+  get netVolume(): BigDecimal {
     let value = this.get("netVolume");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set netVolume(value: BigInt) {
-    this.set("netVolume", Value.fromBigInt(value));
+  set netVolume(value: BigDecimal) {
+    this.set("netVolume", Value.fromBigDecimal(value));
   }
 
-  get netCost(): BigInt {
+  get netCost(): BigDecimal {
     let value = this.get("netCost");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set netCost(value: BigInt) {
-    this.set("netCost", Value.fromBigInt(value));
+  set netCost(value: BigDecimal) {
+    this.set("netCost", Value.fromBigDecimal(value));
   }
 
-  get indexPrice(): BigInt {
+  get indexPrice(): BigDecimal {
     let value = this.get("indexPrice");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set indexPrice(value: BigInt) {
-    this.set("indexPrice", Value.fromBigInt(value));
+  set indexPrice(value: BigDecimal) {
+    this.set("indexPrice", Value.fromBigDecimal(value));
   }
 
   get fundingTimestamp(): BigInt {
@@ -566,22 +566,22 @@ export class Symbol extends Entity {
     this.set("cumulativeFundingPerVolume", Value.fromBigInt(value));
   }
 
-  get tradersPnl(): BigInt {
+  get tradersPnl(): BigDecimal {
     let value = this.get("tradersPnl");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set tradersPnl(value: BigInt) {
-    this.set("tradersPnl", Value.fromBigInt(value));
+  set tradersPnl(value: BigDecimal) {
+    this.set("tradersPnl", Value.fromBigDecimal(value));
   }
 
-  get initialMarginRequired(): BigInt {
+  get initialMarginRequired(): BigDecimal {
     let value = this.get("initialMarginRequired");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set initialMarginRequired(value: BigInt) {
-    this.set("initialMarginRequired", Value.fromBigInt(value));
+  set initialMarginRequired(value: BigDecimal) {
+    this.set("initialMarginRequired", Value.fromBigDecimal(value));
   }
 
   get nPositionHolders(): BigInt {
@@ -593,121 +593,13 @@ export class Symbol extends Entity {
     this.set("nPositionHolders", Value.fromBigInt(value));
   }
 
-  get curIndexPrice(): BigInt {
-    let value = this.get("curIndexPrice");
-    return value!.toBigInt();
+  get pool(): string {
+    let value = this.get("pool");
+    return value!.toString();
   }
 
-  set curIndexPrice(value: BigInt) {
-    this.set("curIndexPrice", Value.fromBigInt(value));
-  }
-
-  get curVolatility(): BigInt {
-    let value = this.get("curVolatility");
-    return value!.toBigInt();
-  }
-
-  set curVolatility(value: BigInt) {
-    this.set("curVolatility", Value.fromBigInt(value));
-  }
-
-  get curCumulativeFundingPerVolume(): BigInt {
-    let value = this.get("curCumulativeFundingPerVolume");
-    return value!.toBigInt();
-  }
-
-  set curCumulativeFundingPerVolume(value: BigInt) {
-    this.set("curCumulativeFundingPerVolume", Value.fromBigInt(value));
-  }
-
-  get K(): BigInt {
-    let value = this.get("K");
-    return value!.toBigInt();
-  }
-
-  set K(value: BigInt) {
-    this.set("K", Value.fromBigInt(value));
-  }
-
-  get markPrice(): BigInt {
-    let value = this.get("markPrice");
-    return value!.toBigInt();
-  }
-
-  set markPrice(value: BigInt) {
-    this.set("markPrice", Value.fromBigInt(value));
-  }
-
-  get funding(): BigInt {
-    let value = this.get("funding");
-    return value!.toBigInt();
-  }
-
-  set funding(value: BigInt) {
-    this.set("funding", Value.fromBigInt(value));
-  }
-
-  get timeValue(): BigInt {
-    let value = this.get("timeValue");
-    return value!.toBigInt();
-  }
-
-  set timeValue(value: BigInt) {
-    this.set("timeValue", Value.fromBigInt(value));
-  }
-
-  get delta(): BigInt {
-    let value = this.get("delta");
-    return value!.toBigInt();
-  }
-
-  set delta(value: BigInt) {
-    this.set("delta", Value.fromBigInt(value));
-  }
-
-  get u(): BigInt {
-    let value = this.get("u");
-    return value!.toBigInt();
-  }
-
-  set u(value: BigInt) {
-    this.set("u", Value.fromBigInt(value));
-  }
-
-  get power(): BigInt {
-    let value = this.get("power");
-    return value!.toBigInt();
-  }
-
-  set power(value: BigInt) {
-    this.set("power", Value.fromBigInt(value));
-  }
-
-  get hT(): BigInt {
-    let value = this.get("hT");
-    return value!.toBigInt();
-  }
-
-  set hT(value: BigInt) {
-    this.set("hT", Value.fromBigInt(value));
-  }
-
-  get powerPrice(): BigInt {
-    let value = this.get("powerPrice");
-    return value!.toBigInt();
-  }
-
-  set powerPrice(value: BigInt) {
-    this.set("powerPrice", Value.fromBigInt(value));
-  }
-
-  get theoreticalPrice(): BigInt {
-    let value = this.get("theoreticalPrice");
-    return value!.toBigInt();
-  }
-
-  set theoreticalPrice(value: BigInt) {
-    this.set("theoreticalPrice", Value.fromBigInt(value));
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
   }
 }
 
@@ -1579,6 +1471,15 @@ export class SymbolManager extends Entity {
   set pool(value: string) {
     this.set("pool", Value.fromString(value));
   }
+
+  get length(): BigInt {
+    let value = this.get("length");
+    return value!.toBigInt();
+  }
+
+  set length(value: BigInt) {
+    this.set("length", Value.fromBigInt(value));
+  }
 }
 
 export class PoolAccount extends Entity {
@@ -1630,15 +1531,6 @@ export class PoolAccount extends Entity {
     this.set("pool", Value.fromString(value));
   }
 
-  get pTokenId(): BigInt {
-    let value = this.get("pTokenId");
-    return value!.toBigInt();
-  }
-
-  set pTokenId(value: BigInt) {
-    this.set("pTokenId", Value.fromBigInt(value));
-  }
-
   get lTokenId(): BigInt {
     let value = this.get("lTokenId");
     return value!.toBigInt();
@@ -1646,15 +1538,6 @@ export class PoolAccount extends Entity {
 
   set lTokenId(value: BigInt) {
     this.set("lTokenId", Value.fromBigInt(value));
-  }
-
-  get positions(): Array<string> {
-    let value = this.get("positions");
-    return value!.toStringArray();
-  }
-
-  set positions(value: Array<string>) {
-    this.set("positions", Value.fromStringArray(value));
   }
 
   get liquidities(): Array<string> {
@@ -1666,6 +1549,15 @@ export class PoolAccount extends Entity {
     this.set("liquidities", Value.fromStringArray(value));
   }
 
+  get pTokenId(): BigInt {
+    let value = this.get("pTokenId");
+    return value!.toBigInt();
+  }
+
+  set pTokenId(value: BigInt) {
+    this.set("pTokenId", Value.fromBigInt(value));
+  }
+
   get margins(): Array<string> {
     let value = this.get("margins");
     return value!.toStringArray();
@@ -1673,6 +1565,15 @@ export class PoolAccount extends Entity {
 
   set margins(value: Array<string>) {
     this.set("margins", Value.fromStringArray(value));
+  }
+
+  get positions(): Array<string> {
+    let value = this.get("positions");
+    return value!.toStringArray();
+  }
+
+  set positions(value: Array<string>) {
+    this.set("positions", Value.fromStringArray(value));
   }
 }
 

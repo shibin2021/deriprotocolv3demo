@@ -128,7 +128,7 @@ export class Trade__Params {
   }
 }
 
-export class SymbolManagerImplementationAbi__settleSymbolsOnAddLiquidityResultSsStruct extends ethereum.Tuple {
+export class SymbolManagerAbi__settleSymbolsOnAddLiquidityResultSsStruct extends ethereum.Tuple {
   get funding(): BigInt {
     return this[0].toBigInt();
   }
@@ -138,7 +138,7 @@ export class SymbolManagerImplementationAbi__settleSymbolsOnAddLiquidityResultSs
   }
 }
 
-export class SymbolManagerImplementationAbi__settleSymbolsOnLiquidateResultSsStruct extends ethereum.Tuple {
+export class SymbolManagerAbi__settleSymbolsOnLiquidateResultSsStruct extends ethereum.Tuple {
   get funding(): BigInt {
     return this[0].toBigInt();
   }
@@ -164,7 +164,7 @@ export class SymbolManagerImplementationAbi__settleSymbolsOnLiquidateResultSsStr
   }
 }
 
-export class SymbolManagerImplementationAbi__settleSymbolsOnRemoveLiquidityResultSsStruct extends ethereum.Tuple {
+export class SymbolManagerAbi__settleSymbolsOnRemoveLiquidityResultSsStruct extends ethereum.Tuple {
   get funding(): BigInt {
     return this[0].toBigInt();
   }
@@ -182,7 +182,7 @@ export class SymbolManagerImplementationAbi__settleSymbolsOnRemoveLiquidityResul
   }
 }
 
-export class SymbolManagerImplementationAbi__settleSymbolsOnRemoveMarginResultSsStruct extends ethereum.Tuple {
+export class SymbolManagerAbi__settleSymbolsOnRemoveMarginResultSsStruct extends ethereum.Tuple {
   get funding(): BigInt {
     return this[0].toBigInt();
   }
@@ -204,7 +204,7 @@ export class SymbolManagerImplementationAbi__settleSymbolsOnRemoveMarginResultSs
   }
 }
 
-export class SymbolManagerImplementationAbi__settleSymbolsOnTradeResultSsStruct extends ethereum.Tuple {
+export class SymbolManagerAbi__settleSymbolsOnTradeResultSsStruct extends ethereum.Tuple {
   get funding(): BigInt {
     return this[0].toBigInt();
   }
@@ -238,12 +238,9 @@ export class SymbolManagerImplementationAbi__settleSymbolsOnTradeResultSsStruct 
   }
 }
 
-export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
-  static bind(address: Address): SymbolManagerImplementationAbi {
-    return new SymbolManagerImplementationAbi(
-      "SymbolManagerImplementationAbi",
-      address
-    );
+export class SymbolManagerAbi extends ethereum.SmartContract {
+  static bind(address: Address): SymbolManagerAbi {
+    return new SymbolManagerAbi("SymbolManagerAbi", address);
   }
 
   activeSymbols(param0: BigInt, param1: BigInt): Address {
@@ -436,7 +433,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
 
   settleSymbolsOnAddLiquidity(
     liquidity: BigInt
-  ): SymbolManagerImplementationAbi__settleSymbolsOnAddLiquidityResultSsStruct {
+  ): SymbolManagerAbi__settleSymbolsOnAddLiquidityResultSsStruct {
     let result = super.call(
       "settleSymbolsOnAddLiquidity",
       "settleSymbolsOnAddLiquidity(int256):((int256,int256))",
@@ -444,14 +441,14 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     );
 
     return changetype<
-      SymbolManagerImplementationAbi__settleSymbolsOnAddLiquidityResultSsStruct
+      SymbolManagerAbi__settleSymbolsOnAddLiquidityResultSsStruct
     >(result[0].toTuple());
   }
 
   try_settleSymbolsOnAddLiquidity(
     liquidity: BigInt
   ): ethereum.CallResult<
-    SymbolManagerImplementationAbi__settleSymbolsOnAddLiquidityResultSsStruct
+    SymbolManagerAbi__settleSymbolsOnAddLiquidityResultSsStruct
   > {
     let result = super.tryCall(
       "settleSymbolsOnAddLiquidity",
@@ -463,16 +460,16 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<
-        SymbolManagerImplementationAbi__settleSymbolsOnAddLiquidityResultSsStruct
-      >(value[0].toTuple())
+      changetype<SymbolManagerAbi__settleSymbolsOnAddLiquidityResultSsStruct>(
+        value[0].toTuple()
+      )
     );
   }
 
   settleSymbolsOnLiquidate(
     pTokenId: BigInt,
     liquidity: BigInt
-  ): SymbolManagerImplementationAbi__settleSymbolsOnLiquidateResultSsStruct {
+  ): SymbolManagerAbi__settleSymbolsOnLiquidateResultSsStruct {
     let result = super.call(
       "settleSymbolsOnLiquidate",
       "settleSymbolsOnLiquidate(uint256,int256):((int256,int256,int256,int256,int256,int256))",
@@ -482,16 +479,16 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
       ]
     );
 
-    return changetype<
-      SymbolManagerImplementationAbi__settleSymbolsOnLiquidateResultSsStruct
-    >(result[0].toTuple());
+    return changetype<SymbolManagerAbi__settleSymbolsOnLiquidateResultSsStruct>(
+      result[0].toTuple()
+    );
   }
 
   try_settleSymbolsOnLiquidate(
     pTokenId: BigInt,
     liquidity: BigInt
   ): ethereum.CallResult<
-    SymbolManagerImplementationAbi__settleSymbolsOnLiquidateResultSsStruct
+    SymbolManagerAbi__settleSymbolsOnLiquidateResultSsStruct
   > {
     let result = super.tryCall(
       "settleSymbolsOnLiquidate",
@@ -506,16 +503,16 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<
-        SymbolManagerImplementationAbi__settleSymbolsOnLiquidateResultSsStruct
-      >(value[0].toTuple())
+      changetype<SymbolManagerAbi__settleSymbolsOnLiquidateResultSsStruct>(
+        value[0].toTuple()
+      )
     );
   }
 
   settleSymbolsOnRemoveLiquidity(
     liquidity: BigInt,
     removedLiquidity: BigInt
-  ): SymbolManagerImplementationAbi__settleSymbolsOnRemoveLiquidityResultSsStruct {
+  ): SymbolManagerAbi__settleSymbolsOnRemoveLiquidityResultSsStruct {
     let result = super.call(
       "settleSymbolsOnRemoveLiquidity",
       "settleSymbolsOnRemoveLiquidity(int256,int256):((int256,int256,int256,int256))",
@@ -526,7 +523,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     );
 
     return changetype<
-      SymbolManagerImplementationAbi__settleSymbolsOnRemoveLiquidityResultSsStruct
+      SymbolManagerAbi__settleSymbolsOnRemoveLiquidityResultSsStruct
     >(result[0].toTuple());
   }
 
@@ -534,7 +531,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     liquidity: BigInt,
     removedLiquidity: BigInt
   ): ethereum.CallResult<
-    SymbolManagerImplementationAbi__settleSymbolsOnRemoveLiquidityResultSsStruct
+    SymbolManagerAbi__settleSymbolsOnRemoveLiquidityResultSsStruct
   > {
     let result = super.tryCall(
       "settleSymbolsOnRemoveLiquidity",
@@ -550,7 +547,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(
       changetype<
-        SymbolManagerImplementationAbi__settleSymbolsOnRemoveLiquidityResultSsStruct
+        SymbolManagerAbi__settleSymbolsOnRemoveLiquidityResultSsStruct
       >(value[0].toTuple())
     );
   }
@@ -558,7 +555,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
   settleSymbolsOnRemoveMargin(
     pTokenId: BigInt,
     liquidity: BigInt
-  ): SymbolManagerImplementationAbi__settleSymbolsOnRemoveMarginResultSsStruct {
+  ): SymbolManagerAbi__settleSymbolsOnRemoveMarginResultSsStruct {
     let result = super.call(
       "settleSymbolsOnRemoveMargin",
       "settleSymbolsOnRemoveMargin(uint256,int256):((int256,int256,int256,int256,int256))",
@@ -569,7 +566,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     );
 
     return changetype<
-      SymbolManagerImplementationAbi__settleSymbolsOnRemoveMarginResultSsStruct
+      SymbolManagerAbi__settleSymbolsOnRemoveMarginResultSsStruct
     >(result[0].toTuple());
   }
 
@@ -577,7 +574,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     pTokenId: BigInt,
     liquidity: BigInt
   ): ethereum.CallResult<
-    SymbolManagerImplementationAbi__settleSymbolsOnRemoveMarginResultSsStruct
+    SymbolManagerAbi__settleSymbolsOnRemoveMarginResultSsStruct
   > {
     let result = super.tryCall(
       "settleSymbolsOnRemoveMargin",
@@ -592,9 +589,9 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<
-        SymbolManagerImplementationAbi__settleSymbolsOnRemoveMarginResultSsStruct
-      >(value[0].toTuple())
+      changetype<SymbolManagerAbi__settleSymbolsOnRemoveMarginResultSsStruct>(
+        value[0].toTuple()
+      )
     );
   }
 
@@ -603,7 +600,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     symbolId: Bytes,
     tradeVolume: BigInt,
     liquidity: BigInt
-  ): SymbolManagerImplementationAbi__settleSymbolsOnTradeResultSsStruct {
+  ): SymbolManagerAbi__settleSymbolsOnTradeResultSsStruct {
     let result = super.call(
       "settleSymbolsOnTrade",
       "settleSymbolsOnTrade(uint256,bytes32,int256,int256):((int256,int256,int256,int256,int256,int256,int256,int256))",
@@ -615,9 +612,9 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
       ]
     );
 
-    return changetype<
-      SymbolManagerImplementationAbi__settleSymbolsOnTradeResultSsStruct
-    >(result[0].toTuple());
+    return changetype<SymbolManagerAbi__settleSymbolsOnTradeResultSsStruct>(
+      result[0].toTuple()
+    );
   }
 
   try_settleSymbolsOnTrade(
@@ -625,9 +622,7 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     symbolId: Bytes,
     tradeVolume: BigInt,
     liquidity: BigInt
-  ): ethereum.CallResult<
-    SymbolManagerImplementationAbi__settleSymbolsOnTradeResultSsStruct
-  > {
+  ): ethereum.CallResult<SymbolManagerAbi__settleSymbolsOnTradeResultSsStruct> {
     let result = super.tryCall(
       "settleSymbolsOnTrade",
       "settleSymbolsOnTrade(uint256,bytes32,int256,int256):((int256,int256,int256,int256,int256,int256,int256,int256))",
@@ -643,9 +638,9 @@ export class SymbolManagerImplementationAbi extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<
-        SymbolManagerImplementationAbi__settleSymbolsOnTradeResultSsStruct
-      >(value[0].toTuple())
+      changetype<SymbolManagerAbi__settleSymbolsOnTradeResultSsStruct>(
+        value[0].toTuple()
+      )
     );
   }
 

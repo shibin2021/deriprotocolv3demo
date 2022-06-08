@@ -1,5 +1,5 @@
 import { ByteArray, Bytes } from "@graphprotocol/graph-ts"
-import { Trade } from "../../generated/SymbolManagerImplementation/SymbolManagerImplementationAbi"
+import { Trade } from "../../generated/SymbolManager/SymbolManagerAbi"
 import { getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
 
 // pTokenId, symbolId, indexPrice,tradeVolume,tradeCost,tradeFee
