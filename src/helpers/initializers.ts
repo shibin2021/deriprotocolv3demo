@@ -150,11 +150,14 @@ export const getOrInitBToken = (id:Bytes): BToken => {
     bToken = new BToken(id.toHexString())
     bToken.bToken= zeroAddress()
     bToken.bTokenSymbol = ''
+    bToken.bTokenDecimals = 0
     bToken.market = zeroAddress()
     bToken.marketSymbol = ''
-    bToken.bTokenPrice = zeroBD()
+    bToken.marketDecimals = 0
     bToken.collateralFactor = zeroBD()
+    bToken.bTokenPrice = zeroBD()
     bToken.pool = zeroAddress().toHexString()
+    bToken.save()
   }
   return bToken
 }

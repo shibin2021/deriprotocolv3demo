@@ -61,7 +61,6 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
   const allAssets = aavePoolContract.getReservesList()
   for (let i = 0; i < allAssets.length; i++) {
     const asset = allAssets[i]
-    const bToken = getOrInitBToken(asset)
     const configData = aavePoolContract.getConfiguration(asset).toHexString()
     const market = (asset == pool.tokenB0) ? pool.marketB0 : (asset == pool.tokenWETH) ? pool.marketWETH : contract.markets(asset)
 
@@ -69,12 +68,15 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
     if (market == Bytes.fromHexString(ZERO_ADDRESS)) {
       continue
     } 
+    const bToken = getOrInitBToken(asset)
     const bTokenContract = ERC20Abi.bind(Address.fromBytes(asset))
     const marketContract = ERC20Abi.bind(Address.fromBytes(market))
     bToken.bToken = asset
     bToken.bTokenSymbol = bTokenContract.symbol()
+    bToken.bTokenDecimals = bTokenContract.decimals()
     bToken.market = market
     bToken.marketSymbol = marketContract.symbol()
+    bToken.marketDecimals = marketContract.decimals()
     bToken.bTokenPrice = aaveOracleContract.getAssetPrice(asset).toBigDecimal()
       .div(aaveOracleContract.BASE_CURRENCY_UNIT().toBigDecimal())
     bToken.collateralFactor = BigInt.fromI32(I32.parseInt(configData.slice(configData.length - 4), 16)).toBigDecimal().div(BigDecimal.fromString("10000"))

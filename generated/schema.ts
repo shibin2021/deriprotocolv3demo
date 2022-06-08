@@ -228,6 +228,15 @@ export class BToken extends Entity {
     this.set("bTokenSymbol", Value.fromString(value));
   }
 
+  get bTokenDecimals(): i32 {
+    let value = this.get("bTokenDecimals");
+    return value!.toI32();
+  }
+
+  set bTokenDecimals(value: i32) {
+    this.set("bTokenDecimals", Value.fromI32(value));
+  }
+
   get market(): Bytes {
     let value = this.get("market");
     return value!.toBytes();
@@ -244,6 +253,15 @@ export class BToken extends Entity {
 
   set marketSymbol(value: string) {
     this.set("marketSymbol", Value.fromString(value));
+  }
+
+  get marketDecimals(): i32 {
+    let value = this.get("marketDecimals");
+    return value!.toI32();
+  }
+
+  set marketDecimals(value: i32) {
+    this.set("marketDecimals", Value.fromI32(value));
   }
 
   get bTokenPrice(): BigDecimal {
