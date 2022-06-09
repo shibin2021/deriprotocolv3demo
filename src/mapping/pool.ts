@@ -100,7 +100,7 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   pool.poolLiquidity = formatDecimal(poolContract.liquidity())
   pool.save()
   const lpInfos = poolContract.lpInfos(lTokenId)
-  let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.symbolManager))
+  let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.lToken))
   if (!ownerTokenId.vault || ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
     ownerTokenId.vault = lpInfos.value0
   }
@@ -154,7 +154,7 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   pool.poolLiquidity = formatDecimal(poolContract.liquidity())
   pool.save()
   const lpInfos = poolContract.lpInfos(lTokenId)
-  let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.symbolManager))
+  let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.lToken))
   if (!ownerTokenId.vault || ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
     ownerTokenId.vault = lpInfos.value0
   }
@@ -162,7 +162,7 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   ownerTokenId.amountB0 = formatDecimal(lpInfos.value1)
   ownerTokenId.save()
 
-  // const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
+  const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
   const bTokenState = getOrInitBToken(bToken) 
   const bTokenSymbol = bTokenState.bTokenSymbol
   const bTokenDecimals = bTokenState.bTokenDecimals
@@ -170,8 +170,8 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   liquidity.bToken = bToken
   liquidity.bTokenSymbol = bTokenSymbol
   liquidity.lTokenId = lTokenId
-  // const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
-  // liquidity.liquidity = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
+  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
+  liquidity.liquidity = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
   // liquidity.liquidity = liquidity.liquidity
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
