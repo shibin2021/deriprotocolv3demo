@@ -59,7 +59,7 @@ dataSources:
     source:
       address: "0x741c8e810cD1C7baB6565E850b775fc33C15C084"
       abi: SymbolManagerAbi
-      startBlock: 11116070
+      startBlock: 11106070
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
