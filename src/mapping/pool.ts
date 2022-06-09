@@ -89,6 +89,8 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
 }
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {
+  const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, event.address)
   const lTokenId = event.params.lTokenId
   const pool = getOrInitPool(event.address)
   let bToken = event.params.underlying
@@ -112,16 +114,14 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   const bTokenState = getOrInitBToken(bToken) 
   const bTokenSymbol = bTokenState.bTokenSymbol
   const bTokenDecimals = bTokenState.bTokenDecimals
+  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
   let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
   liquidity.bToken = bToken
   liquidity.bTokenSymbol = bTokenSymbol
   liquidity.lTokenId = lTokenId
-  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
   liquidity.liquidity = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
-  const account = event.transaction.from
-  const poolAccount = getOrInitPoolAccount(account, event.address)
   liquidity.poolAccount = poolAccount.id
   liquidity.account = account
   liquidity.save()
@@ -142,6 +142,8 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
 }
 
 export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
+  const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, event.address)
   const lTokenId = event.params.lTokenId
   let bToken = event.params.underlying
   if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
@@ -166,17 +168,14 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   const bTokenState = getOrInitBToken(bToken) 
   const bTokenSymbol = bTokenState.bTokenSymbol
   const bTokenDecimals = bTokenState.bTokenDecimals
+  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
   let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
   liquidity.bToken = bToken
   liquidity.bTokenSymbol = bTokenSymbol
   liquidity.lTokenId = lTokenId
-  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
   liquidity.liquidity = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
-  // liquidity.liquidity = liquidity.liquidity
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
-  const account = event.transaction.from
-  const poolAccount = getOrInitPoolAccount(account, event.address)
   liquidity.poolAccount = poolAccount.id
   liquidity.save()
 
@@ -197,6 +196,8 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
 }
 
 export function handlePoolAddMargin(event: AddMargin): void {
+  const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, event.address)
   const pTokenId = event.params.pTokenId
   let bToken = event.params.underlying
   if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
@@ -212,9 +213,8 @@ export function handlePoolAddMargin(event: AddMargin): void {
   margin.margin = margin.margin
   margin.timestamp = event.block.timestamp.toI32()
   margin.pool = event.address.toHexString()
-  const account = event.transaction.from
-  const poolAccount = getOrInitPoolAccount(account, event.address)
   margin.poolAccount = poolAccount.id
+  margin.account = account
   margin.save()
 
   let marginHistory = getOrInitMarginHistory(pTokenId, bToken, event)
@@ -233,6 +233,8 @@ export function handlePoolAddMargin(event: AddMargin): void {
 }
 
 export function handlePoolRemoveMargin(event: RemoveMargin): void {
+  const account = event.transaction.from
+  const poolAccount = getOrInitPoolAccount(account, event.address)
   const pTokenId = event.params.pTokenId
   let bToken = event.params.underlying
   if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
@@ -248,9 +250,8 @@ export function handlePoolRemoveMargin(event: RemoveMargin): void {
   margin.margin = margin.margin
   margin.timestamp = event.block.timestamp.toI32()
   margin.pool = event.address.toHexString()
-  const account = event.transaction.from
-  const poolAccount = getOrInitPoolAccount(account, event.address)
   margin.poolAccount = poolAccount.id
+  margin.account = account
   margin.save()
 
   let marginHistory = getOrInitMarginHistory(pTokenId, bToken, event)
@@ -260,7 +261,6 @@ export function handlePoolRemoveMargin(event: RemoveMargin): void {
   marginHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
   marginHistory.timestamp = event.block.timestamp.toI32()
   marginHistory.pool = event.address.toHexString()
-  marginHistory.account = event.transaction.from
   marginHistory.newMargin = formatDecimal(event.params.newMargin)
   marginHistory.action = 'removeMargin'
   marginHistory.txHash = event.transaction.hash
