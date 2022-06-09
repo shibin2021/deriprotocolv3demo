@@ -58,6 +58,7 @@ export const getOrInitOwnerTokenId = (tokenId:String, symbolManager: Bytes): Own
   let ownerTokenId = OwnerTokenId.load(id)
   if (!ownerTokenId) {
     ownerTokenId = new OwnerTokenId(id)
+    ownerTokenId.vault = Bytes.fromHexString(ZERO_ADDRESS)
   }
   return ownerTokenId
 }
