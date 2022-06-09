@@ -110,11 +110,12 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   ownerTokenId.amountB0 = formatDecimal(lpInfos.value1)
   ownerTokenId.save()
 
+  const market = bToken == pool.tokenB0 ? pool.marketB0 : bToken == pool.tokenWETH ? pool.marketWETH : poolContract.markets(bToken)
   const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
   const bTokenState = getOrInitBToken(bToken) 
   const bTokenSymbol = bTokenState.bTokenSymbol
   const bTokenDecimals = bTokenState.bTokenDecimals
-  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
+  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(market)), 18 - bTokenState.marketDecimals)
   let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
   liquidity.bToken = bToken
   liquidity.bTokenSymbol = bTokenSymbol
