@@ -119,6 +119,24 @@ export class OwnerTokenId extends Entity {
     this.set("token", Value.fromString(value));
   }
 
+  get vault(): Bytes {
+    let value = this.get("vault");
+    return value!.toBytes();
+  }
+
+  set vault(value: Bytes) {
+    this.set("vault", Value.fromBytes(value));
+  }
+
+  get amountB0(): BigDecimal {
+    let value = this.get("amountB0");
+    return value!.toBigDecimal();
+  }
+
+  set amountB0(value: BigDecimal) {
+    this.set("amountB0", Value.fromBigDecimal(value));
+  }
+
   get timestamp(): i32 {
     let value = this.get("timestamp");
     return value!.toI32();
@@ -767,6 +785,15 @@ export class Liquidity extends Entity {
     this.set("pool", Value.fromString(value));
   }
 
+  get account(): Bytes {
+    let value = this.get("account");
+    return value!.toBytes();
+  }
+
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
+  }
+
   get poolAccount(): string {
     let value = this.get("poolAccount");
     return value!.toString();
@@ -982,6 +1009,15 @@ export class Margin extends Entity {
 
   set pool(value: string) {
     this.set("pool", Value.fromString(value));
+  }
+
+  get account(): Bytes {
+    let value = this.get("account");
+    return value!.toBytes();
+  }
+
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
   }
 
   get poolAccount(): string {
@@ -1217,6 +1253,15 @@ export class Position extends Entity {
 
   set pool(value: string) {
     this.set("pool", Value.fromString(value));
+  }
+
+  get account(): Bytes {
+    let value = this.get("account");
+    return value!.toBytes();
+  }
+
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
   }
 
   get poolAccount(): string {

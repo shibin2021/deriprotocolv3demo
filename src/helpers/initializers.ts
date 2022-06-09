@@ -53,8 +53,8 @@ export const getOrInitDToken = (address:Bytes): DToken => {
   return dToken
 }
 
-export const getOrInitOwnerTokenId = (tokenId:String, event: ethereum.Event): OwnerTokenId => {
-  const id = `${tokenId}_${event.address.toHexString()}`
+export const getOrInitOwnerTokenId = (tokenId:String, symbolManager: Bytes): OwnerTokenId => {
+  const id = `${tokenId}_${symbolManager.toHexString()}`
   let ownerTokenId = OwnerTokenId.load(id)
   if (!ownerTokenId) {
     ownerTokenId = new OwnerTokenId(id)

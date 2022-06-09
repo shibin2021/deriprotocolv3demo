@@ -37,5 +37,6 @@ export function handlePoolTrade(event: Trade): void {
   const account = event.transaction.from
   const poolAccount = getOrInitPoolAccount(account, Bytes.fromHexString(symbolManager.pool))
   position.poolAccount = poolAccount.id
+  position.account = event.transaction.from
   position.save()
 }

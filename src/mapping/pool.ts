@@ -20,7 +20,7 @@ import {
 import {
   ERC20Abi
 } from "../../generated/Pool/ERC20Abi"
-import { getOrInitBToken, getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitPool, getOrInitPoolAccount, getOrInitSymbolManager, getOrInitVault } from "../helpers/initializers"
+import { getOrInitBToken, getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitOwnerTokenId, getOrInitPool, getOrInitPoolAccount, getOrInitSymbolManager, getOrInitVault } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
 import { ZERO_ADDRESS } from "../utils/constants"
 import { initSymbols } from "./helper"
@@ -90,23 +90,40 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {
   const lTokenId = event.params.lTokenId
+  const pool = getOrInitPool(event.address)
   let bToken = event.params.underlying
   if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
-    let pool = getOrInitPool(event.address)
     bToken = Address.fromBytes(pool.tokenWETH)
   }
-  const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
-  const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
+  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
+  // update poolLiquidity
+  pool.poolLiquidity = formatDecimal(poolContract.liquidity())
+  pool.save()
+  const lpInfos = poolContract.lpInfos(lTokenId)
+  let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.symbolManager))
+  if (ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
+    ownerTokenId.vault = lpInfos.value0
+  }
+  // update amountB0
+  ownerTokenId.amountB0 = formatDecimal(lpInfos.value1)
+  ownerTokenId.save()
+
+  const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
+  const bTokenState = getOrInitBToken(bToken) 
+  const bTokenSymbol = bTokenState.bTokenSymbol
+  const bTokenDecimals = bTokenState.bTokenDecimals
   let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
   liquidity.bToken = bToken
   liquidity.bTokenSymbol = bTokenSymbol
   liquidity.lTokenId = lTokenId
-  liquidity.liquidity = liquidity.liquidity
+  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
+  liquidity.liquidity = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
   const account = event.transaction.from
   const poolAccount = getOrInitPoolAccount(account, event.address)
   liquidity.poolAccount = poolAccount.id
+  liquidity.account = account
   liquidity.save()
 
   let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bToken, event)
@@ -120,13 +137,8 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   liquidityHistory.newLiquidity = formatDecimal(event.params.newLiquidity)
   liquidityHistory.action = 'addLiquidity'
   liquidityHistory.txHash = event.transaction.hash
+  liquidityHistory.account = account
   liquidityHistory.save()
-  
-  // update poolLiquidity
-  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
-  const pool = getOrInitPool(event.address)
-  pool.poolLiquidity = formatDecimal(poolContract.liquidity())
-  pool.save()
 }
 
 export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
@@ -136,13 +148,31 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
     let pool = getOrInitPool(event.address)
     bToken = Address.fromBytes(pool.tokenWETH)
   }
-  const bTokenSymbol = getOrInitBToken(bToken).bTokenSymbol
-  const bTokenDecimals = getOrInitBToken(bToken).bTokenDecimals
+  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
+  // updat pool liquidity
+  const pool = getOrInitPool(event.address)
+  pool.poolLiquidity = formatDecimal(poolContract.liquidity())
+  pool.save()
+  const lpInfos = poolContract.lpInfos(lTokenId)
+  let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.symbolManager))
+  if (ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
+    ownerTokenId.vault = lpInfos.value0
+  }
+  // update amountB0
+  ownerTokenId.amountB0 = formatDecimal(lpInfos.value1)
+  ownerTokenId.save()
+
+  const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
+  const bTokenState = getOrInitBToken(bToken) 
+  const bTokenSymbol = bTokenState.bTokenSymbol
+  const bTokenDecimals = bTokenState.bTokenDecimals
   let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
   liquidity.bToken = bToken
   liquidity.bTokenSymbol = bTokenSymbol
   liquidity.lTokenId = lTokenId
-  liquidity.liquidity = liquidity.liquidity
+  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(bTokenState.market)), 18 - bTokenState.marketDecimals)
+  liquidity.liquidity = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
+  // liquidity.liquidity = liquidity.liquidity
   liquidity.timestamp = event.block.timestamp.toI32()
   liquidity.pool = event.address.toHexString()
   const account = event.transaction.from
@@ -161,12 +191,9 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   liquidityHistory.newLiquidity = formatDecimal(event.params.newLiquidity)
   liquidityHistory.action = 'removeLiquidity'
   liquidityHistory.txHash = event.transaction.hash
+  liquidityHistory.account = account
   liquidityHistory.save()
 
-  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
-  const pool = getOrInitPool(event.address)
-  pool.poolLiquidity = formatDecimal(poolContract.liquidity())
-  pool.save()
 }
 
 export function handlePoolAddMargin(event: AddMargin): void {
@@ -201,6 +228,7 @@ export function handlePoolAddMargin(event: AddMargin): void {
   marginHistory.newMargin = formatDecimal(event.params.newMargin)
   marginHistory.action = 'addMargin'
   marginHistory.txHash = event.transaction.hash
+  marginHistory.account = account
   marginHistory.save()
 }
 
@@ -236,6 +264,7 @@ export function handlePoolRemoveMargin(event: RemoveMargin): void {
   marginHistory.newMargin = formatDecimal(event.params.newMargin)
   marginHistory.action = 'removeMargin'
   marginHistory.txHash = event.transaction.hash
+  marginHistory.account = account
   marginHistory.save()
 }
 
