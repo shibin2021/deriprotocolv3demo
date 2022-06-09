@@ -101,7 +101,7 @@ export function handlePoolAddLiquidity(event: AddLiquidity): void {
   pool.save()
   const lpInfos = poolContract.lpInfos(lTokenId)
   let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.symbolManager))
-  if (ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
+  if (!ownerTokenId.vault || ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
     ownerTokenId.vault = lpInfos.value0
   }
   // update amountB0
@@ -155,7 +155,7 @@ export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
   pool.save()
   const lpInfos = poolContract.lpInfos(lTokenId)
   let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.symbolManager))
-  if (ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
+  if (!ownerTokenId.vault || ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
     ownerTokenId.vault = lpInfos.value0
   }
   // update amountB0
