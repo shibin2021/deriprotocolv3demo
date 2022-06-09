@@ -10,7 +10,5 @@ export function handleDTokenTransder(event: Transfer): void {
   ownerTokenId.tokenId = event.params.tokenId.toString()
   ownerTokenId.owner = event.params.to
   ownerTokenId.timestamp = event.block.timestamp.toI32()
-  ownerTokenId.vault = Bytes.fromHexString(ZERO_ADDRESS)
-  ownerTokenId.amountB0 = zeroBD()
   ownerTokenId.save()
 }

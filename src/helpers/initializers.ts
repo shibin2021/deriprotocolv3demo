@@ -60,6 +60,9 @@ export const getOrInitOwnerTokenId = (tokenId:String, symbolManager: Bytes): Own
     ownerTokenId = new OwnerTokenId(id)
     ownerTokenId.vault = Bytes.fromHexString(ZERO_ADDRESS)
     ownerTokenId.amountB0 = zeroBD()
+    ownerTokenId.liquidity = zeroBD()
+    ownerTokenId.cumulativePnlPerLiquidity= zeroBD()
+    ownerTokenId.vaultLiquidity = zeroBD()
   }
   return ownerTokenId
 }

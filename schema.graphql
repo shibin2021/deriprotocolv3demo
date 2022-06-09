@@ -11,6 +11,9 @@ type OwnerTokenId @entity {
   token: DToken!
   vault: Bytes!
   amountB0: BigDecimal!
+  liquidity: BigDecimal!
+  cumulativePnlPerLiquidity: BigDecimal!
+  vaultLiquidity: BigDecimal!
   timestamp: Int!
 }
 

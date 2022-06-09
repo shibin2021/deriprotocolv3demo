@@ -137,6 +137,33 @@ export class OwnerTokenId extends Entity {
     this.set("amountB0", Value.fromBigDecimal(value));
   }
 
+  get liquidity(): BigDecimal {
+    let value = this.get("liquidity");
+    return value!.toBigDecimal();
+  }
+
+  set liquidity(value: BigDecimal) {
+    this.set("liquidity", Value.fromBigDecimal(value));
+  }
+
+  get cumulativePnlPerLiquidity(): BigDecimal {
+    let value = this.get("cumulativePnlPerLiquidity");
+    return value!.toBigDecimal();
+  }
+
+  set cumulativePnlPerLiquidity(value: BigDecimal) {
+    this.set("cumulativePnlPerLiquidity", Value.fromBigDecimal(value));
+  }
+
+  get vaultLiquidity(): BigDecimal {
+    let value = this.get("vaultLiquidity");
+    return value!.toBigDecimal();
+  }
+
+  set vaultLiquidity(value: BigDecimal) {
+    this.set("vaultLiquidity", Value.fromBigDecimal(value));
+  }
+
   get timestamp(): i32 {
     let value = this.get("timestamp");
     return value!.toI32();
