@@ -23,6 +23,17 @@ export const getOrInitPool = (address:Bytes): Pool => {
     pool.vaultImplementation  = Bytes.fromHexString(ZERO_ADDRESS)
     pool.protocolFeeCollector = Bytes.fromHexString(ZERO_ADDRESS)
     pool.poolLiquidity = zeroBD()
+    pool.reserveRatioB0 = zeroBD()
+    pool.minRatioB0 = zeroBD()
+    pool.poolInitialMarginMultiplier = zeroBD()
+    pool.protocolFeeCollectRatio = zeroBD()
+    pool.minLiquidationReward = zeroBD()
+    pool.maxLiquidationReward = zeroBD()
+    pool.liquidationRewardCutRatio = zeroBD()
+    pool.lpsPnl = zeroBD()
+    pool.cumulativePnlPerLiquidity = zeroBI()
+    pool.protocolFeeAccrued = zeroBD()
+    pool.initialMarginRequired = zeroBD()
     pool.save()
   }
   return pool
