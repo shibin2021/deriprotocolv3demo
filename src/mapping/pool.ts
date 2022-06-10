@@ -100,6 +100,6 @@ export function handlePoolAddMargin(event: AddMargin): void {
 }
 
 export function handlePoolRemoveMargin(event: RemoveMargin): void {
-  handleMarginAction<RemoveMargin>(event, 'addMargin')
+  handleMarginAction<RemoveMargin>(event, 'removeMargin')
 }
 
