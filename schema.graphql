@@ -60,6 +60,7 @@ type Symbol @entity {
   feeRatioOTM: BigDecimal!
   strikePrice: BigDecimal!
   isCall: Boolean!
+  power: BigInt!
 
   netVolume: BigDecimal!
   netCost: BigDecimal!
@@ -172,22 +173,21 @@ type Pool @entity {
   vaultImplementation: Bytes!
   protocolFeeCollector: Bytes!
   # parameter
-  # reserveRatioB0:
-  # minRatioB0
-  # poolInitialMarginMultiplier
-  # protocolFeeCollectRatio
-  # minLiquidationReward
-  # maxLiquidationReward
-  # liquidationRewardCutRatio
-
+  reserveRatioB0: BigDecimal!
+  minRatioB0: BigDecimal!
+  poolInitialMarginMultiplier: BigDecimal!
+  protocolFeeCollectRatio: BigDecimal!
+  minLiquidationReward: BigDecimal!
+  maxLiquidationReward: BigDecimal!
+  liquidationRewardCutRatio: BigDecimal!
   # bToken & symbols
   bTokens: [BToken!]! @derivedFrom(field: "pool")
   # state
   poolLiquidity: BigDecimal!
-  # lpsPnl: BigDecimal!
-  # cumulativePnlPerLiquidity: BigInt
-  # initialMarginRequired
-
+  lpsPnl: BigDecimal!
+  cumulativePnlPerLiquidity: BigInt
+  initialMarginRequired: BigDecimal!
+  protocolFeeAccrued: BigDecimal!
   # state details
   margin: [Margin!]! @derivedFrom(field: "pool")
   position: [Position!]! @derivedFrom(field: "pool")

@@ -20,10 +20,9 @@ import {
 import {
   ERC20Abi
 } from "../../generated/Pool/ERC20Abi"
-import { getOrInitBToken, getOrInitDToken, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitOwnerTokenId, getOrInitPool, getOrInitPoolAccount, getOrInitSymbolManager, getOrInitVault } from "../helpers/initializers"
-import { formatDecimal } from "../utils/converters"
+import { getOrInitBToken, getOrInitDToken, getOrInitPool, getOrInitSymbolManager, getOrInitVault } from "../helpers/initializers"
 import { ZERO_ADDRESS } from "../utils/constants"
-import { initSymbols } from "./helper"
+import { handleLiquidityAction, handleMarginAction, initSymbols } from "./helper"
 
 export function handlePoolNewAdmin(event: NewAdmin): void {
   let pool = getOrInitPool(event.address)
@@ -89,222 +88,18 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
 }
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {
-  const account = event.transaction.from
-  const poolAccount = getOrInitPoolAccount(account, event.address)
-  const lTokenId = event.params.lTokenId
-  const pool = getOrInitPool(event.address)
-  let bToken = event.params.underlying
-  if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
-    bToken = Address.fromBytes(pool.tokenWETH)
-  }
-  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
-  const market = bToken == pool.tokenB0 ? pool.marketB0 : bToken == pool.tokenWETH ? pool.marketWETH : poolContract.markets(bToken)
-  const marketContract = ERC20Abi.bind(Address.fromBytes(market))
-  // update poolLiquidity
-  pool.poolLiquidity = formatDecimal(poolContract.liquidity())
-  pool.save()
-  const lpInfos = poolContract.lpInfos(lTokenId)
-  let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.lToken))
-  if (ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
-    ownerTokenId.vault = lpInfos.value0
-  }
-  const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
-  // update amountB0
-  ownerTokenId.amountB0 = formatDecimal(lpInfos.value1)
-  ownerTokenId.liquidity = formatDecimal(lpInfos.value2)
-  ownerTokenId.cumulativePnlPerLiquidity = formatDecimal(lpInfos.value3)
-  ownerTokenId.vaultLiquidity = formatDecimal(vaultContract.getVaultLiquidity())
-  ownerTokenId.save()
-
-  const bTokenState = getOrInitBToken(bToken) 
-  const bTokenSymbol = bTokenState.bTokenSymbol
-  const bTokenDecimals = bTokenState.bTokenDecimals
-  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(market)), marketContract.decimals())
-  let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
-  liquidity.bToken = bToken
-  liquidity.bTokenSymbol = bTokenSymbol
-  liquidity.lTokenId = lTokenId
-  liquidity.liquidity = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
-  liquidity.timestamp = event.block.timestamp.toI32()
-  liquidity.pool = event.address.toHexString()
-  liquidity.poolAccount = poolAccount.id
-  liquidity.account = account
-  liquidity.save()
-
-  let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bToken, event)
-  liquidityHistory.bToken = bToken
-  liquidityHistory.bTokenSymbol = bTokenSymbol
-  liquidityHistory.lTokenId = lTokenId
-  liquidityHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
-  liquidityHistory.timestamp = event.block.timestamp.toI32()
-  liquidityHistory.pool = event.address.toHexString()
-  liquidityHistory.account = event.transaction.from
-  liquidityHistory.newLiquidity = formatDecimal(event.params.newLiquidity)
-  liquidityHistory.action = 'addLiquidity'
-  liquidityHistory.txHash = event.transaction.hash
-  liquidityHistory.account = account
-  liquidityHistory.save()
+  handleLiquidityAction<AddLiquidity>(event, 'addLiquidity')
 }
 
 export function handlePoolRemoveLiquidity(event: RemoveLiquidity): void {
-  const account = event.transaction.from
-  const pool = getOrInitPool(event.address)
-  const poolAccount = getOrInitPoolAccount(account, event.address)
-  const lTokenId = event.params.lTokenId
-  let bToken = event.params.underlying
-  if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
-    let pool = getOrInitPool(event.address)
-    bToken = Address.fromBytes(pool.tokenWETH)
-  }
-  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
-  const market = bToken == pool.tokenB0 ? pool.marketB0 : bToken == pool.tokenWETH ? pool.marketWETH : poolContract.markets(bToken)
-  const marketContract = ERC20Abi.bind(Address.fromBytes(market))
-  // updat pool liquidity
-  pool.poolLiquidity = formatDecimal(poolContract.liquidity())
-  pool.save()
-  const lpInfos = poolContract.lpInfos(lTokenId)
-  let ownerTokenId = getOrInitOwnerTokenId(lTokenId.toString(), Bytes.fromHexString(pool.lToken))
-  const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
-
-  // update amountB0
-  ownerTokenId.amountB0 = formatDecimal(lpInfos.value1)
-  ownerTokenId.liquidity = formatDecimal(lpInfos.value2)
-  ownerTokenId.cumulativePnlPerLiquidity = formatDecimal(lpInfos.value3)
-  ownerTokenId.vaultLiquidity = formatDecimal(vaultContract.getVaultLiquidity())
-  ownerTokenId.save()
-
-  const bTokenState = getOrInitBToken(bToken) 
-  const bTokenSymbol = bTokenState.bTokenSymbol
-  const bTokenDecimals = bTokenState.bTokenDecimals
-  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(market)), marketContract.decimals())
-  let liquidity = getOrInitLiquidity(lTokenId, bToken, event)
-  liquidity.bToken = bToken
-  liquidity.bTokenSymbol = bTokenSymbol
-  liquidity.lTokenId = lTokenId
-  liquidity.liquidity = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
-  liquidity.timestamp = event.block.timestamp.toI32()
-  liquidity.pool = event.address.toHexString()
-  liquidity.poolAccount = poolAccount.id
-  liquidity.save()
-
-  let liquidityHistory = getOrInitLiquidityHistory(lTokenId, bToken, event)
-  liquidityHistory.bToken = bToken
-  liquidityHistory.bTokenSymbol = bTokenSymbol
-  liquidityHistory.lTokenId = lTokenId
-  liquidityHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
-  liquidityHistory.timestamp = event.block.timestamp.toI32()
-  liquidityHistory.pool = event.address.toHexString()
-  liquidityHistory.account = event.transaction.from
-  liquidityHistory.newLiquidity = formatDecimal(event.params.newLiquidity)
-  liquidityHistory.action = 'removeLiquidity'
-  liquidityHistory.txHash = event.transaction.hash
-  liquidityHistory.account = account
-  liquidityHistory.save()
-
+  handleLiquidityAction<RemoveLiquidity>(event, 'removeLiquidity')
 }
 
 export function handlePoolAddMargin(event: AddMargin): void {
-  const account = event.transaction.from
-  const pool = getOrInitPool(event.address)
-  const poolAccount = getOrInitPoolAccount(account, event.address)
-  const pTokenId = event.params.pTokenId
-  let bToken = event.params.underlying
-  if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
-    bToken = Address.fromBytes(pool.tokenWETH)
-  }
-  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
-  const market = bToken == pool.tokenB0 ? pool.marketB0 : bToken == pool.tokenWETH ? pool.marketWETH : poolContract.markets(bToken)
-  const marketContract = ERC20Abi.bind(Address.fromBytes(market))
-
-  const tdInfos = poolContract.tdInfos(pTokenId)
-  let ownerTokenId = getOrInitOwnerTokenId(pTokenId.toString(), Bytes.fromHexString(pool.pToken))
-  if (ownerTokenId.vault == Bytes.fromHexString(ZERO_ADDRESS)) {
-    ownerTokenId.vault = tdInfos.value0
-  }
-  const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
-  // update amountB0
-  ownerTokenId.amountB0 = formatDecimal(tdInfos.value1)
-  ownerTokenId.vaultLiquidity = formatDecimal(vaultContract.getVaultLiquidity())
-  ownerTokenId.save()
-
-  const bTokenState = getOrInitBToken(bToken)
-  const bTokenSymbol = bTokenState.bTokenSymbol
-  const bTokenDecimals = bTokenState.bTokenDecimals
-  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(market)), marketContract.decimals())
-  let margin = getOrInitMargin(pTokenId, bToken, event)
-  margin.bToken = bToken
-  margin.bTokenSymbol = bTokenSymbol
-  margin.pTokenId = pTokenId
-  margin.margin = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
-  margin.timestamp = event.block.timestamp.toI32()
-  margin.pool = event.address.toHexString()
-  margin.poolAccount = poolAccount.id
-  margin.account = account
-  margin.save()
-
-  let marginHistory = getOrInitMarginHistory(pTokenId, bToken, event)
-  marginHistory.bToken = bToken
-  marginHistory.bTokenSymbol = bTokenSymbol
-  marginHistory.pTokenId = pTokenId
-  marginHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
-  marginHistory.timestamp = event.block.timestamp.toI32()
-  marginHistory.pool = event.address.toHexString()
-  marginHistory.account = event.transaction.from
-  marginHistory.newMargin = formatDecimal(event.params.newMargin)
-  marginHistory.action = 'addMargin'
-  marginHistory.txHash = event.transaction.hash
-  marginHistory.account = account
-  marginHistory.save()
+  handleMarginAction<AddMargin>(event, 'addMargin')
 }
 
 export function handlePoolRemoveMargin(event: RemoveMargin): void {
-  const account = event.transaction.from
-  const pool = getOrInitPool(event.address)
-  const poolAccount = getOrInitPoolAccount(account, event.address)
-  const pTokenId = event.params.pTokenId
-  let bToken = event.params.underlying
-  if (bToken == Bytes.fromHexString(ZERO_ADDRESS)) {
-    let pool = getOrInitPool(event.address)
-    bToken = Address.fromBytes(pool.tokenWETH)
-  }
-  const poolContract = PoolAbi.bind(Address.fromBytes(event.address))
-  const market = bToken == pool.tokenB0 ? pool.marketB0 : bToken == pool.tokenWETH ? pool.marketWETH : poolContract.markets(bToken)
-  const marketContract = ERC20Abi.bind(Address.fromBytes(market))
-
-  const tdInfos = poolContract.tdInfos(pTokenId)
-  let ownerTokenId = getOrInitOwnerTokenId(pTokenId.toString(), Bytes.fromHexString(pool.pToken))
-  const vaultContract = VaultAbi.bind(Address.fromBytes(ownerTokenId.vault))
-  // update amountB0
-  ownerTokenId.amountB0 = formatDecimal(tdInfos.value1)
-  ownerTokenId.vaultLiquidity = formatDecimal(vaultContract.getVaultLiquidity())
-  ownerTokenId.save()
-
-  const bTokenState = getOrInitBToken(bToken)
-  const bTokenSymbol = bTokenState.bTokenSymbol
-  const bTokenDecimals = bTokenState.bTokenDecimals
-  const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(market)), marketContract.decimals())
-  let margin = getOrInitMargin(pTokenId, bToken, event)
-  margin.bToken = bToken
-  margin.bTokenSymbol = bTokenSymbol
-  margin.pTokenId = pTokenId
-  margin.margin = bToken == pool.tokenB0 ? assetBalance.plus(ownerTokenId.amountB0) : assetBalance
-  margin.timestamp = event.block.timestamp.toI32()
-  margin.pool = event.address.toHexString()
-  margin.poolAccount = poolAccount.id
-  margin.account = account
-  margin.save()
-
-  let marginHistory = getOrInitMarginHistory(pTokenId, bToken, event)
-  marginHistory.bToken = bToken
-  marginHistory.bTokenSymbol = bTokenSymbol
-  marginHistory.pTokenId = pTokenId
-  marginHistory.amount = formatDecimal(event.params.amount, bTokenDecimals)
-  marginHistory.timestamp = event.block.timestamp.toI32()
-  marginHistory.pool = event.address.toHexString()
-  marginHistory.newMargin = formatDecimal(event.params.newMargin)
-  marginHistory.action = 'removeMargin'
-  marginHistory.txHash = event.transaction.hash
-  marginHistory.account = account
-  marginHistory.save()
+  handleMarginAction<RemoveMargin>(event, 'addMargin')
 }
 

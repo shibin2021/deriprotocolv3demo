@@ -566,6 +566,15 @@ export class Symbol extends Entity {
     this.set("isCall", Value.fromBoolean(value));
   }
 
+  get power(): BigInt {
+    let value = this.get("power");
+    return value!.toBigInt();
+  }
+
+  set power(value: BigInt) {
+    this.set("power", Value.fromBigInt(value));
+  }
+
   get netVolume(): BigDecimal {
     let value = this.get("netVolume");
     return value!.toBigDecimal();
@@ -1485,6 +1494,69 @@ export class Pool extends Entity {
     this.set("protocolFeeCollector", Value.fromBytes(value));
   }
 
+  get reserveRatioB0(): BigDecimal {
+    let value = this.get("reserveRatioB0");
+    return value!.toBigDecimal();
+  }
+
+  set reserveRatioB0(value: BigDecimal) {
+    this.set("reserveRatioB0", Value.fromBigDecimal(value));
+  }
+
+  get minRatioB0(): BigDecimal {
+    let value = this.get("minRatioB0");
+    return value!.toBigDecimal();
+  }
+
+  set minRatioB0(value: BigDecimal) {
+    this.set("minRatioB0", Value.fromBigDecimal(value));
+  }
+
+  get poolInitialMarginMultiplier(): BigDecimal {
+    let value = this.get("poolInitialMarginMultiplier");
+    return value!.toBigDecimal();
+  }
+
+  set poolInitialMarginMultiplier(value: BigDecimal) {
+    this.set("poolInitialMarginMultiplier", Value.fromBigDecimal(value));
+  }
+
+  get protocolFeeCollectRatio(): BigDecimal {
+    let value = this.get("protocolFeeCollectRatio");
+    return value!.toBigDecimal();
+  }
+
+  set protocolFeeCollectRatio(value: BigDecimal) {
+    this.set("protocolFeeCollectRatio", Value.fromBigDecimal(value));
+  }
+
+  get minLiquidationReward(): BigDecimal {
+    let value = this.get("minLiquidationReward");
+    return value!.toBigDecimal();
+  }
+
+  set minLiquidationReward(value: BigDecimal) {
+    this.set("minLiquidationReward", Value.fromBigDecimal(value));
+  }
+
+  get maxLiquidationReward(): BigDecimal {
+    let value = this.get("maxLiquidationReward");
+    return value!.toBigDecimal();
+  }
+
+  set maxLiquidationReward(value: BigDecimal) {
+    this.set("maxLiquidationReward", Value.fromBigDecimal(value));
+  }
+
+  get liquidationRewardCutRatio(): BigDecimal {
+    let value = this.get("liquidationRewardCutRatio");
+    return value!.toBigDecimal();
+  }
+
+  set liquidationRewardCutRatio(value: BigDecimal) {
+    this.set("liquidationRewardCutRatio", Value.fromBigDecimal(value));
+  }
+
   get bTokens(): Array<string> {
     let value = this.get("bTokens");
     return value!.toStringArray();
@@ -1501,6 +1573,50 @@ export class Pool extends Entity {
 
   set poolLiquidity(value: BigDecimal) {
     this.set("poolLiquidity", Value.fromBigDecimal(value));
+  }
+
+  get lpsPnl(): BigDecimal {
+    let value = this.get("lpsPnl");
+    return value!.toBigDecimal();
+  }
+
+  set lpsPnl(value: BigDecimal) {
+    this.set("lpsPnl", Value.fromBigDecimal(value));
+  }
+
+  get cumulativePnlPerLiquidity(): BigInt | null {
+    let value = this.get("cumulativePnlPerLiquidity");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set cumulativePnlPerLiquidity(value: BigInt | null) {
+    if (!value) {
+      this.unset("cumulativePnlPerLiquidity");
+    } else {
+      this.set("cumulativePnlPerLiquidity", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get initialMarginRequired(): BigDecimal {
+    let value = this.get("initialMarginRequired");
+    return value!.toBigDecimal();
+  }
+
+  set initialMarginRequired(value: BigDecimal) {
+    this.set("initialMarginRequired", Value.fromBigDecimal(value));
+  }
+
+  get protocolFeeAccrued(): BigDecimal {
+    let value = this.get("protocolFeeAccrued");
+    return value!.toBigDecimal();
+  }
+
+  set protocolFeeAccrued(value: BigDecimal) {
+    this.set("protocolFeeAccrued", Value.fromBigDecimal(value));
   }
 
   get margin(): Array<string> {

@@ -607,6 +607,21 @@ export class SymbolAbi extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  power(): BigInt {
+    let result = super.call("power", "power():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_power(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("power", "power():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   volatilityId(): Bytes {
     let result = super.call("volatilityId", "volatilityId():(bytes32)", []);
 
