@@ -212,6 +212,7 @@ export const getOrInitSymbol = (id:Bytes): Symbol => {
     symbol.tradersPnl = zeroBD()
     symbol.initialMarginRequired = zeroBD()
     symbol.nPositionHolders = zeroBI()
+    symbol.power = zeroBI()
 
     symbol.pool = zeroAddress().toHexString()
     symbol.save()
