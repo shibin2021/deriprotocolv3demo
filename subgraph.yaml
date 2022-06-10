@@ -69,6 +69,8 @@ dataSources:
       abis:
         - name: SymbolManagerAbi
           file: ./abis/SymbolManager.json
+        - name: SymbolAbi
+          file: ./abis/Symbol.json
       eventHandlers:
         - event: Trade(indexed uint256,indexed bytes32,int256,int256,int256,int256)
           handler: handlePoolTrade
