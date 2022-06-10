@@ -90,7 +90,7 @@ export const updateSymbolsOnTrade = (pool: Pool): void => {
     symbol.cumulativeFundingPerVolume = symbolContract.cumulativeFundingPerVolume()
     symbol.tradersPnl = formatDecimal(symbolContract.tradersPnl())
     symbol.initialMarginRequired = formatDecimal(symbolContract.initialMarginRequired())
-    symbol.nPositionHolders = symbolContract.initialMarginRequired()
+    symbol.nPositionHolders = symbolContract.nPositionHolders()
     if (symbolContract.nameId() == Bytes.fromHexString("0xf58241dde699c443c3d05d9d6532ba65d57f4359fc3c5082c471e97ff871dd49")) {
       symbol.category = "futures"
       symbol.feeRatio = formatDecimal(symbolContract.feeRatio())

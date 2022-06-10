@@ -23,6 +23,7 @@ import {
 import { getOrInitBToken, getOrInitDToken, getOrInitPool, getOrInitSymbolManager, getOrInitVault } from "../helpers/initializers"
 import { ZERO_ADDRESS } from "../utils/constants"
 import { handleLiquidityAction, handleMarginAction, initSymbols } from "./helper"
+import { formatDecimal } from "../utils/converters"
 
 export function handlePoolNewAdmin(event: NewAdmin): void {
   let pool = getOrInitPool(event.address)
@@ -47,6 +48,13 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
   pool.vaultImplementation = contract.vaultImplementation()
   pool.protocolFeeCollector = contract.protocolFeeCollector()
   pool.implementation = event.params.newImplementation
+  pool.reserveRatioB0 = formatDecimal(contract.reserveRatioB0())
+  pool.minRatioB0 = formatDecimal(contract.minRatioB0())
+  pool.poolInitialMarginMultiplier = formatDecimal(contract.poolInitialMarginMultiplier())
+  pool.protocolFeeCollectRatio = formatDecimal(contract.protocolFeeCollectRatio())
+  pool.minLiquidationReward = formatDecimal(contract.minLiquidationReward())
+  pool.maxLiquidationReward = formatDecimal(contract.maxLiquidationReward())
+  pool.liquidationRewardCutRatio = formatDecimal(contract.liquidationRewardCutRatio())
   pool.save()
 
   // bToken init
