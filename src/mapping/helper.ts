@@ -1,13 +1,15 @@
-import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, BigInt, Bytes } from "@graphprotocol/graph-ts"
 import { SymbolManagerAbi } from "../../generated/Pool/SymbolManagerAbi"
 import { SymbolAbi } from "../../generated/Pool/SymbolAbi"
 import { Pool } from "../../generated/schema"
-import { getOrInitBToken, getOrInitIdToName, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitNameToCId, getOrInitOwnerTokenId, getOrInitPool, getOrInitPoolAccount, getOrInitSymbol, getOrInitSymbolManager } from "../helpers/initializers"
+import { getOrInitBToken, getOrInitIdToName, getOrInitLiquidity, getOrInitLiquidityHistory, getOrInitMargin, getOrInitMarginHistory, getOrInitNameToCId, getOrInitOwnerTokenId, getOrInitPool, getOrInitPoolAccount, getOrInitSymbol, getOrInitSymbolManager, getOrInitVault } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
 import { PoolAbi } from "../../generated/Pool/PoolAbi"
 import { ZERO_ADDRESS } from "../utils/constants"
 import { VaultAbi } from "../../generated/Pool/VaultAbi"
 import { ERC20Abi } from "../../generated/Pool/ERC20Abi"
+import { AavePoolAbi } from "../../generated/Pool/AavePoolAbi"
+import { AaveOracleAbi } from "../../generated/Pool/AaveOracleAbi"
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const POOL_ADDRESS = '0xDE3447Eb47EcDf9B5F90E7A6960a14663916CeE8'
@@ -29,6 +31,43 @@ export const updatePoolOnTrade = (pool: Pool): void => {
 }
 
 // bToken
+export const initBTokens = (pool: Pool) : void => {
+  const contract = PoolAbi.bind(Address.fromBytes(Bytes.fromHexString(pool.id)))
+  const vaultContract = VaultAbi.bind(Address.fromBytes(pool.vaultImplementation))
+  const vault = getOrInitVault(pool.vaultImplementation)
+  vault.aavePool = vaultContract.aavePool()
+  vault.aaveOracle = vaultContract.aaveOracle()
+  vault.save()
+
+  const aavePoolContract = AavePoolAbi.bind(Address.fromBytes(vault.aavePool))
+  const aaveOracleContract = AaveOracleAbi.bind(Address.fromBytes(vault.aaveOracle))
+  const allAssets = aavePoolContract.getReservesList()
+  for (let i = 0; i < allAssets.length; i++) {
+    const asset = allAssets[i]
+    const configData = aavePoolContract.getConfiguration(asset).toHexString()
+    const market = (asset == pool.tokenB0) ? pool.marketB0 : (asset == pool.tokenWETH) ? pool.marketWETH : contract.markets(asset)
+
+    // ignore not support market
+    if (market == Bytes.fromHexString(ZERO_ADDRESS)) {
+      continue
+    }
+    const bToken = getOrInitBToken(asset)
+    const bTokenContract = ERC20Abi.bind(Address.fromBytes(asset))
+    const marketContract = ERC20Abi.bind(Address.fromBytes(market))
+    bToken.bToken = asset
+    bToken.bTokenSymbol = bTokenContract.symbol()
+    bToken.bTokenDecimals = bTokenContract.decimals()
+    bToken.market = market
+    bToken.marketSymbol = marketContract.symbol()
+    bToken.marketDecimals = marketContract.decimals()
+    bToken.bTokenPrice = aaveOracleContract.getAssetPrice(asset).toBigDecimal()
+      .div(aaveOracleContract.BASE_CURRENCY_UNIT().toBigDecimal())
+    bToken.collateralFactor = BigInt.fromI32(I32.parseInt(configData.slice(configData.length - 4), 16)).toBigDecimal().div(BigDecimal.fromString("10000"))
+    bToken.pool = pool.id
+    bToken.save()
+  }
+}
+
 export const updateBTokenOnLiquidity = (pool: Pool): void => {
 }
 

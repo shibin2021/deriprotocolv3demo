@@ -43,6 +43,8 @@ dataSources:
           handler: handlePoolNewAdmin
         - event: NewImplementation(address)
           handler: handlePoolNewImplementation
+        - event: AddMarket(indexed address)
+          handler: handleAddMarket
         - event: AddLiquidity(indexed uint256,indexed address,uint256,int256)
           handler: handlePoolAddLiquidity
         - event: RemoveLiquidity(indexed uint256,indexed address,uint256,int256)
@@ -74,6 +76,10 @@ dataSources:
       eventHandlers:
         - event: Trade(indexed uint256,indexed bytes32,int256,int256,int256,int256)
           handler: handlePoolTrade
+        - event: AddSymbol(indexed bytes32,indexed address)
+          handler: handleAddSymbol
+        - event: RemoveSymbol(indexed bytes32,indexed address)
+          handler: handleRemoveSymbol
       file: ./src/mapping/symbol_manager.ts
   # === PToken
   - kind: ethereum

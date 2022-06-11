@@ -1,8 +1,9 @@
-import { BigDecimal, ByteArray, Bytes } from "@graphprotocol/graph-ts"
+import { BigDecimal, Bytes } from "@graphprotocol/graph-ts"
+import { AddSymbol, RemoveSymbol } from "../../generated/Pool/SymbolManagerAbi"
 import { Trade } from "../../generated/SymbolManager/SymbolManagerAbi"
 import { getOrInitIdToName, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
-import { updatePoolOnTrade, updateSymbolsOnTrade } from "./helper"
+import { initSymbols, updatePoolOnTrade, updateSymbolsOnTrade } from "./helper"
 
 // pTokenId, symbolId, indexPrice,tradeVolume,tradeCost,tradeFee
 export function handlePoolTrade(event: Trade): void {
@@ -47,4 +48,15 @@ export function handlePoolTrade(event: Trade): void {
   updatePoolOnTrade(pool)
   // update symbol
   updateSymbolsOnTrade(pool)
+}
+
+export function handleAddSymbol(event: AddSymbol): void {
+  const symbolManager = getOrInitSymbolManager(event.address)
+  const pool = getOrInitPool(Bytes.fromHexString(symbolManager.pool))
+  initSymbols(pool)
+}
+export function handleRemoveSymbol(event: RemoveSymbol): void {
+  const symbolManager = getOrInitSymbolManager(event.address)
+  const pool = getOrInitPool(Bytes.fromHexString(symbolManager.pool))
+  initSymbols(pool)
 }
