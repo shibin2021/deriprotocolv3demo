@@ -50,7 +50,7 @@ export function handlePoolTrade(event: Trade): void {
   updateSymbolsOnTrade(pool)
   // zero margin if liquidation
   if (tradeHistory.tradeFee.lt(BigDecimal.fromString("0"))) {
-    const bTokens = pool.bTokensArray
+    const bTokens = pool.bTokensString.split(',')
     for (let i = 0; i < bTokens.length; i++) {
       const bToken = bTokens[i]
       const margin = getOrInitMargin(pTokenId, Bytes.fromHexString(bToken), Bytes.fromHexString(symbolManager.pool))
