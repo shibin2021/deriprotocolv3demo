@@ -34,6 +34,7 @@ export const getOrInitPool = (address:Bytes): Pool => {
     pool.cumulativePnlPerLiquidity = zeroBI()
     pool.protocolFeeAccrued = zeroBD()
     pool.initialMarginRequired = zeroBD()
+    pool.bTokensArray = new Array<String>()
     pool.save()
   }
   return pool

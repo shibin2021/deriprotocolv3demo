@@ -42,16 +42,18 @@ export function handlePoolNewImplementation(event: NewImplementation): void {
   pool.minLiquidationReward = formatDecimal(contract.minLiquidationReward())
   pool.maxLiquidationReward = formatDecimal(contract.maxLiquidationReward())
   pool.liquidationRewardCutRatio = formatDecimal(contract.liquidationRewardCutRatio())
-  pool.save()
 
   // bToken init
   initBTokens(pool)
   // symbol init
   initSymbols(pool)
+
+  pool.save()
 }
 export function handleAddMarket(event: AddMarket): void {
   const pool = getOrInitPool(event.address)
   initBTokens(pool)
+  pool.save()
 }
 
 export function handlePoolAddLiquidity(event: AddLiquidity): void {
