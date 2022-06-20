@@ -97,8 +97,8 @@ export const getOrInitLiquidityHistory = (tokenId: BigInt, bTokenAddress: Bytes,
   return liquidityHistory
 }
 
-export const getOrInitMargin = (tokenId:BigInt, bTokenAddress: Bytes, event: ethereum.Event): Margin => {
-  const id = `${tokenId.toString()}_${bTokenAddress.toHexString()}_${event.address.toHexString()}`
+export const getOrInitMargin = (tokenId:BigInt, bTokenAddress: Bytes, poolAddress: Bytes): Margin => {
+  const id = `${tokenId.toString()}_${bTokenAddress.toHexString()}_${poolAddress.toHexString()}`
   let margin = Margin.load(id)
   if (!margin) {
     margin = new Margin(id)

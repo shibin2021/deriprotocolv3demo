@@ -1,7 +1,7 @@
 import { BigDecimal, Bytes } from "@graphprotocol/graph-ts"
 import { AddSymbol, RemoveSymbol } from "../../generated/Pool/SymbolManagerAbi"
 import { Trade } from "../../generated/SymbolManager/SymbolManagerAbi"
-import { getOrInitIdToName, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
+import { getOrInitIdToName, getOrInitMargin, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
 import { formatDecimal } from "../utils/converters"
 import { initSymbols, updatePoolOnTrade, updateSymbolsOnTrade } from "./helper"
 
@@ -48,6 +48,17 @@ export function handlePoolTrade(event: Trade): void {
   updatePoolOnTrade(pool)
   // update symbol
   updateSymbolsOnTrade(pool)
+  // zero margin if liquidation
+  if (tradeHistory.tradeFee.lt(BigDecimal.fromString("0"))) {
+    for (let i = 0; i < pool.bTokens.length; i++) {
+      const bToken = pool.bTokens[i]
+      const margin = getOrInitMargin(pTokenId, Bytes.fromHexString(bToken), Bytes.fromHexString(symbolManager.pool))
+      if (margin.margin != BigDecimal.fromString("0")) {
+        margin.margin = BigDecimal.fromString("0")
+        margin.save()
+      }
+    }
+  }
 }
 
 export function handleAddSymbol(event: AddSymbol): void {

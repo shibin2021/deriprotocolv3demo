@@ -238,7 +238,7 @@ export function handleMarginAction<T> (event: T, action: string) :void {
   const bTokenSymbol = bTokenState.bTokenSymbol
   const bTokenDecimals = bTokenState.bTokenDecimals
   const assetBalance = formatDecimal(vaultContract.getAssetBalance(Address.fromBytes(market)), marketContract.decimals())
-  let margin = getOrInitMargin(pTokenId, bToken, event)
+  let margin = getOrInitMargin(pTokenId, bToken, event.address)
   margin.bToken = bToken
   margin.bTokenSymbol = bTokenSymbol
   margin.pTokenId = pTokenId
