@@ -65,8 +65,8 @@ export const initBTokens = (pool: Pool) : void => {
     bToken.collateralFactor = BigInt.fromI32(I32.parseInt(configData.slice(configData.length - 4), 16)).toBigDecimal().div(BigDecimal.fromString("10000"))
     bToken.pool = pool.id
     bToken.save()
-    if (!pool.bTokensArray.includes(asset.toHexString())) {
-      pool.bTokensArray.push(asset.toHexString())
+    if (!pool.bTokensString.split(',').includes(asset.toHexString())) {
+      pool.bTokensString =  pool.bTokensString == "" ? asset.toHexString() : pool.bTokensString + "," + asset.toHexString()
     }
   }
 }

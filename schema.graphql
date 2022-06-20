@@ -182,7 +182,7 @@ type Pool @entity {
   liquidationRewardCutRatio: BigDecimal!
   # bToken & symbols
   bTokens: [BToken!]! @derivedFrom(field: "pool")
-  bTokensArray: [String!]!
+  bTokensString: String!
   # state
   poolLiquidity: BigDecimal!
   lpsPnl: BigDecimal!
