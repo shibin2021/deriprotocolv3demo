@@ -90,7 +90,7 @@ export const getOrInitLiquidity = (tokenId:BigInt, bTokenAddress: Bytes, event: 
 }
 
 export const getOrInitLiquidityHistory = (tokenId: BigInt, bTokenAddress: Bytes, event: ethereum.Event): LiquidityHistory => {
-  const id = `${tokenId.toString()}_${bTokenAddress.toHexString()}_${event.address.toHexString()}`
+  const id = `${tokenId.toString()}_${bTokenAddress.toHexString()}_${event.address.toHexString()}_${event.transaction.hash.toHexString()}`
   let liquidityHistory = LiquidityHistory.load(id)
   if (!liquidityHistory) {
     liquidityHistory = new LiquidityHistory(id)
@@ -109,7 +109,7 @@ export const getOrInitMargin = (tokenId:BigInt, bTokenAddress: Bytes, poolAddres
 }
 
 export const getOrInitMarginHistory = (tokenId:BigInt, bTokenAddress: Bytes, event: ethereum.Event): MarginHistory => {
-  const id = `${tokenId.toString()}_${bTokenAddress.toHexString()}_${event.address.toHexString()}`
+  const id = `${tokenId.toString()}_${bTokenAddress.toHexString()}_${event.address.toHexString()}_${event.transaction.hash.toHexString()}`
   let marginHistory = MarginHistory.load(id)
   if (!marginHistory) {
     marginHistory = new MarginHistory(id)
@@ -118,7 +118,7 @@ export const getOrInitMarginHistory = (tokenId:BigInt, bTokenAddress: Bytes, eve
 }
 
 export const getOrInitTradeHistory = (tokenId:BigInt, symbolId: Bytes, event: ethereum.Event): TradeHistory => {
-  const id = `${tokenId.toString()}_${symbolId.toHexString()}_${event.address.toHexString()}`
+  const id = `${tokenId.toString()}_${symbolId.toHexString()}_${event.address.toHexString()}_${event.transaction.hash.toHexString()}`
   let tradeHistory = TradeHistory.load(id)
   if (!tradeHistory) {
     tradeHistory = new TradeHistory(id)
