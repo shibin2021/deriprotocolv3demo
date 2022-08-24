@@ -1,4 +1,5 @@
-import { BigDecimal, Bytes } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, Bytes } from "@graphprotocol/graph-ts"
+import { DTokenAbi } from "../../generated/Pool/DTokenAbi"
 import { AddSymbol, RemoveSymbol } from "../../generated/Pool/SymbolManagerAbi"
 import { Trade } from "../../generated/SymbolManager/SymbolManagerAbi"
 import { getOrInitIdToName, getOrInitMargin, getOrInitPool, getOrInitPoolAccount, getOrInitPosition, getOrInitSymbolManager, getOrInitTradeHistory } from "../helpers/initializers"
@@ -9,11 +10,14 @@ import { initSymbols, updatePoolOnTrade, updateSymbolsOnTrade } from "./helper"
 export function handlePoolTrade(event: Trade): void {
   const symbolManager = getOrInitSymbolManager(event.address)
   const pool = getOrInitPool(Bytes.fromHexString(symbolManager.pool))
-  const account = event.transaction.from
-  const poolAccount = getOrInitPoolAccount(account, Bytes.fromHexString(symbolManager.pool))
-
+  const contract = DTokenAbi.bind(Address.fromBytes(Bytes.fromHexString(pool.pToken)))
+  // const account = event.transaction.from
   const pTokenId = event.params.pTokenId
   const symbolId = event.params.symbolId
+  const account = contract.getOwnerOf(pTokenId)
+  const poolAccount = getOrInitPoolAccount(account, Bytes.fromHexString(symbolManager.pool))
+
+
   let tradeHistory = getOrInitTradeHistory(pTokenId, symbolId, event)
   tradeHistory.symbolId = symbolId
   tradeHistory.symbol = getOrInitIdToName(symbolId).Name
@@ -24,7 +28,8 @@ export function handlePoolTrade(event: Trade): void {
   tradeHistory.tradeFee = formatDecimal(event.params.tradeFee)
   tradeHistory.timestamp = event.block.timestamp.toI32()
   tradeHistory.pool = symbolManager.pool
-  tradeHistory.account = event.transaction.from
+  // tradeHistory.account = event.transaction.from
+  tradeHistory.account = account
   tradeHistory.action = tradeHistory.tradeFee.lt(BigDecimal.fromString('0'))
     ? "liquidation"
     : tradeHistory.tradeVolume.gt(BigDecimal.fromString('0'))
@@ -41,7 +46,7 @@ export function handlePoolTrade(event: Trade): void {
   position.timestamp = event.block.timestamp.toI32()
   position.pool = symbolManager.pool
   position.poolAccount = poolAccount.id
-  position.account = event.transaction.from
+  position.account = account
   position.save()
 
   // update pool
